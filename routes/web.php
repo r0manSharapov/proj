@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Auth;
 /*Route::get('/', function () {
     return view('welcome');
 });
-<<<<<<< HEAD
-=======
 */
 Route::get('/', 'WelcomeController@index')->name('welcome');
 
