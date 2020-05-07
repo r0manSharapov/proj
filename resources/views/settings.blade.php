@@ -27,16 +27,7 @@
 
 
                                 </div>
-
-
-
-
-
                             </div>
-
-
-
-
                             <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
@@ -100,14 +91,11 @@
                                         {{ __('Update Settings') }}
                                     </button>
 
-
-
-
-                                <a class="card-link" href="{{ route('change.password') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('change-password-form').submit();">
-                                    {{ __('Change Password') }}
-                                </a>
+                                    <a class="card-link" href="{{ route('change.password') }}"
+                                    onclick="event.preventDefault();
+                                                        document.getElementById('change-password-form').submit();">
+                                        {{ __('Change Password') }}
+                                    </a>
 
                                 </div>
                             </div>
@@ -118,7 +106,10 @@
                     </div>
                 </div>
 
-
-
-
+                    <div class="card-body border-top">
+                        <a href="{{route('account/delete')}}" method="POST" class="btn btn-danger btn-block">
+                        {{ __('Delete My Account') }}
+                         </a>
+                    </div>
+            
 @endsection

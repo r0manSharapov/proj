@@ -39,10 +39,24 @@ class SettingsController
 
         Auth::user()->save();
 
-        echo "User updated successfully.
-";
-        return view('welcome');
+        echo "User updated successfully.";
+        return redirect('/');
     }
 
+    public function destroy(Request $request)
+    {
+        $validated = $request->validate(['password' => ['required', 'string', 'min:4', new MatchOldPassword],]);
 
+        $user = Auth::user();
+        
+        Auth::logout();
+
+        $user->delete();
+
+       return redirect('/');
+    }
+
+    public function delete(){
+        return view('delete');
+    }
 }

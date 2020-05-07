@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 */
 Route::get('/', 'WelcomeController@index')->name('welcome');
 
-
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware("verified");
@@ -29,3 +28,5 @@ Route::post('change-password', 'ChangePasswordController@store')->name('change.p
 
 Route::get('settings', 'SettingsController@index')->middleware("auth")->middleware("verified");
 Route::post('settings', 'SettingsController@store')->name('settings');
+Route::get('account/delete', 'SettingsController@delete')->middleware("auth")->middleware("verified");
+Route::delete('account/delete', 'SettingsController@destroy')->name('account/delete');
