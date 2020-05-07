@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Finanças Pessoais</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -45,7 +45,7 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 54px;
             }
 
             .links > a {
@@ -60,6 +60,23 @@
 
             .m-b-md {
                 margin-bottom: 30px;
+            }
+
+            .estatisticas{
+                color: #636b6f;
+                padding: 0 25px;
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: .1rem;
+                text-decoration: none;
+                text-transform: uppercase;
+
+
+            }
+
+            .p_estatisticas{
+
+                background-color: #cce6ff;
             }
         </style>
     </head>
@@ -81,18 +98,27 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Finanças Pessoais
                 </div>
+                <h2>Apresentação</h2>
+                <p>
+                    A aplicação web "Finanças Pessoais" tem como principal objetivo ajudar os utilizadores a gerir as suas finanças pessoais.
+                    Os utilizadores têm uma área privada, onde poderão registar todos os seus movimentos financeiros (receitas e despesas) organizados por contas, ver um sumário do estado das suas finanças e aceder a informação estatística sobre as suas receitas e despesas.
+                </p>
+                <h2>Estatísticas</h2>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+
+                <div class="estatisticas">
+
+                    <div class="p_estatisticas">Total Utilizadores Registados
+                    <p>{{$totalUtilizadores ?? 0}}</p>
+                    </div>
+                    <div class="p_estatisticas">Total de Contas
+                    <p>{{$totalContas ?? 0}}</p>
+                    </div>
+                    <div class="p_estatisticas">Total de Movimentos
+                    <p>{{$totalMovimentos ?? 0}}</p>
+                    </div>
                 </div>
             </div>
         </div>
