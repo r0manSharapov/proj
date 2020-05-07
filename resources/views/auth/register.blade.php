@@ -40,6 +40,49 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="nif" class="col-md-4 col-form-label text-md-right">{{ __('NIF') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="nif" type="text" class="form-control @error('nif') is-invalid @enderror" name="nif" value="{{ old('nif') }}">
+
+                                @error('nif')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="telefone" class="col-md-4 col-form-label text-md-right">{{ __('Phone number') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="telefone" type="text" class="form-control @error('telefone') is-invalid @enderror" name="telefone" value="{{ old('telefone') }}">
+
+                                @error('telefone')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="foto" class="col-md-4 col-form-label text-md-right">{{ __('Photo') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto">
+
+                                @error('foto')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
