@@ -16,18 +16,11 @@
                     <h4 class="float-left mb-0 mt-2">Delete Account</h4>
                 </div>
 
-                <div class="card-body pb-0 pt-0">
-                    @if ($errors->any())
-                        <div class="alert alert-danger mb-0 mt-3">
-                            <h4 class="font-weight-bold">Account Deletion failed!</h4>
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                </div>
+                @if(session('error'))
+                    <div class="alert alert-danger" role="alert">
+                    {{session('error')}}
+                    </div>
+                @endif
 
                 <div class="card-body">
                     <div class="alert alert-warning">

@@ -6,6 +6,19 @@
             <div class="card">
                 <div class="card-header">Change Password</div>
 
+                @if(session('error'))
+                    <div class="alert alert-danger" role="alert">
+                    {{session('error')}}
+                    </div>
+                @endif
+
+                @if(session()->get('message'))
+                    <div class="alert alert-success" role="alert">
+                    <a href="#" class="close" data-dismiss="alert" arial-label="close">&times;</a>
+                    <strong>SUCCESS:</strong>&nbsp;{{session()->get('message')}}
+                    </div>
+                @endif
+
                 <div class="card-body">
                     <form method="POST" action="{{ route('change.password') }}">
                         @csrf 

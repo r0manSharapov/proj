@@ -7,6 +7,13 @@
                 <div class="card">
                     <div class="card-header">{{ __('Account Settings') }}</div>
 
+                    @if(session()->get('message'))
+                        <div class="alert alert-success" role="alert">
+                        <a href="#" class="close" data-dismiss="alert" arial-label="close">&times;</a>
+                        <strong>SUCCESS:</strong>&nbsp;{{session()->get('message')}}
+                        </div>
+                    @endif
+
                     <div class="card-body">
                         <form method="POST" action="{{ route('settings') }}">
                             @csrf

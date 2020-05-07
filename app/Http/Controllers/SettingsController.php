@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Rules\MatchOldPassword;
+//use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -39,13 +39,16 @@ class SettingsController
 
         Auth::user()->save();
 
-        echo "User updated successfully.";
-        return redirect('/');
+        return back()->with('message','Profile updated');
     }
 
     public function destroy(Request $request)
     {
-        $validated = $request->validate(['password' => ['required', 'string', 'min:4', new MatchOldPassword],]);
+        if(!(Hash::check($request->get('password'),Auth::user()->password))){
+            return back()->with('error','Incorrect password');
+        }
+
+        $validated = $request->validate(['password' => ['required', 'string', 'min:4'],]);
 
         $user = Auth::user();
         
