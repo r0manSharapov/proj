@@ -56,22 +56,24 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+
+                                    <a class="dropdown-item" href="{{ route('settings') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('settings-form').submit();">
+                                        {{ __('User Settings') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('change.password') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('change-password-form').submit();">
-                                        {{ __('Change Password') }}
-                                    </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                     </form>
-                                    <form id="change-password-form" action="{{ route('change.password') }}" method="GET" style="display: none;">
-                                     @csrf
+
+                                    <form id="settings-form" action="{{ route('settings') }}" method="GET" style="display: none;">
+                                        @csrf
                                     </form>
                                 </div>
                             </li>
