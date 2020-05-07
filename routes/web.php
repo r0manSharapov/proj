@@ -13,9 +13,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
 });
+<<<<<<< HEAD
+=======
+*/
+Route::get('/', 'WelcomeController@index')->name('welcome');
+>>>>>>> e09ab853f1fec4e66b0c298d772a1f6b48ca99db
 
 Auth::routes(['verify' => true]);
 
