@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-<<<<<<< HEAD
 use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
@@ -33,18 +32,5 @@ class DatabaseSeeder extends Seeder
         $total_segundos = Carbon::now()->diffInSeconds($tempo_start);
 
         $this->command->line('Duração total em segundos: ' . $total_segundos);
-=======
-
-class DatabaseSeeder extends Seeder
-{
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        // $this->call(UserSeeder::class);
->>>>>>> 897f2a8ba67d29af4ffa3a24436333656e6d845a
     }
 }
