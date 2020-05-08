@@ -44,11 +44,13 @@ class SettingsController
 
     public function destroy(Request $request)
     {
+
         if(!(Hash::check($request->get('password'),Auth::user()->password))){
             return back()->with('error','Incorrect password');
         }
 
-        $validated = $request->validate(['password' => ['required', 'string', 'min:4'],]);
+
+        $request->validate(['password' => ['required', 'string', 'min:4'],]);
 
 
         $user = Auth::user();
@@ -78,6 +80,7 @@ class SettingsController
     }
 
     public function delete(){
+
         return view('delete');
     }
 }
