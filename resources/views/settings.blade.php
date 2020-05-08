@@ -77,21 +77,6 @@
                                 </div>
                             </div>
 
-
-                            <div class="form-group row">
-                                <label for="foto" class="col-md-4 col-form-label text-md-right">{{ __('Photo') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto" value={{ Auth::user()->foto }}>
-
-                                    @error('foto')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
