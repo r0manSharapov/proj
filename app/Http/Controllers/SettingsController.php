@@ -60,20 +60,29 @@ class SettingsController
         $userID = $user->id;
 
        //apagar movimentos feitos por esse user
-        DB::table('movimentos')
+        /*DB::table('movimentos')
             ->select('id')
             ->whereIn('conta_id', function($query) use ($userID){
             $query->select('id')
                 ->from(DB::table('contas'))
                 ->where('user_id', $userID);
 
-        })->delete();
+        })->delete();*/
 
-        //apagar contas com esse user
+        $contas = Contas::select('id')
+            ->where('user_id',$userID);
+        dd($contas);
+
+        Movimentos::whereIn('conta_id',$contas)->delete();
+
+        $contas->delete();
+        Autorizacoes::
+
+        /*//apagar contas com esse user
         DB::delete('delete from contas where user_id=?',[$userID]);
         //apagar autorizacoes desse user
         DB::delete('delete from autorizacoes_contas where user_id=?',[$userID]);
-        //apagar o user
+        //apagar o user*/
 
         $user->delete();
 
