@@ -51,10 +51,14 @@ class SettingsController
         $validated = $request->validate(['password' => ['required', 'string', 'min:4'],]);
 
         $user = Auth::user();
-        
+
         Auth::logout();
 
         $user->delete();
+        DB::delete('delete from movimentos where conta_id=?',[Auth::user()->id]);
+        DB::delete('delete from contas where user_id=?',[Auth::user()->id]);
+
+        DB::delete('delete from autorizacoes_conta where user_id=?',[Auth::user()->id]);
 
        return redirect('/');
     }
