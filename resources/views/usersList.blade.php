@@ -15,16 +15,16 @@
                         @endif
 
                         @foreach($allUsers as $user)
-                                <ul class="list-group">
+                                <div class="list-group">
 
-                                    <li class="list-group-item">
+                                    <a href="#" class="list-group-item list-group-item-action">
                                         <img src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}" class="rounded-circle" width="50" height="50">
                                         {{$user->name}} |
                                         {{$user->email}}
-                                       </li>
+                                       </a>
 
 
-                                </ul>
+                                </div>
 
                             @endforeach
 
