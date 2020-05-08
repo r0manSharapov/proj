@@ -1,14 +1,21 @@
 <?php
 
 
+
 namespace App\Http\Controllers;
 
 
 //use App\Rules\MatchOldPassword;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Conta;
+use App\Movimento;
+use App\Autorizacoes_conta;
+use App\User;
+
 
 class SettingsController
 {
@@ -35,7 +42,16 @@ class SettingsController
         $telefone = $validated['telefone'];
         $foto = $validated['foto'];
 
-        DB::update('update users set name = ?,email=?,nif=?,telefone=?,foto=? where id = ?',[$name,$email,$nif,$telefone,$foto,Auth::User()->id]);
+        User::where('id',Auth::User()->id)
+            ->update(
+                [
+                    'name'=>$name,
+                    'email'=>$email,
+                    'nif'=>$nif,
+                    'telefone'=>$telefone,
+                    'foto'=>$foto,
+                ]
+            );
 
         Auth::user()->save();
 
@@ -49,40 +65,24 @@ class SettingsController
             return back()->with('error','Incorrect password');
         }
 
-
-        $request->validate(['password' => ['required', 'string', 'min:4'],]);
-
-
         $user = Auth::user();
 
         Auth::logout();
 
         $userID = $user->id;
 
-       //apagar movimentos feitos por esse user
-        /*DB::table('movimentos')
-            ->select('id')
-            ->whereIn('conta_id', function($query) use ($userID){
-            $query->select('id')
-                ->from(DB::table('contas'))
-                ->where('user_id', $userID);
 
-        })->delete();*/
-
-        $contas = Contas::select('id')
+        $contas = Conta::select('id')
             ->where('user_id',$userID);
-        dd($contas);
 
-        Movimentos::whereIn('conta_id',$contas)->delete();
+
+
+        Movimento::whereIn('conta_id',$contas)->delete();
 
         $contas->delete();
-        Autorizacoes::
+        Autorizacoes_conta::select('conta_id')
+            ->where('user_id',$userID)->delete();
 
-        /*//apagar contas com esse user
-        DB::delete('delete from contas where user_id=?',[$userID]);
-        //apagar autorizacoes desse user
-        DB::delete('delete from autorizacoes_contas where user_id=?',[$userID]);
-        //apagar o user*/
 
         $user->delete();
 
