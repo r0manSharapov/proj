@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Lista de Utilizadores</div>
+                    <div class="card-header">Users List</div>
 
                     <div class="card-body">
                         @if (session('status'))

@@ -106,7 +106,7 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="{{ route('allUsers') }}">
 
-                                    {{ __('Lista Utilizadores') }}
+                                    {{ __('Users List') }}
                                 </a>
 
                             </li>

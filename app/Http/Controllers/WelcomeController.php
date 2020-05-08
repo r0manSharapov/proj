@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
+use App\User;
+use App\Conta;
+use App\Movimento;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -26,9 +27,9 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        $totalUtilizadores = DB::table('users')->count();
-        $totalContas= DB::table('contas')->where('deleted_at',null)->count();
-        $totalMovimentos=DB::table('movimentos')->count();
+        $totalUtilizadores = User::count();
+        $totalContas= Conta::where('deleted_at',null)->count();
+        $totalMovimentos=Movimento::count();
 
 
         return view('welcome')
