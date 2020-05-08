@@ -50,15 +50,31 @@ class SettingsController
 
         $validated = $request->validate(['password' => ['required', 'string', 'min:4'],]);
 
+
         $user = Auth::user();
 
         Auth::logout();
 
-        $user->delete();
-        DB::delete('delete from movimentos where conta_id=?',[Auth::user()->id]);
-        DB::delete('delete from contas where user_id=?',[Auth::user()->id]);
+        $userID = $user->id;
 
-        DB::delete('delete from autorizacoes_conta where user_id=?',[Auth::user()->id]);
+       //apagar movimentos feitos por esse user
+        DB::table('movimentos')
+            ->select('id')
+            ->whereIn('conta_id', function($query) use ($userID){
+            $query->select('id')
+                ->from(DB::table('contas'))
+                ->where('user_id', $userID);
+
+        })->delete();
+
+        //apagar contas com esse user
+        DB::delete('delete from contas where user_id=?',[$userID]);
+        //apagar autorizacoes desse user
+        DB::delete('delete from autorizacoes_contas where user_id=?',[$userID]);
+//apagar o user
+        $user->delete();
+
+
 
        return redirect('/');
     }
