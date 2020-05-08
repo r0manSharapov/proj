@@ -44,11 +44,13 @@ class SettingsController
 
     public function destroy(Request $request)
     {
+
         if(!(Hash::check($request->get('password'),Auth::user()->password))){
             return back()->with('error','Incorrect password');
         }
 
-        $validated = $request->validate(['password' => ['required', 'string', 'min:4'],]);
+
+        $request->validate(['password' => ['required', 'string', 'min:4'],]);
 
 
         $user = Auth::user();
@@ -71,7 +73,8 @@ class SettingsController
         DB::delete('delete from contas where user_id=?',[$userID]);
         //apagar autorizacoes desse user
         DB::delete('delete from autorizacoes_contas where user_id=?',[$userID]);
-//apagar o user
+        //apagar o user
+
         $user->delete();
 
 
@@ -80,6 +83,7 @@ class SettingsController
     }
 
     public function delete(){
+
         return view('delete');
     }
 }
