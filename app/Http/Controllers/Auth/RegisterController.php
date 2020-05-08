@@ -60,13 +60,7 @@ class RegisterController extends Controller
         ]);
     }
 
-//    public function store(Request $request){
-//        if(hasFile('foto')){
-//            $path = foto->store('public/fotos');
-//            basename($path);
-//        }
-//        return basename
-//    }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -79,6 +73,9 @@ class RegisterController extends Controller
 
         if(\request()->hasFile('foto')){
             $path = \request()->foto->store('public/fotos');
+            $foto_name = basename($path);
+        }else{
+            $foto_name = null;
         }
 
         return User::create([
@@ -86,7 +83,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'nif' => $data['nif'],
             'telefone' => $data['telefone'],
-            'foto' => basename($path),
+            'foto' => $foto_name,
             'password' => Hash::make($data['password']),
         ]);
     }

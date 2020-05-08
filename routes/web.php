@@ -23,6 +23,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware("verified");
 Route::get('/allUsers', 'HomeController@getUsersList')->name('allUsers')->middleware("verified");
+Route::post('/home','HomeController@store')->name('home')->middleware("verified");
 
 Route::get('change-password', 'ChangePasswordController@index')->middleware("auth")->middleware("verified");
 Route::post('change-password', 'ChangePasswordController@store')->name('change.password');
