@@ -27,10 +27,33 @@ class HomeController extends Controller
 
 
     public function store(Request $request){
+
+        $request->validate([
+            'foto'=>['nullable'],
+        ]);
+
+
+
+
         if($request->hasFile('foto')){
             $path = $request->foto->store('public/fotos');
-            basename($path);
+            $foto = basename($path);
         }
+        else{
+            $foto = null;
+        }
+
+        User::where('id',Auth::User()->id)
+            ->update(
+                [
+                    'foto'=>$foto,
+                ]
+            );
+
+
+        Auth::user()->save();
+
+        return back()->with('message','Profile updated');
     }
 
 

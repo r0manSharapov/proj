@@ -33,14 +33,14 @@ class SettingsController
             'email' => ['required', 'string', 'email', 'max:255'],
             'nif' => ['nullable','numeric', 'digits:9'],
             'telefone' => ['nullable','numeric', 'digits:9'],
-            'foto'=>['nullable'],
+
         ]);
 
         $name = $validated['name'];
         $email = $validated['email'];
         $nif = $validated['nif'];
         $telefone = $validated['telefone'];
-        $foto = $validated['foto'];
+
 
         User::where('id',Auth::User()->id)
             ->update(
@@ -49,7 +49,6 @@ class SettingsController
                     'email'=>$email,
                     'nif'=>$nif,
                     'telefone'=>$telefone,
-                    'foto'=>$foto,
                 ]
             );
 

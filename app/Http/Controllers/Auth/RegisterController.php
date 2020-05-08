@@ -78,6 +78,7 @@ class RegisterController extends Controller
             $foto_name = null;
         }
 
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
