@@ -4,6 +4,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-4" >
+            @if(session()->get('message'))
+                <div class="alert alert-success" role="alert">
+                    <a href="#" class="close" data-dismiss="alert" arial-label="close">&times;</a>
+                    <strong>SUCCESS:</strong>&nbsp;{{session()->get('message')}}
+                </div>
+            @endif
             <h1>My First Bootstrap Page</h1>
             <img src="{{Auth::user()->foto != null ? asset('storage/fotos/' . Auth::user()->foto) : asset('storage/fotos/user_default.png')}}" class="rounded-circle" width="250" height="250">
 
