@@ -71,10 +71,8 @@ class SettingsController
         DB::delete('delete from contas where user_id=?',[$userID]);
         //apagar autorizacoes desse user
         DB::delete('delete from autorizacoes_contas where user_id=?',[$userID]);
-//apagar o user
+        //apagar o user
         $user->delete();
-
-
 
        return redirect('/');
     }
