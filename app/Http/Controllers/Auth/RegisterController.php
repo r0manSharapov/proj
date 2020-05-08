@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use http\Env\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -59,6 +60,14 @@ class RegisterController extends Controller
         ]);
     }
 
+//    public function store(Request $request){
+//        if(hasFile('foto')){
+//            $path = foto->store('public/fotos');
+//            basename($path);
+//        }
+//        return basename
+//    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -67,12 +76,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        if(\request()->hasFile('foto')){
+            $path = \request()->foto->store('public/fotos');
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'nif' => $data['nif'],
             'telefone' => $data['telefone'],
-            'foto' => $data['foto'],
+            'foto' => basename($path),
             'password' => Hash::make($data['password']),
         ]);
     }
