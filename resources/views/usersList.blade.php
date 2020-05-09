@@ -46,6 +46,11 @@
                                     <span class="d-block">
                                         {{$user->email}}
                                 </span>
+                                @if($user->adm)
+                                    <label class="badge badge-success">Admin</label>
+                                @else
+                                    <label class="badge badge-primary">User</label>
+                                @endif
                                 </div>
 
                             </a>
