@@ -23,7 +23,7 @@
 
     <style>
     main {
-    margin-right: 160px; /* Same as the width of the sidebar */
+    margin-right: 160px;
     padding: 0px 10px;
     }
     </style>
@@ -101,7 +101,7 @@
 
 
 
-    <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white;top:52px;  z-index: 2;">
+    <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white;top:52px;  z-index: 1;">
 
         <a  class="w3-bar-item w3-button" href="#home">Financial Information</a>
         <a  class="w3-bar-item w3-button" href="#news">News</a>
