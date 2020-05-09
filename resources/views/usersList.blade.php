@@ -9,7 +9,7 @@
                         <div class="col-md-12">
                             <form action="/allUsers" method="get">
                                 @csrf
-                                <div class="input-group">
+                                <div class="input-group"  style="z-index: 1;">
                                     <input type="search" name="search" class="form-control"
                                            placeholder="Search for a user...">
                                     <span class="input-group-prepend"><button type="submit"
