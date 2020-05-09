@@ -21,12 +21,19 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-
+    <style>
+    main {
+    margin-right: 160px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
+    }
+    </style>
 
 </head>
 <body>
-    <nav id="app">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+    <nav id="app" style="position: fixed;width: 100%;overflow-x: hidden;z-index: 1;
+  " >
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                   Home
@@ -90,10 +97,11 @@
                 </div>
             </div>
         </nav>
-        
+    </nav>
 
 
-    <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white">
+
+    <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white;top:52px">
 
         <a  class="w3-bar-item w3-button" href="#home">Financial Information</a>
         <a  class="w3-bar-item w3-button" href="#news">News</a>
@@ -104,10 +112,13 @@
         <a  class="w3-bar-item w3-button" href="{{ route('allUsers') }}">{{ __('Users List') }}</a>
 
     </div>
+
     @endguest
 
     </nav>
         <main class="py-4">
+            <br>
+            <br>
             @yield('content')
         </main>
     </div>
