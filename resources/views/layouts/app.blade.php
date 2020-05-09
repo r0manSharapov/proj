@@ -31,7 +31,7 @@
 </head>
 <body>
 
-    <nav id="app" style="position: fixed;width: 100%;overflow-x: hidden;z-index: 1;
+    <nav id="app" style="position: fixed;width: 100%;z-index: 1;
   " >
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
             <div class="container">
@@ -101,7 +101,7 @@
 
 
 
-    <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white;top:52px">
+    <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white;top:52px;  z-index: -1;">
 
         <a  class="w3-bar-item w3-button" href="#home">Financial Information</a>
         <a  class="w3-bar-item w3-button" href="#news">News</a>
