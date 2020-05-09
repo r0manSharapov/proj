@@ -46,22 +46,10 @@
                     </div>
 
 
-        <ul class="nav nav-tabs">
-                            <div class="container" style="border-style: outset">
-                            <h2 style="text-align:center;padding-top:20px;"> Menu </h2>
-                                <div class="col" >
-                                        <li class="nav-item active"><a class="nav-link" href="#home">Financial Information</a></li>
-                                        <li class="nav-item active"><a class="nav-link" href="#news">News</a></li>
-                                        <li class="nav-item active"><a class="nav-link" href="#contact">Contact</a></li>
-                                        <li class="nav-item active"><a class="nav-link" href="#about">About</a></li>
 
-                                        <li class="nav-item active">
-                                            <a class="nav-link" href="{{ route('allUsers') }}">{{ __('Users List') }}</a>
-                                        </li>
-                                </div>
+
                             </div>
-                        </ul>
-                        </div>
+                       </div>
                         </div>
         </div>
 </div>

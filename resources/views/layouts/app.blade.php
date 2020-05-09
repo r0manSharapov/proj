@@ -90,35 +90,22 @@
                 </div>
             </div>
         </nav>
-        <nav class="navbar navbar-expand-sm ">
-            <div class="container">
+        
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+    <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white">
 
-                    </ul>
+        <a  class="w3-bar-item w3-button" href="#home">Financial Information</a>
+        <a  class="w3-bar-item w3-button" href="#news">News</a>
+        <a  class="w3-bar-item w3-button" href="#contact">Contact</a>
+        <a  class="w3-bar-item w3-button"href="#about">About</a>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav nav-tabs">
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+        <a  class="w3-bar-item w3-button" href="{{ route('allUsers') }}">{{ __('Users List') }}</a>
 
-                                    <form id="settings-form" action="{{ route('settings') }}" method="GET" style="display: none;">
-                                        @csrf
-                                    </form>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    </div>
+    @endguest
 
-        @endguest
     </nav>
         <main class="py-4">
             @yield('content')
