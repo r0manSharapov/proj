@@ -5725,6 +5725,19 @@ a.badge-dark.focus {
   margin-bottom: 0;
 }
 
+.list-group-mine .list-group-item {
+    background-color: #f1f9fb;
+    border-top: 1px solid black;
+    border-left-color: #fff;
+    border-right-color: #fff;
+}
+
+.list-group-mine .list-group-item:hover {
+    background-color: red;
+}
+
+
+
 .list-group-item-action {
   width: 100%;
   color: #495057;
