@@ -70,7 +70,7 @@
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
 
 
                                     <a class="dropdown-item" href="{{ route('settings') }}"
@@ -101,7 +101,7 @@
 
 
 
-    <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white;top:52px;  z-index: -1;">
+    <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white;top:52px;  z-index: 1;">
 
         <a  class="w3-bar-item w3-button" href="#home">Financial Information</a>
         <a  class="w3-bar-item w3-button" href="#news">News</a>
