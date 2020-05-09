@@ -19,6 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 
 
@@ -54,7 +55,7 @@
                                 </li>
                             @endif
                         @else
-                            <a class="navbar-brand" href="{{ route('userPage') }}">
+                            <a class="navbar-brand" href="{{ route('home') }}">
                                My Account |
                             </a>
                             <li class="nav-item dropdown">
