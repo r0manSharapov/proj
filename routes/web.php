@@ -37,4 +37,4 @@ Route::post('settings', 'SettingsController@store')->name('settings');
 Route::get('account/delete', 'SettingsController@delete')->middleware("auth")->middleware("verified");
 Route::delete('account/delete', 'SettingsController@destroy')->name('account/delete');
 Route::get('/allUsers', 'UsersListController@search')->name('allUsers')->middleware("verified");
-Route::get('admin/allUsers', 'UsersListController@admin')->name('admin')->middleware("verified");
+

@@ -108,12 +108,10 @@
         <a  class="w3-bar-item w3-button" href="#contact">Contact</a>
         <a  class="w3-bar-item w3-button"href="#about">About</a>
 
-        @if(Auth::user()->adm)
-        <a  class="w3-bar-item w3-button" href="{{ route('admin') }}">{{ __('Users List') }}</a>
-        @else
+
             <a  class="w3-bar-item w3-button" href="{{ route('allUsers') }}">{{ __('Users List') }}</a>
-        @endif
-        
+
+
 
     </div>
 

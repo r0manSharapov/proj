@@ -22,13 +22,19 @@ class UsersListController extends Controller
         $search = $request->get('search');
         $usersSearch = User::where('name','like','%'.$search.'%')->orwhere('email','like','%'.$search.'%')->paginate(5);
 
-        $user =  Auth::user();
+        $is_adm =  Auth::user()->adm;
+
+        if($is_adm)
+        {
+
+
+        }
 
         return view('usersList')->withAllUsers($usersSearch)
             ->withSearch($search);
     }
 
-    public function admin(Request $request)
+    /*public function admin(Request $request)
     {
         $search = $request->get('search');
         $usersSearch = User::where('name','like','%'.$search.'%')->orwhere('email','like','%'.$search.'%')->paginate(5);
@@ -37,5 +43,5 @@ class UsersListController extends Controller
 
         return view('admin')->withAllUsers($usersSearch)
             ->withSearch($search);
-    }
+    }*/
 }
