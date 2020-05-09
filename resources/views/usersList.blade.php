@@ -3,17 +3,42 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+                @if(Auth::user()->adm ==1)
+                    <h2 style="text-align:center;">Administration</h2>
+                @else
                 <h2 style="text-align:center;">Users</h2>
+                    @endif
                 <div class="card">
                     <div class="card-header">
                         <div class="col-md-12">
-                            <form action="/allUsers" method="get">
+                            <form action="{{route('allUsers')}}" method="get" class="form-group">
                                 @csrf
                                 <div class="input-group"  style="z-index: 1;">
                                     <input type="search" name="search" class="form-control"
                                            placeholder="Search for a user...">
-                                    <span class="input-group-prepend"><button type="submit"
-                                                                              class="btn btn-primary">{{ __('Search') }}</button>
+
+
+
+
+                                @if(Auth::user()->adm ==1)
+                                    <div class="d-inline">
+
+                                    Blocked: <input type="checkbox" id="myCheck" value="1" name="blocked">
+                                </div>
+
+                                    <div class="d-inline">
+
+                                        <select class="default-select" name="userType" style="width:200px;">
+                                            <option value="0">User type</option>
+                                            <option value="1">Admin</option>
+                                            <option value="2">User</option>
+                                        </select>
+
+                                    </div>
+                                @endif
+                                <span class="input-group-prepend">
+                                        <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
+
                                     </span>
                                 </div>
                             </form>
@@ -61,7 +86,7 @@
 
                         @endforeach
                     </ul>
-                    {{$allUsers->appends(['search'=>$search])->links() }}
+                    {{$allUsers->withQueryString()->links()}}
 
                 </div>
             </div>

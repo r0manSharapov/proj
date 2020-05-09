@@ -20,28 +20,45 @@ class UsersListController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
-        $usersSearch = User::where('name','like','%'.$search.'%')->orwhere('email','like','%'.$search.'%')->paginate(5);
+        $usersSearch = User::where(function ($query) use($search) {
+            $query->where('name','like','%'.$search.'%')
+                ->orwhere('email','like','%'.$search.'%');
+        });
 
         $is_adm =  Auth::user()->adm;
 
-        if($is_adm)
+        if($is_adm == 1)
         {
+            $userType = $request->get('userType');
+            if($userType==1){
+
+                $usersSearch= $usersSearch->where('adm',1);
 
 
+
+
+            }
+            if($userType==2){
+                $usersSearch=$usersSearch->where('adm',0);
+            }
+
+            $blocked = $request->get('blocked');
+            if($blocked){
+                $usersSearch=$usersSearch->where('bloqueado',1);
+            }
+
+            return view('usersList')->withAllUsers($usersSearch->paginate(5))
+                ->withSearch($search)
+                ->withUserType($userType)
+                ->withBlocked($blocked);
         }
 
-        return view('usersList')->withAllUsers($usersSearch)
+        return view('usersList')->withAllUsers($usersSearch->paginate(5))
             ->withSearch($search);
+
+
+
     }
 
-    /*public function admin(Request $request)
-    {
-        $search = $request->get('search');
-        $usersSearch = User::where('name','like','%'.$search.'%')->orwhere('email','like','%'.$search.'%')->paginate(5);
 
-        $user =  Auth::user();
-
-        return view('admin')->withAllUsers($usersSearch)
-            ->withSearch($search);
-    }*/
 }
