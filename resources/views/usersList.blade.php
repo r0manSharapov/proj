@@ -25,24 +25,34 @@
                             </div>
                         @endif
 
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Photo</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>    
-                                @foreach($allUsers as $user)
-                                <tr>
-                                    <td><img src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}" class="rounded-circle" width="50" height="50"></td>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->email}}</td>
-                                </tr>
-                            </tbody>    
-                                @endforeach
-                        </table>    
+                    <ul class="list-group" id="myList">
+                        @foreach($allUsers as $user)
+                            <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-inline " style="margin-right: 20px;">
+                                <img src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}" class="rounded-circle" width="55" height="60">
+                                </div>
+
+                            <div class="d-inline-block">
+
+
+
+                            <span class="d-block" style="font-size: medium; font-weight: bold; ">
+                                {{$user->name}}
+                            </span>
+
+
+                                <span class="d-block">
+
+
+                            {{$user->email}}
+                                </span>
+                            </div>
+
+                            </a>
+
+
+                        @endforeach
+                    </ul>
                     {{$allUsers->links() }}
 
                 </div>
