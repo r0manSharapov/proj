@@ -25,7 +25,7 @@ Auth::routes(['verify' => true]);
 $userPage = 78;
 
 
-Route::get('/home/{id}', 'HomeController@index')->name('home')->middleware("verified");
+Route::get('/home', 'HomeController@index')->name('home')->middleware("verified");
 
 Route::post('/home','HomeController@store')->name('home')->middleware("verified");
 

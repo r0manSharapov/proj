@@ -22,9 +22,15 @@ class UsersListController extends Controller
         $search = $request->get('search');
         $usersSearch = User::where('name','like','%'.$search.'%')->orwhere('email','like','%'.$search.'%')->paginate(5);
 
-        return view('usersList')->withAllUsers($usersSearch)
-            ->withSearch($search);
+        $user =  Auth::user();
 
+        if($user->is_admin){
+            return view('admin')->withAllUsers($usersSearch)
+            ->withSearch($search);
+        } else{
+            return view('usersList')->withAllUsers($usersSearch)
+            ->withSearch($search);
+        }
     }
 
     public function admin()

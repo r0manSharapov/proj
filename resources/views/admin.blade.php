@@ -3,11 +3,11 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h2 style="text-align:center;">Users</h2>
+                <h2 style="text-align:center;">Administration</h2>
                 <div class="card">
                     <div class="card-header">
                         <div class="col-md-12">
-                            <form action="/allUsers" method="get">
+                            <form action="allUsers" method="get">
                                 @csrf
                                 <div class="input-group">
                                     <input type="search" name="search" class="form-control"
