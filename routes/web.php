@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,4 +33,4 @@ Route::get('settings', 'SettingsController@index')->middleware("auth")->middlewa
 Route::post('settings', 'SettingsController@store')->name('settings');
 Route::get('account/delete', 'SettingsController@delete')->middleware("auth")->middleware("verified");
 Route::delete('account/delete', 'SettingsController@destroy')->name('account/delete');
-Route::get('/allUsers', 'UsersListController@index')->name('allUsers')->middleware("verified");
+Route::get('/allUsers', 'UsersListController@search')->name('allUsers')->middleware("verified");

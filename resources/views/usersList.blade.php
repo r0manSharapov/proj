@@ -4,36 +4,46 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+            <h2 style="text-align:center;">Users</h2>
                 <div class="card">
                     <div class="card-header">
-                 
-                        <input class="form-control" id="myInput" type="text" placeholder="Search for a user..." name="myInput">
-
+                        <div class="col-md-12">
+                            <form action="/allUsers" method="get">
+                                @csrf
+                                <div class="input-group">
+                                    <input type="search" name="search" class="form-control" placeholder="Search for a user...">
+                                    <span class="input-group-prepend"><button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
-                    <div class="card-body">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <ul class="list-group" id="myList">
-                        @foreach($allUsers as $user)
 
-
-                                    <a href="#" class="list-group-item list-group-item-action">
-                                        <img src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}" class="rounded-circle" width="50" height="50">
-                                        {{$user->name}} |
-                                        {{$user->email}}
-                                       </a>
-
-
-
-
-                            @endforeach
-                        </ul>
-                    </div>
-
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Photo</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>    
+                                @foreach($allUsers as $user)
+                                <tr>
+                                    <td><img src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}" class="rounded-circle" width="50" height="50"></td>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->email}}</td>
+                                </tr>
+                            </tbody>    
+                                @endforeach
+                        </table>    
+                    {{$allUsers->links() }}
 
                 </div>
             </div>

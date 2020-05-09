@@ -33,14 +33,12 @@ class SettingsController
             'email' => ['required', 'string', 'email', 'max:255'],
             'nif' => ['nullable','numeric', 'digits:9'],
             'telefone' => ['nullable','numeric', 'digits:9'],
-
         ]);
 
         $name = $validated['name'];
         $email = $validated['email'];
         $nif = $validated['nif'];
         $telefone = $validated['telefone'];
-
 
         User::where('id',Auth::User()->id)
             ->update(
@@ -70,23 +68,6 @@ class SettingsController
 
         $userID = $user->id;
 
-<<<<<<< HEAD
-       //apagar movimentos feitos por esse user
-        DB::table('movimentos')
-            ->select('id')
-            ->whereIn('conta_id', function($query) use ($userID){
-            $query->select('id')
-                ->from(DB::table('contas'))
-                ->where('user_id', $userID);
-
-        })->delete();
-
-        //apagar contas com esse user
-        DB::delete('delete from contas where user_id=?',[$userID]);
-        //apagar autorizacoes desse user
-        DB::delete('delete from autorizacoes_contas where user_id=?',[$userID]);
-        //apagar o user
-=======
 
         $contas = Conta::select('id')
             ->where('user_id',$userID);
@@ -100,7 +81,6 @@ class SettingsController
             ->where('user_id',$userID)->delete();
 
 
->>>>>>> 0da7857ebc7066d1acdb51cb7896a3f1ee06048a
         $user->delete();
 
        return redirect('/');

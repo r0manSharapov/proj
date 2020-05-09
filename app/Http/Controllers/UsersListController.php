@@ -12,17 +12,17 @@ use App\User;
 
 class UsersListController extends Controller
 {
+    public function index(){
+        $users= User::paginate(5);
+        return view('usersList')->withAllUsers($users);
+    }
 
-
-
-
-    public function index()
+    public function search(Request $request)
     {
-        $users = User::all();
+        $search = $request->get('search');
+        $users = User::where('name','like','%'.$search.'%')->orwhere('email','like','%'.$search.'%')->paginate(5);
 
-
-        return view('usersList')
-            ->withAllUsers($users);
+        return view('usersList')->withAllUsers($users);
 
     }
 

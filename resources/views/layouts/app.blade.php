@@ -105,15 +105,6 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav nav-tabs">
 
-
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{{ route('allUsers') }}">
-
-                                    {{ __('Users List') }}
-                                </a>
-
-                            </li>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
@@ -121,9 +112,6 @@
                                     <form id="settings-form" action="{{ route('settings') }}" method="GET" style="display: none;">
                                         @csrf
                                     </form>
-
-                            </li>
-
                     </ul>
                 </div>
             </div>
