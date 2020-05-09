@@ -27,6 +27,9 @@ class UsersListController extends Controller
 
     }
 
-
-
+    public function admin()
+    {
+        $users= User::paginate(5);
+        return view('admin')->withAllUsers($users);
+    }
 }

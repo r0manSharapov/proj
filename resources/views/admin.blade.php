@@ -37,12 +37,24 @@
                                 </div>
 
                                 <div class="d-inline-block">
+
+
+
                             <span class="d-block" style="font-size: medium; font-weight: bold; ">
                                 {{$user->name}}
                             </span>
                                     <span class="d-block">
                                         {{$user->email}}
                                 </span>
+                                @if($user->adm)
+                                    <label class="badge badge-success">Admin</label>
+                                @else
+                                    <label class="badge badge-primary">User</label>
+                                @endif
+
+                                @if($user->bloqueado)
+                                <label class="badge badge-danger">Blocked</label>
+                                @endif
                                 </div>
 
                             </a>
