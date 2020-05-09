@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\User;
 
 
@@ -25,25 +25,32 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-
     public function store(Request $request){
+
 
         $request->validate([
             'foto'=>['nullable'],
         ]);
 
 
-
-
         if($request->hasFile('foto')){
+
+
+
+//            $old_foto = Auth::user()->foto;
+
+//            unlink(storage_path('public/fotos'.$old_foto));
+//          Storage::delete('public/fotos'. $old_foto);
+
             $path = $request->foto->store('public/fotos');
             $foto = basename($path);
+
         }
         else{
             $foto = null;
         }
 
-        User::where('id',Auth::User()->id)
+        User::where('id',Auth::user()->id)
             ->update(
                 [
                     'foto'=>$foto,
