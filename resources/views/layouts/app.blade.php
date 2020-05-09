@@ -23,7 +23,7 @@
 
     <style>
     main {
-    margin-right: 160px; /* Same as the width of the sidebar */
+    margin-right: 160px;
     padding: 0px 10px;
     }
     </style>
