@@ -36,7 +36,7 @@
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                  Home
+                  App Page
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -62,7 +62,7 @@
                                 </li>
                             @endif
                         @else
-                            <a class="navbar-brand" href="{{ url('home',Auth::user()->id) }}">
+                            <a class="navbar-brand" href="{{ url('profile',Auth::id()) }}">
                                My Account |
                             </a>
                             <li class="nav-item dropdown">

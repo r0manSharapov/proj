@@ -23,7 +23,6 @@ Route::get('/', 'WelcomeController@index')->name('welcome');
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware("verified");
-Route::post('/home','HomeController@store')->name('home')->middleware("verified");
 
 Route::get('change-password', 'ChangePasswordController@index')->middleware("auth")->middleware("verified");
 Route::post('change-password', 'ChangePasswordController@store')->name('change.password');
@@ -33,5 +32,5 @@ Route::post('settings', 'SettingsController@store')->name('settings');
 Route::get('account/delete', 'SettingsController@delete')->middleware("auth")->middleware("verified");
 Route::delete('account/delete', 'SettingsController@destroy')->name('account/delete');
 Route::get('/allUsers', 'UsersListController@search')->name('allUsers')->middleware("verified");
-Route::get('home/{id}', 'UsersListController@show')->name('profile')->middleware("verified");
-
+Route::get('profile/{id}', 'UsersListController@show')->name('profile')->middleware("verified");
+Route::post('/profile/{id}','HomeController@store')->name('profile')->middleware("verified");

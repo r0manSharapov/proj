@@ -55,7 +55,7 @@
                     <ul class="list-group " id="myList">
 
                         @foreach($allUsers as $user)
-                            <a href="{{ url('home',$user->id) }}" class="list-group-item list-group-item-action">
+                            <a href="{{ url('profile',$user->id) }}" class="list-group-item list-group-item-action">
                                 <div class="d-inline " style="margin-right: 20px;">
                                     <img
                                         src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}"

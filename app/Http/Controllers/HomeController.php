@@ -27,28 +27,19 @@ class HomeController extends Controller
 
     public function store(Request $request){
 
-
         $request->validate([
-            'foto'=>['nullable'],
+            'foto'=>['required'],
         ]);
 
-
-        if($request->hasFile('foto')){
-
-
-
-//            $old_foto = Auth::user()->foto;
+        $old_foto = Auth::user()->foto;
 
 //            unlink(storage_path('public/fotos'.$old_foto));
-//          Storage::delete('public/fotos'. $old_foto);
+          Storage::delete('public/fotos/'. $old_foto);
 
-            $path = $request->foto->store('public/fotos');
-            $foto = basename($path);
+        $path = $request->foto->store(('public/fotos'));
+        $foto = basename($path);
 
-        }
-        else{
-            $foto = null;
-        }
+
 
         User::where('id',Auth::user()->id)
             ->update(
@@ -66,8 +57,8 @@ class HomeController extends Controller
 
     public function index()
     {
-        $users= User::all();
-        return view('home')->withAllUsers($users);
+
+        return redirect()->route('profile',Auth::id());
 
     }
 

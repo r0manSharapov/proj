@@ -58,8 +58,8 @@ class UsersListController extends Controller
 
     public function show($id)
     {
-        $users = User::findOrFail($id);
-        return view('home')->withUsers($users);
+        $user = User::findOrFail($id);
+        return view('profile')->withUser($user);
     }
 
     public function block(Request $request){

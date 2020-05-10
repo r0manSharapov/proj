@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'nif' => ['nullable','numeric', 'digits:9','unique:users'],
             'telefone' => ['nullable','numeric', 'digits:9','unique:users'],
             'password' => ['required', 'string', 'min:4', 'confirmed'],
-            'foto' => ['nullable'],
+            'foto' => ['nullable', 'image'],
         ]);
     }
 
@@ -72,7 +72,7 @@ class RegisterController extends Controller
     {
 
         if(\request()->hasFile('foto')){
-            $path = \request()->foto->store('public/fotos');
+            $path = \request()->foto->store('public/fotos');//buscar id do gajo que vai ser registado
             $foto_name = basename($path);
         }else{
             $foto_name = null;
