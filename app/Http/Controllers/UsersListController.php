@@ -44,6 +44,8 @@ class UsersListController extends Controller
                 $usersSearch=$usersSearch->where('bloqueado',1);
             }
 
+        
+
             return view('usersList')->withAllUsers($usersSearch->paginate(5))
                 ->withSearch($search)
                 ->withUserType($userType)
@@ -58,5 +60,19 @@ class UsersListController extends Controller
     {
         $users = User::findOrFail($id);
         return view('home')->withUsers($users);
+    }
+
+    public function block(Request $request){
+        $block=$request->get('block'); //block é suposto obter o id do user escolhido que vai estar no value 
+        //quando as rotas para os perfis já funcionarem, com um botão para bloquear
+
+        User::where('id',$block)
+            ->update(
+                [
+                    'bloqueado'=>1,
+                ]
+            );
+
+        Auth::user()->save();
     }
 }
