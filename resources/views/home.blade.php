@@ -1,5 +1,6 @@
 
 @extends('layouts.app')
+@section('title',Auth::user()->name)
 @section('content')
 <div class="container-fluid">
 <h1 style="text-align:center;padding-bottom:40px;">Profile</h1>
@@ -14,10 +15,9 @@
             <div class="row">
                 <div class="col-sm-4" >
                     <p style="text-align:left"><img src="{{Auth::user()->foto != null ? asset('storage/fotos/' . Auth::user()->foto) : asset('storage/fotos/user_default.png')}}" class="rounded-circle" width="250" height="250" alt="Profile picture"></p>
-
-                    <form method="POST" action="{{ route('home')  }}" enctype="multipart/form-data">
+                    
+                    <form method="POST" action="{{ url('home',Auth::user()->id) }}" enctype="multipart/form-data">
                     @csrf
-
                         <div class="row">
                             <div class="col">
                                 <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto">
@@ -44,9 +44,6 @@
                         <h4><strong>Phone Number:</strong> {{Auth::user()->telefone}}</h4>
                         <h4><strong>NIF:</strong> {{Auth::user()->NIF}}</h4>
                     </div>
-
-
-
 
                             </div>
                        </div>

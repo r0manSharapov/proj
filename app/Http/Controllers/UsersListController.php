@@ -34,9 +34,6 @@ class UsersListController extends Controller
 
                 $usersSearch= $usersSearch->where('adm',1);
 
-
-
-
             }
             if($userType==2){
                 $usersSearch=$usersSearch->where('adm',0);
@@ -55,10 +52,11 @@ class UsersListController extends Controller
 
         return view('usersList')->withAllUsers($usersSearch->paginate(5))
             ->withSearch($search);
-
-
-
     }
 
-
+    public function show($id)
+    {
+        $users = User::findOrFail($id);
+        return view('home')->withUsers($users);
+    }
 }

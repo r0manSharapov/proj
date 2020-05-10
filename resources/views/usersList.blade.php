@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title','Lista de Utilizadores')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -14,7 +15,7 @@
                             <form action="{{route('allUsers')}}" method="get" class="form-group">
                                 @csrf
                                 <div class="input-group"  style="z-index: 1;">
-                                    <input type="search" name="search" class="form-control"
+                                    <input type="text" name="search" class="form-control"
                                            placeholder="Search for a user...">
 
 
@@ -54,7 +55,7 @@
                     <ul class="list-group " id="myList">
 
                         @foreach($allUsers as $user)
-                            <a href="{{ route('home') }}" class="list-group-item list-group-item-action">
+                            <a href="{{ url('home',$user->id) }}" class="list-group-item list-group-item-action">
                                 <div class="d-inline " style="margin-right: 20px;">
                                     <img
                                         src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}"
@@ -68,6 +69,7 @@
                                     <span class="d-block">
                                         {{$user->email}}
                                 </span>
+
                                     @if(Auth::user()->adm ==1) <!-- se for adm-->
                                     @if($user->adm)
                                         <label class="badge badge-success">Admin</label>
@@ -80,6 +82,7 @@
                                     @endif
                                     @endif
                                 </div>
+
 
                             </a>
 

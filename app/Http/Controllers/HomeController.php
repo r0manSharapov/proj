@@ -66,7 +66,8 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('home');
+        $users= User::all();
+        return view('home')->withAllUsers($users);
 
     }
 
@@ -74,7 +75,6 @@ class HomeController extends Controller
     public function getUsersList()
     {
         $users = User::all();
-
 
         return view('usersList')
             ->withAllUsers($users);

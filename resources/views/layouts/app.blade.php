@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -62,7 +62,7 @@
                                 </li>
                             @endif
                         @else
-                            <a class="navbar-brand" href="{{ route('home') }}">
+                            <a class="navbar-brand" href="{{ url('home',Auth::user()->id) }}">
                                My Account |
                             </a>
                             <li class="nav-item dropdown">
