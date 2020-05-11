@@ -23,7 +23,6 @@
 
                                 @if(Auth::user()->adm ==1)
                                     <div class="d-inline">
-
                                     Blocked: <input type="checkbox" id="myCheck" value="1" name="blocked">
                                 </div>
 
@@ -71,15 +70,15 @@
                                 </span>
 
                                     @if(Auth::user()->adm ==1) <!-- se for adm-->
-                                    @if($user->adm)
-                                        <label class="badge badge-success">Admin</label>
-                                    @else
-                                        <label class="badge badge-primary">User</label>
-                                    @endif
+                                        @if($user->adm)
+                                            <label class="badge badge-success">Admin</label>
+                                        @else
+                                            <label class="badge badge-primary">User</label>
+                                        @endif
 
-                                    @if($user->bloqueado)
-                                        <label class="badge badge-danger">Blocked</label>
-                                    @endif
+                                        @if($user->bloqueado)
+                                            <label class="badge badge-danger">Blocked</label>
+                                        @endif
                                     @endif
                                 </div>
 

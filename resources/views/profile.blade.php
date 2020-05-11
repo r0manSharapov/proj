@@ -10,6 +10,8 @@
             <strong>SUCCESS:</strong>&nbsp;{{session()->get('message')}}
         </div>
     @endif
+
+
     <div class="content">
         <div class="container">
             <div class="row">
@@ -37,17 +39,54 @@
                                 </div>
                             </div>
                         </form>
+                    @else
+                        <div style="text-align:center;">
+                            @if($user->adm)
+                                <label class="badge badge-success">Admin</label>
+                            @else
+                                <label class="badge badge-primary">User</label>
+                            @endif
+                        </div>    
                     @endif
 
                         <h4 style="text-align:center;" ><strong>{{$user->name}}</strong></h4>
                         <h5 style="text-align:center;"><strong>E-mail:</strong> {{$user->email}}</h5>
                         <h5 style="text-align:center;"><strong>Phone Number:</strong> {{$user->telefone}}</h5>
                         <h5 style="text-align:center;"><strong>NIF:</strong> {{$user->NIF}}</h5>
-                        </div>
-                        </div>
+                </div>
+                
+                @if (!($user->id == Auth::id())) <!-- se o user for o autenticado -->
+                    <div class="col-sm-7" style="text-align:right">
+                    @if(Auth::user()->adm ==1) <!-- se for admin -->
+                        <form method="post" action="{{ route('block', ['id' => $user->id]) }}" >
+                            @csrf
+                                
+                                    @if($user->bloqueado)
+                                        <h3><button value="{{$user->id}}" class="btn btn-warning" type="submit" name="unblock"><strong>Unblock</strong></button></h3>
+                                    @else
+                                        <h3><button value="{{$user->id}}" name="block" type="submit" class="btn btn-danger">Block</button></h3>
+                                    @endif
+                        </form>
+                        <!-- <form method="post" action="{{ route('change', ['id' => $user->id]) }}" > 
+                            @csrf
+                            <div class="dropdown" >
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Change type of user
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    @if($user->adm)
+                                        <button class="dropdown-item" type="button">User</button>
+                                    @else
+                                        <button class="dropdown-item" type="button">Admin</button>
+                                    @endif
+                                </div>
                             </div>
-                       </div>
-                        </div>
+                        </form> -->
+                    @endif 
+                    </div>
+                @endif
+            </div>
         </div>
+    </div>
 </div>
 @endsection

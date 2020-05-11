@@ -34,3 +34,6 @@ Route::delete('account/delete', 'SettingsController@destroy')->name('account/del
 Route::get('/allUsers', 'UsersListController@search')->name('allUsers')->middleware("verified");
 Route::get('profile/{id}', 'UsersListController@show')->name('profile')->middleware("verified");
 Route::post('/profile/{id}','HomeController@store')->name('profile')->middleware("verified");
+Route::post('/profile/{id}','AdminController@block')->name('block')->middleware("verified");
+//Route::post('/profile/{id}','AdminController@change')->name('type')->middleware("verified");
+

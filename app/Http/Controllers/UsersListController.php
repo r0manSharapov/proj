@@ -62,17 +62,5 @@ class UsersListController extends Controller
         return view('profile')->withUser($user);
     }
 
-    public function block(Request $request){
-        $block=$request->get('block'); //block é suposto obter o id do user escolhido que vai estar no value 
-        //quando as rotas para os perfis já funcionarem, com um botão para bloquear
-
-        User::where('id',$block)
-            ->update(
-                [
-                    'bloqueado'=>1,
-                ]
-            );
-
-        Auth::user()->save();
-    }
+    
 }
