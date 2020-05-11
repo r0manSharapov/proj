@@ -57,32 +57,29 @@
                 
                 @if (!($user->id == Auth::id())) <!-- se o user for o autenticado -->
                     <div class="col-sm-7" style="text-align:right">
-                    @if(Auth::user()->adm ==1) <!-- se for admin -->
-                        <form method="post" action="{{ route('block', ['id' => $user->id]) }}" >
-                            @csrf
-                                
-                                    @if($user->bloqueado)
-                                        <h3><button value="{{$user->id}}" class="btn btn-warning" type="submit" name="unblock"><strong>Unblock</strong></button></h3>
-                                    @else
-                                        <h3><button value="{{$user->id}}" name="block" type="submit" class="btn btn-danger">Block</button></h3>
-                                    @endif
-                        </form>
-                        <!-- <form method="post" action="{{ route('change', ['id' => $user->id]) }}" > 
-                            @csrf
-                            <div class="dropdown" >
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Change type of user
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    @if($user->adm)
-                                        <button class="dropdown-item" type="button">User</button>
-                                    @else
-                                        <button class="dropdown-item" type="button">Admin</button>
-                                    @endif
+                        @if(Auth::user()->adm ==1) <!-- se for admin -->
+                            <form method="post" action="{{ route('change', ['id' => $user->id]) }}"> 
+                                @csrf
+                                @if($user->bloqueado)
+                                    <h3><button value="{{$user->id}}" class="btn btn-warning" type="submit" name="unblock"><strong>Unblock</strong></button></h3>
+                                @else
+                                    <h3><button value="{{$user->id}}" name="block" type="submit" class="btn btn-danger">Block</button></h3>
+                                @endif
+                            
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Change type of user
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        @if($user->adm)
+                                            <button value="{{$user->id}}" name="user" class="dropdown-item" type="submit">User</button>
+                                        @else
+                                            <button value="{{$user->id}}" name="admin" class="dropdown-item" type="submit">Admin</button>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
-                        </form> -->
-                    @endif 
+                            </form>    
+                        @endif 
                     </div>
                 @endif
             </div>

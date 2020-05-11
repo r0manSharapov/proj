@@ -62,5 +62,4 @@ class UsersListController extends Controller
         return view('profile')->withUser($user);
     }
 
-    
 }

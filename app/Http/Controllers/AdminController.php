@@ -11,7 +11,7 @@ class AdminController extends Controller
         return back();
     }
 
-    public function block(Request $request){
+    public function change(Request $request){
         $block = $request->get('block');
         $unblock = $request->get('unblock');
 
@@ -27,25 +27,21 @@ class AdminController extends Controller
             return back()->with('message',"Unblocked successfully");
         }
 
-        return back();
-    }
-
-    /*public function change(Request $request){
         $admin = $request->get('admin');
         $user = $request->get('user');
 
         if($admin){
-            User::where('id',$block)->update(['adm'=> '1']);
+            User::where('id',$admin)->update(['adm'=> '1']);
 
             return back()->with('message',"Changed successfully to admin!");
         }
 
         if($user){
-            User::where('id',$unblock)->update(['adm'=> '0']);
+            User::where('id',$user)->update(['adm'=> '0']);
 
             return back()->with('message',"Changed successfully to normal user!");
         }
 
         return back();
-    } */
+    }
 }
