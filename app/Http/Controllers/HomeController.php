@@ -63,12 +63,5 @@ class HomeController extends Controller
     }
 
 
-    public function getUsersList()
-    {
-        $users = User::all();
 
-        return view('usersList')
-            ->withAllUsers($users);
-
-    }
 }

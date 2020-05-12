@@ -28,6 +28,7 @@ Route::get('change-password', 'ChangePasswordController@index')->middleware("aut
 Route::post('change-password', 'ChangePasswordController@store')->name('change.password');
 
 Route::get('settings', 'SettingsController@index')->middleware("auth")->middleware("verified");
+Route::get('/privateArea', 'PrivateAreaController@index')->middleware("auth")->middleware("verified");
 Route::post('settings', 'SettingsController@store')->name('settings');
 Route::get('account/delete', 'SettingsController@delete')->middleware("auth")->middleware("verified");
 Route::delete('account/delete', 'SettingsController@destroy')->name('account/delete');
@@ -36,4 +37,5 @@ Route::get('profile/{id}', 'UsersListController@show')->name('profile')->middlew
 Route::post('/profile/{id}','HomeController@store')->name('profile')->middleware("verified");
 Route::post('profile/{id}','AdminController@change')->name('change')->middleware("verified");
 //Route::post('profile/{id}','AdminController@change')->name('type')->middleware("verified");
+
 

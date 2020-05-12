@@ -106,7 +106,7 @@
         <a  class="w3-bar-item w3-button" href="#home">Financial Information</a>
         <a  class="w3-bar-item w3-button" href="#news">News</a>
         <a  class="w3-bar-item w3-button" href="#contact">Contact</a>
-        <a  class="w3-bar-item w3-button"href="#about">About</a>
+        <a  class="w3-bar-item w3-button"href="{{url('/privateArea')}}">My Private Area</a>
 
 
             <a  class="w3-bar-item w3-button" href="{{ route('allUsers') }}">{{ __('Users List') }}</a>
