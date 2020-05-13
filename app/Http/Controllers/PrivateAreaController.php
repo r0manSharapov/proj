@@ -15,9 +15,13 @@ class PrivateAreaController extends Controller
 {
     public function index(){
         $contas = Conta::all();
-        return view('privateArea')->withContas($contas);
+        return view('privateArea.index')->withContas($contas);
     }
 
 
+    public function store($request){
+
+
+    }
 
 }

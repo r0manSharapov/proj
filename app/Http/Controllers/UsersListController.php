@@ -44,7 +44,7 @@ class UsersListController extends Controller
                 $usersSearch=$usersSearch->where('bloqueado',1);
             }
 
-        
+
 
             return view('usersList')->withAllUsers($usersSearch->paginate(5))
                 ->withSearch($search)
@@ -59,7 +59,7 @@ class UsersListController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('profile')->withUser($user);
+        return view('profile.index')->withUser($user);
     }
 
 }

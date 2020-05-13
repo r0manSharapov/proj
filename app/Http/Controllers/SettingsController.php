@@ -22,7 +22,7 @@ class SettingsController
     public function index()
     {
 
-        return view('settings');
+        return view('settings.index');
     }
 
     public function store(Request $request)
@@ -88,6 +88,6 @@ class SettingsController
 
     public function delete(){
 
-        return view('delete');
+        return view('settings.delete');
     }
 }

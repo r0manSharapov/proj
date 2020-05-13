@@ -12,9 +12,9 @@ class ChangePasswordController extends Controller
 {
     public function index()
     {
-        return view('changePassword');
-    } 
-   
+        return view('settings.changePassword');
+    }
+
     public function store(Request $request)
     {
         $user = Auth::user();
