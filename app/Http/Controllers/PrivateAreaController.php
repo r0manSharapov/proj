@@ -21,6 +21,10 @@ class PrivateAreaController extends Controller
 
     public function store($request){
 
+        $request->validate([
+            'name'=>['required'],
+            'startBalance'=>['required']
+        ]);
 
     }
 

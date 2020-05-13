@@ -36,8 +36,8 @@
 
                 </tbody>
             </table>
-            <button type="button" class="btn btn-secondary">Add Account</button>
-          
+            <a  class="btn btn-secondary" href="{{url('/privateArea/addAccount')}}">AddAccount</a>
+
 
 
         </div>

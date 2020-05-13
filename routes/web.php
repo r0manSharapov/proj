@@ -37,4 +37,5 @@ Route::get('profile/{id}', 'UsersListController@show')->name('profile')->middlew
 Route::post('/profile/{id}','HomeController@store')->name('profile')->middleware("auth")->middleware("verified");
 Route::post('profile/{id}','AdminController@change')->name('change')->middleware("auth")->middleware("verified");
 
-Route::post('/privateArea/addAccount', 'PrivateAreaController@store')->middleware("auth")->middleware("verified")->name('addAccount');
+Route::view('/privateArea/addAccount','privateArea.form');
+Route::post('/privateArea/addAccount', 'PrivateAreaController@store')->name('addAccount');
