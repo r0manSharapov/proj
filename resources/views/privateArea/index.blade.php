@@ -27,10 +27,10 @@
                                         <td>     {{ $conta->nome}}</td>
                                         <td>     {{ $conta->saldo_atual}}€</td>
                                         <td>
-                                            <form method="get" action="{{ route('movements')}}" >
-                                                @csrf
-                                                <button type="submit" class="btn btn-primary" value="{{$conta->id}}" name="contaId">Movements List</button>
-                                            </form>
+                                            <a  class="btn btn-secondary" href="{{ route('movements', ['conta' => $conta])}}" >
+                                                Movements List
+
+                                            </a>
                                         </td>
                                         <td><button type="button" class="btn btn-dark">Update</button></td>
                                         <td><button type="button" class="btn btn-danger">Delete</button> </td>

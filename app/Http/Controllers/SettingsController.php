@@ -5,7 +5,7 @@
 namespace App\Http\Controllers;
 
 
-//use App\Rules\MatchOldPassword;
+use Illuminate\Validation\Rule;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,12 +25,12 @@ class SettingsController
         return view('settings.index');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'nif' => ['nullable','numeric', 'digits:9'],
             'telefone' => ['nullable','numeric', 'digits:9'],
         ]);

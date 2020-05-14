@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">
 
-                        <h2>Movements</h2>
+                        <h2>{{$conta->nome}}</h2>
 
                     </div>
                     <div class="card-body">

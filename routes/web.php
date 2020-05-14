@@ -43,4 +43,4 @@ Route::get('/profile/{user}/privateArea', 'PrivateAreaController@index')->name('
 Route::view('/profile/privateArea/addAccount','privateArea.form');
 Route::post('/profile/privateArea/addAccount', 'PrivateAreaController@store')->name('addAccount');
 
-Route::get('/profile/privateArea/movements', 'MovementsController@index')->name('movements')->middleware("auth")->middleware("verified");
+Route::get('/contas/{conta}', 'MovementsController@index')->name('movements')->middleware("auth")->middleware("verified");
