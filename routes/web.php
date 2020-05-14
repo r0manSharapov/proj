@@ -39,8 +39,10 @@ Route::get('profile/{id}', 'UsersListController@show')->name('profile')->middlew
 Route::post('/profile/{id}','HomeController@store')->name('profile')->middleware("auth")->middleware("verified");
 Route::post('profile/{id}','AdminController@change')->name('change')->middleware("auth")->middleware("verified");
 
-Route::get('/profile/{user}/privateArea', 'PrivateAreaController@index')->name('privateArea')->middleware("auth")->middleware("verified");
+Route::get('/profile/privateArea/{user}', 'PrivateAreaController@show')->name('privateArea')
+    ->middleware("auth")->middleware("verified");//->middleware('can:view,App\Conta');
 Route::view('/profile/privateArea/addAccount','privateArea.form');
 Route::post('/profile/privateArea/addAccount', 'PrivateAreaController@store')->name('addAccount');
 
-Route::get('/contas/{conta}', 'MovementsController@index')->name('movements')->middleware("auth")->middleware("verified");
+Route::get('/contas/{conta}', 'MovementsController@index')->name('movements')
+    ->middleware("auth")->middleware("verified");//->middleware('can:view,App\Movimento');

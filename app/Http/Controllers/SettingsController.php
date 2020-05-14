@@ -31,8 +31,8 @@ class SettingsController
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
-            'nif' => ['nullable','numeric', 'digits:9'],
-            'telefone' => ['nullable','numeric', 'digits:9'],
+            'nif' => ['nullable','numeric', 'digits:9', Rule::unique('users', 'nif')->ignore($user->id)],
+            'telefone' => ['nullable','numeric', 'digits:9', Rule::unique('users', 'telefone')->ignore($user->id)]
         ]);
 
         $name = $validated['name'];

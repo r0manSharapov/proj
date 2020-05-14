@@ -29,7 +29,6 @@
                                         <td>
                                             <a  class="btn btn-secondary" href="{{ route('movements', ['conta' => $conta])}}" >
                                                 Movements List
-
                                             </a>
                                         </td>
                                         <td><button type="button" class="btn btn-dark">Update</button></td>
