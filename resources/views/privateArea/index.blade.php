@@ -22,16 +22,19 @@
                             </thead>
                             <tbody>
                             @foreach($contas as $conta)
-                                @if($conta->user_id == Auth::user()->id)
                                     <tr>
 
                                         <td>     {{ $conta->nome}}</td>
                                         <td>     {{ $conta->saldo_atual}}€</td>
-                                        <td>     <a class="btn btn-primary" href="{{url('/profile/'.Auth::id().'/privateArea/movements')}}">Movements List</a></td>
+                                        <td>
+                                            <form method="get" action="{{ route('movements')}}" >
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary" value="{{$conta->id}}" name="contaId">Movements List</button>
+                                            </form>
+                                        </td>
                                         <td><button type="button" class="btn btn-dark">Update</button></td>
                                         <td><button type="button" class="btn btn-danger">Delete</button> </td>
                                     </tr>
-                                @endif
                             @endforeach
 
 
