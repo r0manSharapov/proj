@@ -65,6 +65,7 @@ class EstruturaInicial extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('conta_id')->unsigned();
             $table->boolean('so_leitura')->default(true);
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('conta_id')->references('id')->on('contas');

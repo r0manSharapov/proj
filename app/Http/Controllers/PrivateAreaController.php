@@ -6,6 +6,7 @@ use App\Conta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
@@ -14,8 +15,7 @@ use App\User;
 class PrivateAreaController extends Controller
 {
     public function index(Request $request, User $user){
-        $contas = Conta::where('user_id', $user->id)
-        ->get(); //buscar contas so de 1 pessoa
+        $contas = Conta::withTrashed()->where('user_id', $user->id)->get(); //buscar contas so de 1 pessoa
         return view('privateArea.index')->withContas($contas);
     }
 
@@ -29,5 +29,4 @@ class PrivateAreaController extends Controller
         ]);
 
     }
-
 }
