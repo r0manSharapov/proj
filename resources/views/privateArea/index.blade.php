@@ -41,10 +41,15 @@
                                     @else
                                         <td>{{ $conta->saldo_atual}}€</td>
                                         <td>
-                                            <a  class="btn btn-secondary" href="{{ route('movements', ['conta' => $conta])}}" >
-                                                Movements List</a>
+                                            <a  class="btn btn-primary" href="{{ route('accountDetails', ['conta' => $conta])}}" >
+                                                Details
+                                            </a>
                                         </td>
-                                        <td><button type="button" class="btn btn-dark">Update</button></td>
+                                        <td>
+                                            <a  class="btn btn-dark" href="{{ url('#')}}" >
+                                                Update
+                                            </a>
+                                        </td>
                                         <form name="softdelete" action="{{ route('softDelete', ['conta' => $conta])}}" method="post" >
                                             @csrf 
                                             @method('DELETE')
@@ -55,7 +60,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <a  class="btn btn-secondary" href="{{url('/profile/privateArea/addAccount')}}">AddAccount</a>
+                        <a  class="btn btn-secondary" href="{{route('addAccount')}}">AddAccount</a>
                     </div>
                 </div>
             </div>

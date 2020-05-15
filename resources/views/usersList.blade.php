@@ -8,7 +8,7 @@
                     <h2 style="text-align:center;">Administration</h2>
                 @else
                 <h2 style="text-align:center;">Users</h2>
-                    @endif
+                @endif
                 <div class="card">
                     <div class="card-header">
                         <div class="col-md-12">
