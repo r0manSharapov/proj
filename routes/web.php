@@ -53,4 +53,6 @@ Route::get('/contas/{conta}/delete', 'ContaController@delete')->middleware("auth
 Route::delete('/contas/{conta}/delete', 'ContaController@destroy')->name('conta/delete')->middleware("auth")->middleware("verified");
 
 Route::get('/contas/{conta}', 'AccountDetailsController@index')->name('accountDetails')
-    ->middleware("auth")->middleware("verified");//->middleware('can:view,App\Movimento');
+    ->middleware("auth")->middleware("verified");//->middleware('can:view,App\
+Route::get('/contas/{conta}/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
+

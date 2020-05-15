@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Conta;
 use App\Movimento;
+use Illuminate\Http\Request;
 
 
 class AccountDetailsController extends Controller
@@ -20,13 +21,12 @@ class AccountDetailsController extends Controller
                                            ->withConta($conta);
     }
 
-    public function search(Request $request)
+    public function search(Request $request, Conta $conta)
     {
         $search = $request->get('search');
-        $movementsSearch = Movimento::where(function ($query) use($search) {
-            $query->where('data','like','%'.$search.'%');
+        $movementsSearch = Movimento::where('data','like','%'.$search.'%')->where('conta_id', $conta->id);
 
-        });
+
 
 
 //        if($is_adm == 1)
@@ -55,6 +55,7 @@ class AccountDetailsController extends Controller
 //        }
 
         return view('accountDetails.index')->withMovimentos($movementsSearch->paginate(6))
-            ->withSearch($search);
+            ->withSearch($search)
+            ->withConta($conta);
     }
 }
