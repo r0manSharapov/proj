@@ -32,8 +32,8 @@
                                         <td>{{ $conta->nome}}</td>
                                     @if($conta->trashed())
                                         <td style="text-align:center;">-</td>
-                                        <form action="{{ route('restore', ['conta' => $conta])}}" method="post">
-                                            @csrf 
+                                        <form action="{{ route('restore', ['conta' => $conta])}}" method="get">
+                                            @csrf
                                             <td><button type="submit" class="btn btn-warning">Recover</button></td>
                                         </form>
                                             <td><a href="{{ route('conta/delete', ['conta' => $conta])}}" class="btn btn-danger">Permanently Delete</a></td>
@@ -51,7 +51,7 @@
                                             </a>
                                         </td>
                                         <form name="softdelete" action="{{ route('softDelete', ['conta' => $conta])}}" method="post" >
-                                            @csrf 
+                                            @csrf
                                             @method('DELETE')
                                             <td><button type="submit" class="btn btn-danger">Delete</button></td>
                                         </form>
@@ -60,7 +60,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <a  class="btn btn-secondary" href="{{route('addAccount')}}">AddAccount</a>
+                        <a  class="btn btn-secondary"  href="{{route('viewAddAccount',['user'=>$user])}}">AddAccount</a>
                     </div>
                 </div>
             </div>

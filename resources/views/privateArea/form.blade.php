@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form action="{{route('addAccount')}}" method="post">
+                        <form action="{{route('addAccount',['user' => $user])}}" method="post">
                             @csrf
                                 <div class="form-group">
                                     <label >Name</label>

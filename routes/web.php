@@ -39,16 +39,19 @@ Route::get('profile/{id}', 'UsersListController@show')->name('profile')->middlew
 Route::post('/profile/{id}','HomeController@store')->name('profile')->middleware("auth")->middleware("verified");
 Route::post('profile/{id}','AdminController@change')->name('change')->middleware("auth")->middleware("verified");
 
-Route::get('/profile/privateArea/{user}', 'PrivateAreaController@show')->name('privateArea')
-    ->middleware("auth")->middleware("verified");//->middleware('can:view,App\Conta');
-Route::view('/profile/privateArea/addAccount','privateArea.form')->name('addAccount');
-Route::post('/profile/privateArea/addAccount', 'PrivateAreaController@store')->name('addAccount');
+Route::get('/contas/{user}', 'PrivateAreaController@show')->name('privateArea')
+    ->middleware("auth")->middleware("verified");
 
-//Route::view('/contas/{conta}/update', 'privateArea.update')->name('updateAccount');
+Route::get('/contas/{user}/addAccount', 'privateAreaController@showAddAccount')->name('viewAddAccount');
+Route::post('/contas/{user}/addAccount', 'PrivateAreaController@store')->name('addAccount');
+
+Route::view('/contas/update', 'privateArea.update')->name('updateAccount');
 
 
 Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth");
+
 Route::get('/contas/{conta}/restored', 'ContaController@restore')->name('restore')->middleware("auth");
+
 Route::get('/contas/{conta}/delete', 'ContaController@delete')->middleware("auth")->middleware("verified");
 Route::delete('/contas/{conta}/delete', 'ContaController@destroy')->name('conta/delete')->middleware("auth")->middleware("verified");
 
