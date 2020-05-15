@@ -49,11 +49,8 @@ Route::view('/contas/update', 'privateArea.update')->name('updateAccount');
 
 
 Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth");
-
-Route::get('/contas/{conta}/restored', 'ContaController@restore')->name('restore')->middleware("auth");
-
-Route::get('/contas/{conta}/delete', 'ContaController@delete')->middleware("auth")->middleware("verified");
-Route::delete('/contas/{conta}/delete', 'ContaController@destroy')->name('conta/delete')->middleware("auth")->middleware("verified");
+Route::post('/contas/{conta}/restored', 'ContaController@restore')->name('restore')->middleware("auth");
+Route::get('/contas/{conta}/delete', 'ContaController@destroy')->name('conta/delete')->middleware("auth")->middleware("verified");
 
 Route::get('/contas/details/{conta}', 'AccountDetailsController@index')->name('accountDetails')
     ->middleware("auth")->middleware("verified");//->middleware('can:view,App\

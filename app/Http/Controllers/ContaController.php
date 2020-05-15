@@ -22,24 +22,23 @@ class ContaController extends Controller
         return back()->with('message','Successfully deleted! You can still recover your account or permanently delete it!');
     }
 
-    public function restore(Conta $conta)
+    public function restore(Request $request)
     {
-        $id = $conta->id;
-        $conta_restore = Conta::withTrashed()->where('id', $id);
+        $id_conta = $request->get('recover');
+        $conta_restore = Conta::withTrashed()->where('id', $id_conta);
         $conta_restore->restore();
 
         return back()->with('message','Successfully recovered!');
     }
 
-    public function delete(Conta $conta){
-
-        return view('privateArea.delete')->withConta($conta);;
-    }
-
     public function destroy(Conta $conta){
         $id = $conta->id;
-        $conta_delete = Conta::where('id', $id)->forceDelete();
+        dd($id);
+        
+       // Autorizacoes_conta::where('conta_id',$id)->forceDelete();
+        //Movimento::where('conta_id',$id)->forceDelete();
+        //Conta::where('id', $id)->forceDelete();
 
-        return back()->with('message','Successfully delete!');
+        return back()->with('message','Successfully deleted!');
     }
 }

@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">
 
-                        <h2>Details off account: {{$conta->nome}}</h2>
+                        <h2>Details of account: {{$conta->nome}}</h2>
                         <p>Description: {{$conta->descricao}}</p>
                         <p>Starting Balance: {{$conta->saldo_abertura}}€</p>
                         <p>Current Balance: {{$conta->saldo_atual}}€</p>

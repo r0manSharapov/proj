@@ -32,11 +32,11 @@
                                         <td>{{ $conta->nome}}</td>
                                     @if($conta->trashed())
                                         <td style="text-align:center;">-</td>
-                                        <form action="{{ route('restore', ['conta' => $conta])}}" method="get">
-                                            @csrf
-                                            <td><button type="submit" class="btn btn-warning">Recover</button></td>
+                                        <form action="{{ route('restore', ['conta' => $conta])}}" method="post">
+                                            @csrf 
+                                            <td><button value="{{$conta->id}}" name="recover" type="submit" class="btn btn-warning">Recover</button></td>
                                         </form>
-                                            <td><a href="{{ route('conta/delete', ['conta' => $conta])}}" class="btn btn-danger">Permanently Delete</a></td>
+                                            <td><a href="#myModal" class="btn btn-danger" data-toggle="modal">Permanently Delete</a></td>
                                         <td></td>
                                     @else
                                         <td>{{ $conta->saldo_atual}}€</td>
@@ -57,10 +57,29 @@
                                         </form>
                                         </tr>
                                     @endif
+
+                                    <div id="myModal" class="modal fade">
+                                        <div class="modal-dialog modal-confirm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">	
+                                                    <h4 class="modal-title">Are you sure?</h4>	
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Do you really want to delete this account permanently? This process cannot be undone.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a  class="btn btn-primary" href="{{route('privateArea', Auth::id())}}" >Cancel</a>
+                                                    <a  class="btn btn-danger" href="{{route('conta/delete', ['conta' => $conta])}}" >Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+
                                 @endforeach
                             </tbody>
                         </table>
-                        <a  class="btn btn-secondary"  href="{{route('viewAddAccount',['user'=>$user])}}">AddAccount</a>
+                        <a  class="btn btn-secondary"  href="{{route('viewAddAccount',['user'=>$user])}}">Add Account</a>
                     </div>
                 </div>
             </div>
