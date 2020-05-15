@@ -14,7 +14,7 @@
 
                     </div>
                     <div class="card-body">
-                        <form action="{{route('accountDetails')}}" method="get" class="form-group">
+                        <form action="{{route('accountDetailsSearch', ['conta' => $conta])}}" method="get" class="form-group">
                             @csrf
                             <div class="input-group"  style="z-index: 1;">
                                 <input type="text" name="search" class="form-control" placeholder="Search for a data...">
