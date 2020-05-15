@@ -73,23 +73,13 @@
                                 <div class="dropdown-menu dropdown-menu-left"  aria-labelledby="navbarDropdown">
 
 
-                                    <a class="dropdown-item" href="{{ route('settings') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('settings-form').submit();">
+                                    <a class="dropdown-item" href="{{ route('settings') }}">
                                         {{ __('User Settings') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="{{ route('logout') }}">
                                         {{ __('Logout') }}
                                     </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                    </form>
 
-                                    <form id="settings-form" action="{{ route('settings') }}" method="GET" style="display: none;">
-                                        @csrf
-                                    </form>
                                 </div>
                             </li>
 
@@ -107,9 +97,7 @@
         <a  class="w3-bar-item w3-button" href="#news">News</a>
         <a  class="w3-bar-item w3-button" href="#contact">Contact</a>
         <a  class="w3-bar-item w3-button"href="{{Route('privateArea', Auth::id())}}">My Private Area</a>
-
-
-            <a  class="w3-bar-item w3-button" href="{{ route('allUsers') }}">{{ __('Users List') }}</a>
+        <a  class="w3-bar-item w3-button" href="{{ route('allUsers') }}">{{ __('Users List') }}</a>
 
 
 

@@ -15,33 +15,26 @@
                             <form action="{{route('allUsers')}}" method="get" class="form-group">
                                 @csrf
                                 <div class="input-group"  style="z-index: 1;">
-                                    <input type="text" name="search" class="form-control"
-                                           placeholder="Search for a user...">
+                                    <input type="text" name="search" class="form-control" placeholder="Search for a user...">
 
+                                        @if(Auth::user()->adm ==1)
+                                            <div class="d-inline">
+                                                Blocked: <input type="checkbox" id="myCheck" value="1" name="blocked">
+                                            </div>
 
+                                            <div class="d-inline">
+                                                <select class="default-select" name="userType" style="width:200px;">
+                                                    <option value="0">User type</option>
+                                                    <option value="1">Admin</option>
+                                                    <option value="2">User</option>
+                                                </select>
+                                            </div>
+                                        @endif
 
-
-                                @if(Auth::user()->adm ==1)
-                                    <div class="d-inline">
-                                    Blocked: <input type="checkbox" id="myCheck" value="1" name="blocked">
                                 </div>
-
-                                    <div class="d-inline">
-
-                                        <select class="default-select" name="userType" style="width:200px;">
-                                            <option value="0">User type</option>
-                                            <option value="1">Admin</option>
-                                            <option value="2">User</option>
-                                        </select>
-
-                                    </div>
-                                @endif
-                                <span class="input-group-prepend">
-                                        <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
-
-                                    </span>
-                                </div>
+                                <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
                             </form>
+
                         </div>
                     </div>
 
@@ -60,14 +53,13 @@
                                         src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}"
                                         class="rounded-circle" width="55" height="60">
                                 </div>
-
                                 <div class="d-inline-block">
-                            <span class="d-block" style="font-size: medium; font-weight: bold; ">
-                                {{$user->name}}
-                            </span>
+                                    <span class="d-block" style="font-size: medium; font-weight: bold; ">
+                                        {{$user->name}}
+                                    </span>
                                     <span class="d-block">
                                         {{$user->email}}
-                                </span>
+                                    </span>
 
                                     @if(Auth::user()->adm ==1) <!-- se for adm-->
                                         @if($user->adm)
@@ -81,11 +73,7 @@
                                         @endif
                                     @endif
                                 </div>
-
-
                             </a>
-
-
                         @endforeach
                     </ul>
                     {{$allUsers->withQueryString()->links()}}

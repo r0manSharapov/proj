@@ -83,17 +83,15 @@
                                         {{ __('Update Settings') }}
                                     </button>
 
-                                    <a class="card-link" href="{{ route('change.password') }}"
-                                    onclick="event.preventDefault();
-                                                        document.getElementById('change-password-form').submit();">
+                                    <a class="card-link" href="{{ route('change.password') }}" class="btn btn-danger btn-primary">
+
+
                                         {{ __('Change Password') }}
+
                                     </a>
 
                                 </div>
                             </div>
-                        </form>
-                        <form id="change-password-form" action="{{ route('change.password') }}" method="GET" style="display: none;">
-                            @csrf
                         </form>
                     </div>
                 </div>

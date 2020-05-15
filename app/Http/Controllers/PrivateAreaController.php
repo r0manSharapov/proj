@@ -14,7 +14,7 @@ use App\User;
 
 class PrivateAreaController extends Controller
 {
-    public function index(Request $request, User $user){
+    public function show(Request $request, User $user){
         $contas = Conta::withTrashed()->where('user_id', $user->id)->get(); //buscar contas so de 1 pessoa
         return view('privateArea.index')->withContas($contas);
     }
