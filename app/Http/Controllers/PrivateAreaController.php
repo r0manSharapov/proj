@@ -35,10 +35,12 @@ class PrivateAreaController extends Controller
 
     public function store(Request $request, User $user){
 
+
+
        $request->validate( [
             'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')->ignore($user->id)],
-            'startBalance'=>['required','numeric'],
-            'description'=>['nullable','string']
+            'startBalance'=>['required','numeric','between:0,99999999999.99'], //porque o tipo de dados é decimal(11,2)
+            'description'=>['nullable','string','max:255'] //VARCHAR(255) e optional
 
         ]);
 
@@ -64,12 +66,12 @@ class PrivateAreaController extends Controller
 
     public function updateAccount(Request $request, User $user,Conta $conta){
 
+
         $request->validate( [
             'name'=>['required','string', 'max:20'],
-            'startBalance'=>['required','numeric'],
-            'currentBalance'=>['required','numeric'],
-            'description'=>['nullable','string']
-
+            'startBalance'=>['required','numeric','between:0,99999999999.99'], //porque o tipo de dados é decimal(11,2)
+            'currentBalance'=>['required','numeric','between:0,99999999999.99'],
+            'description'=>['nullable','string','max:255'] //VARCHAR(255) e optional
         ]);
 
 
@@ -85,7 +87,7 @@ class PrivateAreaController extends Controller
 
 
             ]
-        )->save();
+        );
 
 
         return redirect()->route('privateArea',['user'=>$user])->with('message','Account updated successfully!');

@@ -98,7 +98,7 @@
                                     <div class="form-group" >
                                         <label >Current Balance</label>
 
-                                        <input id="currentBalance" style="width: 200px"  name= "startBalance"  value="{{ $conta->saldo_atual}}"type="txt" class="form-control" @error('currentBalance') is-invalid @enderror >
+                                        <input id="currentBalance" style="width: 200px"  name= "currentBalance"  value="{{ $conta->saldo_atual}}"type="txt" class="form-control" @error('currentBalance') is-invalid @enderror >
 
                                     </div>
                                     @error('currentBalance')
