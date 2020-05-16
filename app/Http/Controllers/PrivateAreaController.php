@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Route;
 use App\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -22,9 +22,13 @@ class PrivateAreaController extends Controller
     }
 
 
-    public function showAddAccount(User $user){
+    public function showForm(User $user,Conta $conta){
 
-        return view('privateArea.form')->withUser($user);
+        if(Route::currentRouteName()=='viewAddAccount') {
+            return view('privateArea.form')->withUser($user);
+        }
+        //se estiver na rota do update
+        return view('privateArea.form')->withUser($user)->withConta($conta);
 
     }
 
@@ -34,7 +38,7 @@ class PrivateAreaController extends Controller
        $request->validate( [
             'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')->ignore($user->id)],
             'startBalance'=>['required','numeric'],
-            'description'=>['string']
+            'description'=>['nullable','string']
 
         ]);
 
@@ -55,5 +59,35 @@ class PrivateAreaController extends Controller
 
   return redirect()->route('privateArea',['user'=>$user])->with('message','Account added successfully!');
 
+    }
+
+
+    public function updateAccount(Request $request, User $user,Conta $conta){
+
+        $request->validate( [
+            'name'=>['required','string', 'max:20'],
+            'startBalance'=>['required','numeric'],
+            'currentBalance'=>['required','numeric'],
+            'description'=>['nullable','string']
+
+        ]);
+
+
+       $contaId=$conta->id;
+
+        Conta::where('id',$contaId)
+        ->update(
+            [
+                'nome'=>$request->name,
+                'saldo_abertura'=>$request->get('startBalance'),
+                'saldo_atual'=>$request->get('currentBalance'),
+                'descricao'=>$request->get('description'),
+
+
+            ]
+        )->save();
+
+
+        return redirect()->route('privateArea',['user'=>$user])->with('message','Account updated successfully!');
     }
 }

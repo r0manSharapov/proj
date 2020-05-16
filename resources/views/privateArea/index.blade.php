@@ -33,7 +33,7 @@
                                     @if($conta->trashed())
                                         <td style="text-align:center;">-</td>
                                         <form action="{{ route('restore', ['conta' => $conta])}}" method="post">
-                                            @csrf 
+                                            @csrf
                                             <td><button value="{{$conta->id}}" name="recover" type="submit" class="btn btn-warning">Recover</button></td>
                                         </form>
                                             <td><a href="#myModal" class="btn btn-danger" data-toggle="modal">Permanently Delete</a></td>
@@ -46,7 +46,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a  class="btn btn-dark" href="{{ url('#')}}" >
+                                            <a  class="btn btn-dark" href="{{route('viewUpdateAccount',['user'=>$user,'conta'=>$conta])}}" >
                                                 Update
                                             </a>
                                         </td>
@@ -61,8 +61,8 @@
                                     <div id="myModal" class="modal fade">
                                         <div class="modal-dialog modal-confirm">
                                             <div class="modal-content">
-                                                <div class="modal-header">	
-                                                    <h4 class="modal-title">Are you sure?</h4>	
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Are you sure?</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -74,7 +74,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
 
                                 @endforeach
                             </tbody>
