@@ -18,22 +18,28 @@
 
                         <form action="{{route('addAccount',['user' => $user])}}" method="post">
                             @csrf
-                                <div class="form-group">
-                                    <label >Name</label>
-                                    <input  id="name" name= "name"  value="{{ old('name') }}" type="text" class="form-control"  @error('name') is-invalid @enderror  >
+                            <div class="form-group">
+                                <label >Name</label>
+                                <input  id="name" name= "name"  value="{{ old('name') }}" type="text" class="form-control"  @error('name') is-invalid @enderror  >
 
-                                </div>
+                            </div>
                             @error('name')
                             <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+
+                                        <strong>
+
+                                           {{$message}}
+
+                                        </strong>
                                     </span>
                             @enderror
-                                <div class="form-group" >
-                                    <label >Starting Balance</label>
 
-                                    <input id="startBalance" style="width: 200px"  name= "startBalance"  value="{{ old('startBalance') }}"type="txt" class="form-control" @error('startBalance') is-invalid @enderror >
+                            <div class="form-group" >
+                                <label >Starting Balance</label>
 
-                                </div>
+                                <input id="startBalance" style="width: 200px"  name= "startBalance"  value="{{ old('startBalance') }}"type="txt" class="form-control" @error('startBalance') is-invalid @enderror >
+
+                            </div>
                             @error('startBalance')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -54,12 +60,14 @@
 
 
 
-                          </form>
+                        </form>
 
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 @endsection

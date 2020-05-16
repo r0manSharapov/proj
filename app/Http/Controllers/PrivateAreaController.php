@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 
@@ -30,14 +31,15 @@ class PrivateAreaController extends Controller
 
     public function store(Request $request, User $user){
 
-        $request->validate([
-            'name'=>['required','string', 'max:255'],
+       $request->validate( [
+            'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')->ignore($user->id)],
             'startBalance'=>['required','numeric'],
             'description'=>['string']
 
         ]);
 
-        $userId= $user->id;
+
+       $userId= $user->id;
       $conta = Conta::create([
             'user_id'=>$userId,
           'nome'=>$request->get('name'),
@@ -51,7 +53,7 @@ class PrivateAreaController extends Controller
 
     $conta->save();
 
-  return redirect()->route('privateArea',['user'=>$user]);
+  return redirect()->route('privateArea',['user'=>$user])->with('message','Account added successfully!');
 
     }
 }
