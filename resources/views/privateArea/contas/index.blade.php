@@ -41,7 +41,7 @@
                                     @else
                                         <td>{{ $conta->saldo_atual}}€</td>
                                         <td>
-                                            <a  class="btn btn-primary" href="{{ route('accountDetails', ['conta' => $conta])}}" >
+                                            <a  class="btn btn-primary" href="{{ route('accountDetails', ['conta' => $conta,'user'=>$user])}}" >
                                                 Details
                                             </a>
                                         </td>

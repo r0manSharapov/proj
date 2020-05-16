@@ -18,17 +18,17 @@ class PrivateAreaController extends Controller
 {
     public function show( User $user){
         $contas = Conta::withTrashed()->where('user_id', $user->id)->get(); //buscar contas so de 1 pessoa
-        return view('privateArea.index')->withContas($contas)->withUser($user);
+        return view('privateArea.contas.index')->withContas($contas)->withUser($user);
     }
 
 
     public function showForm(User $user,Conta $conta){
 
         if(Route::currentRouteName()=='viewAddAccount') {
-            return view('privateArea.form')->withUser($user);
+            return view('privateArea.contas.form')->withUser($user);
         }
         //se estiver na rota do update
-        return view('privateArea.form')->withUser($user)->withConta($conta);
+        return view('privateArea.contas.form')->withUser($user)->withConta($conta);
 
     }
 

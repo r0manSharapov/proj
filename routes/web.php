@@ -40,7 +40,7 @@ Route::post('/profile/{id}','HomeController@store')->name('profile')->middleware
 Route::post('profile/{id}','AdminController@change')->name('change')->middleware("auth")->middleware("verified");
 
 
-//mostar area privada
+//mostar area privada Contas
 Route::get('/contas/{user}', 'PrivateAreaController@show')->name('privateArea')
     ->middleware("auth")->middleware("verified");
 //adicionar contas
@@ -55,7 +55,16 @@ Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name
 Route::post('/contas/{conta}/restored', 'ContaController@restore')->name('restore')->middleware("auth");
 Route::get('/contas/{conta}/delete', 'ContaController@destroy')->name('conta/delete')->middleware("auth")->middleware("verified");
 
-Route::get('/contas/details/{conta}', 'AccountDetailsController@index')->name('accountDetails')
+//mostrar detalhes contas
+Route::get('/contas/{user}/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
     ->middleware("auth")->middleware("verified");//->middleware('can:view,App\
-Route::get('/contas/details/{conta}/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
+Route::get('/contas/{user}/{conta}/details/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
 
+//adicionar Movimentos
+Route::get('/contas/{user}/{conta}/addMovement', 'AccountDetailsController@showForm')->name('viewAddMovement');
+Route::post('/contas/{user}/{conta}/addMovement', 'AccountDetailsController@store')->name('addMovement');
+
+
+// atualizar Movimentos
+Route::get('/contas/{user}/{conta}/updateMovement', 'AccountDetailsController@showForm')->name('viewUpdateMovement');
+Route::post('/contas/{user}/{conta}/updateMovent', 'AccountDetailsControllerr@updateAccount')->name('updateMovement');

@@ -13,8 +13,14 @@
                         <p>Current Balance: {{$conta->saldo_atual}}€</p>
 
                     </div>
+                    @if(session()->get('message'))
+                        <div class="alert alert-success" role="alert">
+                            <a href="#" class="close" data-dismiss="alert" arial-label="close">&times;</a>
+                            <strong>SUCCESS:</strong>&nbsp;{{session()->get('message')}}
+                        </div>
+                    @endif
                     <div class="card-body">
-                        <form action="{{route('accountDetailsSearch', ['conta' => $conta])}}" method="get" class="form-group">
+                        <form action="{{route('accountDetailsSearch', ['conta' => $conta,'user'=>$user])}}" method="get" class="form-group">
                             @csrf
                             <div class="input-group"  style="z-index: 1;">
                                 <input type="text" name="search" class="form-control" placeholder="Search for a data...">
@@ -61,7 +67,7 @@
 
                         </table>
 
-                        <a  class="btn btn-secondary" href="{{url('#')}}">AddMovement</a>
+                        <a  class="btn btn-secondary" href="{{route('viewAddMovement',['conta' => $conta,'user'=>$user])}}">AddMovement</a>
 
                     </div>
                     {{$movimentos->withQueryString()->links()}}
