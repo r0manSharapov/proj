@@ -27,14 +27,15 @@ class ContaController extends Controller
         $id_conta = $request->get('recover');
         $conta_restore = Conta::withTrashed()->where('id', $id_conta);
         $conta_restore->restore();
+        $movimentos_restore = Movimento::withTrashed()->where('conta_id', $id_conta);
+        $movimentos_restore->restore();
 
         return back()->with('message','Successfully recovered!');
     }
 
     public function destroy(Conta $conta){
-        $id = $conta->id;
-        dd($id);
-        
+
+            dd($conta->id);
        // Autorizacoes_conta::where('conta_id',$id)->forceDelete();
         //Movimento::where('conta_id',$id)->forceDelete();
         //Conta::where('id', $id)->forceDelete();

@@ -29,9 +29,9 @@ class MovementsPolicy
      * @param  \App\Movimento  $movimento
      * @return mixed
      */
-    public function view(User $user, Movimento $movimento, Conta $conta)
+    public function view(User $user, Conta $conta)
     {
-        return $movimento->conta_id == $conta->id;
+        return true;
     }
 
     /**

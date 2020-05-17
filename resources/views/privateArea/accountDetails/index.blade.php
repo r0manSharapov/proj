@@ -73,7 +73,7 @@
                                     <td><button type="button" class="btn btn-dark">Update</button></td>
                                     <td><button type="button" class="btn btn-danger">Delete</button> </td>
                                     <td>
-                                        <a class="btn btn-success" href="{{ route('accountDetailsMoreInfo', ['conta' => $conta,'user'=>$user])}}">More Info</a>
+                                        <a class="btn btn-success" href="{{ route('accountDetailsMoreInfo', ['user'=>$user,'conta' => $conta, 'movement' => $movimento])}}">More Info</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -83,7 +83,7 @@
 
                         </table>
 
-                        <a  class="btn btn-secondary" href="{{route('viewAddMovement',['conta' => $conta,'user'=>$user])}}">AddMovement</a>
+                        <a  class="btn btn-secondary" href="{{route('viewAddMovement',[ 'user'=>$user,'conta' => $conta])}}">AddMovement</a>
 
                     </div>
                     {{$movimentos->withQueryString()->links()}}

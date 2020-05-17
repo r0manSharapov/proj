@@ -38,24 +38,23 @@ class PrivateAreaController extends Controller
 
 
        $request->validate( [
-            'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')->ignore($user->id)],
+            'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')   ],
             'startBalance'=>['required','numeric','between:0,99999999999.99'], //porque o tipo de dados é decimal(11,2)
             'description'=>['nullable','string','max:255'] //VARCHAR(255) e optional
 
         ]);
 
+        $userId= $user->id;
+          $conta = Conta::create([
+              'user_id'=>$userId,
+              'nome'=>$request->get('name'),
+              'descricao'=>$request->get('description'),
+              'saldo_abertura'=>$request->get('startBalance'),
+              'saldo_atual'=>$request->get('startBalance'),
+              'data_ultimo_movimento'=> now(),
+              'deleted_at'=> null
 
-       $userId= $user->id;
-      $conta = Conta::create([
-            'user_id'=>$userId,
-          'nome'=>$request->get('name'),
-          'descricao'=>$request->get('description'),
-          'saldo_abertura'=>$request->get('startBalance'),
-          'saldo_atual'=>$request->get('startBalance'),
-          'data_ultimo_movimento'=> now(),
-          'deleted_at'=> null
-
-      ]);
+          ]);
 
     $conta->save();
 
@@ -65,17 +64,17 @@ class PrivateAreaController extends Controller
 
 
     public function updateAccount(Request $request, User $user,Conta $conta){
-
+        $contaId=$conta->id;
 
         $request->validate( [
-            'name'=>['required','string', 'max:20'],
+            'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')->ignore($contaId)],
             'startBalance'=>['required','numeric','between:0,99999999999.99'], //porque o tipo de dados é decimal(11,2)
             'currentBalance'=>['required','numeric','between:0,99999999999.99'],
             'description'=>['nullable','string','max:255'] //VARCHAR(255) e optional
         ]);
 
 
-       $contaId=$conta->id;
+
 
         Conta::where('id',$contaId)
         ->update(

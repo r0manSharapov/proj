@@ -32,9 +32,10 @@
                                         <td>{{ $conta->nome}}</td>
                                     @if($conta->trashed())
                                         <td style="text-align:center;">-</td>
-                                        <form action="{{ route('restore', ['conta' => $conta])}}" method="post">
+                                        <form action="{{ route('restore', ['user' => $user])}}" method="post">
                                             @csrf
-                                            <td><button value="{{$conta->id}}" name="recover" type="submit" class="btn btn-warning">Recover</button></td>
+                                            <td><button value="{{$conta->id}}" name="recover" type="submit" class="btn btn-warning">Recover</button>
+                                            </td>
                                         </form>
                                             <td><a href="#myModal" class="btn btn-danger" data-toggle="modal">Permanently Delete</a></td>
                                         <td></td>
@@ -70,7 +71,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <a  class="btn btn-primary" href="{{route('privateArea', Auth::id())}}" >Cancel</a>
-                                                    <a  class="btn btn-danger" href="{{route('conta/delete', ['conta' => $conta])}}" >Delete</a>
+                                                    <a  class="btn btn-danger" href="{{route('contaDelete', ['conta' => $conta])}}" >Delete</a>
                                                 </div>
                                             </div>
                                         </div>

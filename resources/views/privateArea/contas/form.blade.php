@@ -26,23 +26,19 @@
                             @csrf
                             <div class="form-group">
                                 <label >Name</label>
-                                <input  id="name" name= "name"  value="{{ old('name') }}" type="text" class="form-control"  @error('name') is-invalid @enderror  >
+                                <input name= "name"  value="{{ old('name') }}" type="text" class="form-control  @error('name') is-invalid @enderror" autofocus  >
 
                             </div>
                             @error('name')
                             <span class="invalid-feedback" role="alert">
-
-                                        <strong>
-                                           {{$message}}
-
-                                        </strong>
+                                        <strong>{{ $message }}</strong>
                                     </span>
                             @enderror
 
                             <div class="form-group" >
                                 <label >Starting Balance</label>
 
-                                <input id="startBalance" style="width: 200px"  name= "startBalance"  value="{{ old('startBalance') }}"type="txt" class="form-control" @error('startBalance') is-invalid @enderror >
+                                <input id="startBalance" style="width: 200px"  name= "startBalance"  value="{{ old('startBalance') }}"type="txt" class="form-control @error('startBalance') is-invalid @enderror ">
 
                             </div>
                             @error('startBalance')
@@ -70,7 +66,7 @@
                                     @csrf
                                     <div class="form-group">
                                         <label >Name</label>
-                                        <input  id="name" name= "name"  value="{{ $conta->nome }}" type="text" class="form-control"  @error('name') is-invalid @enderror  >
+                                        <input  id="name" name= "name"  value="{{ $conta->nome }}" type="text" class="form-control  @error('name') is-invalid @enderror"  >
 
                                     </div>
                                     @error('name')
@@ -86,7 +82,7 @@
                                     <div class="form-group" >
                                         <label >Starting Balance</label>
 
-                                        <input id="startBalance" style="width: 200px"  name= "startBalance"  value="{{ $conta->saldo_abertura}}"type="txt" class="form-control" @error('startBalance') is-invalid @enderror >
+                                        <input id="startBalance" style="width: 200px"  name= "startBalance"  value="{{ $conta->saldo_abertura}}"type="txt" class="form-control @error('startBalance') is-invalid @enderror" >
 
                                     </div>
                                     @error('startBalance')
@@ -98,7 +94,7 @@
                                     <div class="form-group" >
                                         <label >Current Balance</label>
 
-                                        <input id="currentBalance" style="width: 200px"  name= "currentBalance"  value="{{ $conta->saldo_atual}}"type="txt" class="form-control" @error('currentBalance') is-invalid @enderror >
+                                        <input id="currentBalance" style="width: 200px"  name= "currentBalance"  value="{{ $conta->saldo_atual}}"type="txt" class="form-control @error('currentBalance') is-invalid @enderror" >
 
                                     </div>
                                     @error('currentBalance')
