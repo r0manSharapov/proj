@@ -59,6 +59,7 @@
                                         </tr>
                                     @endif
 
+<<<<<<< HEAD
                                     <div id="myModal" class="modal fade">
                                         <div class="modal-dialog modal-confirm">
                                             <div class="modal-content">
@@ -76,6 +77,9 @@
                                             </div>
                                         </div>
                                     </div>
+=======
+
+>>>>>>> 8fa142e712a4cadbbe3d3c425f86ef3e54335f17
 
                                 @endforeach
                             </tbody>
@@ -87,7 +91,23 @@
         </div>
     </div>
 
-
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete this account permanently? This process cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <a  class="btn btn-primary" href="{{route('privateArea', Auth::id())}}" >Cancel</a>
+                    <a  class="btn btn-danger" href="{{route('conta/delete', ['conta' => $conta])}}" >Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 @endsection
