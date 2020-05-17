@@ -61,7 +61,7 @@ class AccountDetailsController extends Controller
         $tipo=$request->get('tipoMovimento');
 
 
-        
+
         if($categoria != null && $categoria->tipo != $tipo){
 
 
