@@ -58,6 +58,7 @@ Route::get('/contas/{conta}/delete', 'ContaController@destroy')->name('conta/del
 //mostrar detalhes contas
 Route::get('/contas/{user}/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
     ->middleware("auth")->middleware("verified");//->middleware('can:view,App\
+Route::get('/contas/{user}/{conta}/details/moreInfo', 'AccountDetailsController@showMoreInfo')->name('accountDetailsMoreInfo');
 Route::get('/contas/{user}/{conta}/details/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
 
 //adicionar Movimentos
