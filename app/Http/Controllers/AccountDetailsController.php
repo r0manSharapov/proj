@@ -28,8 +28,27 @@ class AccountDetailsController extends Controller
     public function search(User $user,Request $request, Conta $conta)
     {
         $search = $request->get('search');
-        $movementsSearch = Movimento::where('data','like','%'.$search.'%')->where('conta_id', $conta->id);
+        $movementsSearch = Movimento::where('data','like','%'.$search.'%')
+                                      //->orwhere('categoria_id','like','%'.$search.'%') preciso da sub querry
+                                      ->where('conta_id', $conta->id)
+                                      ->orderBy('data', 'desc');
 
+
+        $movementType = $request->get('movementType');
+        if ($movementType != 0) {
+            if ($movementType == 1) {
+
+                $movementsSearch->where('tipo', 'R');
+
+            }
+            if ($movementType == 2) {
+                $movementsSearch->where('tipo', 'D');
+            }
+            return view('privateArea.accountDetails.index')->withMovimentos($movementsSearch->paginate(6))
+                ->withSearch($search)
+                ->withMovementType($movementType)
+                ->withConta($conta)->withUser($user);
+        }
 
         return view('privateArea.accountDetails.index')->withMovimentos($movementsSearch->paginate(6))
             ->withSearch($search)
@@ -44,6 +63,11 @@ class AccountDetailsController extends Controller
             return view('privateArea.accountDetails.form')->withUser($user)->withConta($conta)->withCategorias($categorias);
         }
 
+    }
+
+    public function showMoreInfo(Movimento $movimento){
+        $movimento->id;
+        return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
     }
 
     public function store(Request $request, User $user,Conta $conta){
