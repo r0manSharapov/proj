@@ -16,10 +16,12 @@ class AccountDetailsController extends Controller
 {
     public function index(User $user,Conta $conta ){
 
-        $movimentos = Movimento::where('conta_id', $conta->id)
-                    ->orderBy('data', 'desc')
+        $movimentos = Movimento::join('categorias','movimentos.categoria_id','=','categorias.id')
+                    ->where('movimentos.conta_id', $conta->id)
+                    ->orderBy('movimentos.data', 'desc')
                     ->paginate(6);
 
+       //passa o nome da categoria como "nome"
 
         return view('privateArea.accountDetails.index')->withMovimentos($movimentos)
                                            ->withConta($conta)->withUser($user);
@@ -28,21 +30,26 @@ class AccountDetailsController extends Controller
     public function search(User $user,Request $request, Conta $conta)
     {
         $search = $request->get('search');
-        $movementsSearch = Movimento::where('data','like','%'.$search.'%')
-                                      //->orwhere('categoria_id','like','%'.$search.'%') preciso da sub querry
-                                      ->where('conta_id', $conta->id)
-                                      ->orderBy('data', 'desc');
+        $movementsSearch =
+            Movimento::join('categorias','movimentos.categoria_id','=','categorias.id')
+                ->where(function ($query) use($search) {
+                    $query->where('movimentos.data','like','%'.$search.'%')
+                                      ->orwhere('categorias.nome','like','%'.$search.'%');
+                })
+                ->where('conta_id', $conta->id)->orderBy('movimentos.data', 'desc');
+
+
 
 
         $movementType = $request->get('movementType');
         if ($movementType != 0) {
             if ($movementType == 1) {
 
-                $movementsSearch->where('tipo', 'R');
+                $movementsSearch->where('movimentos.tipo', 'R');
 
             }
             if ($movementType == 2) {
-                $movementsSearch->where('tipo', 'D');
+                $movementsSearch->where('movimentos.tipo', 'D');
             }
             return view('privateArea.accountDetails.index')->withMovimentos($movementsSearch->paginate(6))
                 ->withSearch($search)
