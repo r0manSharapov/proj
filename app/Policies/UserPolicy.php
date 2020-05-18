@@ -2,12 +2,10 @@
 
 namespace App\Policies;
 
-use App\Conta;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 
-class PrivateAreaPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -19,20 +17,19 @@ class PrivateAreaPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Conta  $conta
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function view(User $user,Conta $conta)
+    public function view(User $userlogged, User $user)
     {
-        //dd($user->id);
-        return $user->id == $conta->user_id;
+        return $userlogged->id == $user->id;
     }
 
     /**
@@ -50,10 +47,10 @@ class PrivateAreaPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Conta  $conta
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function update(User $user, Conta $conta)
+    public function update(User $user, User $model)
     {
         //
     }
@@ -62,10 +59,10 @@ class PrivateAreaPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Conta  $conta
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function delete(User $user, Conta $conta)
+    public function delete(User $user, User $model)
     {
         //
     }
@@ -74,10 +71,10 @@ class PrivateAreaPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Conta  $conta
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function restore(User $user, Conta $conta)
+    public function restore(User $user, User $model)
     {
         //
     }
@@ -86,10 +83,10 @@ class PrivateAreaPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Conta  $conta
+     * @param  \App\User  $model
      * @return mixed
      */
-    public function forceDelete(User $user, Conta $conta)
+    public function forceDelete(User $user, User $model)
     {
         //
     }

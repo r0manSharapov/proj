@@ -42,22 +42,22 @@ Route::post('profile/{id}','AdminController@change')->name('change')->middleware
 
 //mostar area privada Contas
 Route::get('/contas/{user}', 'PrivateAreaController@show')->name('privateArea')
-    ->middleware("auth")->middleware("verified");
+    ->middleware("auth")->middleware("verified")->middleware('can:view,user');
 //adicionar contas
 Route::get('/contas/{user}/addAccount', 'privateAreaController@showForm')->name('viewAddAccount');
 Route::post('/contas/{user}/addAccount', 'PrivateAreaController@store')->name('addAccount');
 // atualizar contas
-Route::get('/contas/{user}/{conta}/updateAccount', 'privateAreaController@showForm')->name('viewUpdateAccount');
-Route::post('/contas/{user}/{conta}/updateAccount', 'PrivateAreaController@updateAccount')->name('updateAccount');
+Route::get('/contas/{user}/{conta}/updateAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,conta');
+Route::post('/contas/{user}/{conta}/updateAccount', 'PrivateAreaController@updateAccount')->name('updateAccount')->middleware('can:view,conta');
 
 //soft delete de conta
-Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth");
+Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth")->middleware('can:view,conta');
 Route::post('/contas/{user}', 'ContaController@restore')->name('restore');
 Route::delete('/contas/delete/{conta_id}', 'ContaController@destroy')->name('delete');
 
 //mostrar detalhes contas
 Route::get('/contas/{user}/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
-    ->middleware("auth")->middleware("verified");//->middleware('can:view,App\Movimento');
+    ->middleware("auth")->middleware("verified")->middleware('can:view,conta');
 Route::get('/contas/{user}/{conta}/details/{movement}/moreInfo', 'AccountDetailsController@showMoreInfo')->name('accountDetailsMoreInfo');
 Route::get('/contas/{user}/{conta}/details/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
 Route::get('/movimentos/{movimento}/doc', 'AccountDetailsController@show_foto')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");

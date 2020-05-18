@@ -18,8 +18,6 @@ class AppServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Conta::class => PrivateAreaPolicy::class,
-        Movimento::class => MovementsPolicy::class,
 
        // 'App\Conta' => 'App\Policies\PrivateAreaPolicy'
     ];
