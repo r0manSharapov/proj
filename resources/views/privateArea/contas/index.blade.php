@@ -37,7 +37,7 @@
                                             <td><button value="{{$conta->id}}" name="recover" type="submit" class="btn btn-warning">Recover</button>
                                             </td>
                                         </form>
-                                            <td><a href="#myModal" class="btn btn-danger" data-toggle="modal">Permanently Delete</a></td>
+                                            <td><a class="btn btn-danger" data-toggle="modal" href="#myModal{{$conta->id}}">Permanently Delete</a></td>
                                         <td></td>
                                     @else
                                         <td>{{ $conta->saldo_atual}}€</td>
@@ -59,7 +59,27 @@
                                         </tr>
                                     @endif
 
-
+                                    <div id="myModal{{$conta->id}}" class="modal fade">
+                                        <div class="modal-dialog modal-confirm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Are you sure?</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Do you really want to delete this account permanently? This process cannot be undone.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                                    <form action="{{ route('contaDelete', ['conta' => $conta])}}" method="post" >
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -70,23 +90,7 @@
         </div>
     </div>
 
-    <div id="myModal" class="modal fade">
-        <div class="modal-dialog modal-confirm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Are you sure?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Do you really want to delete this account permanently? This process cannot be undone.</p>
-                </div>
-                <div class="modal-footer">
-                    <a  class="btn btn-primary" href="{{route('privateArea', Auth::id())}}" >Cancel</a>
-                    <a  class="btn btn-danger" href="{{route('contaDelete', ['conta' => $conta])}}" >Delete</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
 
 @endsection

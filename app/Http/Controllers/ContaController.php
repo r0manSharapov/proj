@@ -33,9 +33,10 @@ class ContaController extends Controller
         return back()->with('message','Successfully recovered!');
     }
 
-    public function destroy(Conta $conta){
-
-            dd($conta->id);
+    public function destroy(Conta $conta)
+    {
+        dd($conta->id);
+        //$id = $conta->id;
        // Autorizacoes_conta::where('conta_id',$id)->forceDelete();
         //Movimento::where('conta_id',$id)->forceDelete();
         //Conta::where('id', $id)->forceDelete();

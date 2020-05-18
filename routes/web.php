@@ -50,10 +50,10 @@ Route::post('/contas/{user}/addAccount', 'PrivateAreaController@store')->name('a
 Route::get('/contas/{user}/{conta}/updateAccount', 'privateAreaController@showForm')->name('viewUpdateAccount');
 Route::post('/contas/{user}/{conta}/updateAccount', 'PrivateAreaController@updateAccount')->name('updateAccount');
 
-
+//soft delete de conta
 Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth");
-Route::post('/contas/{user}', 'ContaController@restore')->name('restore')->middleware("auth");
-Route::get('/contas/{conta}/delete', 'ContaController@destroy')->name('contaDelete')->middleware("auth")->middleware("verified");
+Route::post('/contas/{user}', 'ContaController@restore')->name('restore');
+Route::delete('/contas/{conta}/delete', 'ContaController@destroy')->name('contaDelete');
 
 //mostrar detalhes contas
 Route::get('/contas/{user}/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
@@ -68,4 +68,4 @@ Route::post('/contas/{user}/{conta}/addMovement', 'AccountDetailsController@stor
 
 // atualizar Movimentos
 Route::get('/contas/{user}/{conta}/updateMovement', 'AccountDetailsController@showForm')->name('viewUpdateMovement');
-Route::post('/contas/{user}/{conta}/updateMovent', 'AccountDetailsControllerr@updateAccount')->name('updateMovement');
+Route::post('/contas/{user}/{conta}/updateMovement', 'AccountDetailsController@updateAccount')->name('updateMovement');
