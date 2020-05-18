@@ -6,6 +6,11 @@
             <strong>SUCCESS:</strong>&nbsp;{{session()->get('message')}}
         </div>
     @endif
+    @if(session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{session('error')}}
+        </div>
+    @endif
 
     <div class="container">
         <div class="row justify-content-center">
@@ -14,8 +19,6 @@
                     <div class="card-header">
                         @if(Route::currentRouteName()=='viewAddMovement')
                         <h2>Add Movement</h2>
-
-
                         @endif
                     </div>
                     <div class="card-body">
@@ -25,34 +28,36 @@
                             @csrf
                             <div class="form-group">
                                 <label >Date</label>
-                                <input  id="data" name= "data"  value="{{ old('data') }}" type="text" class="form-control"  @error('data') is-invalid @enderror  >
+                                <input  id="data" name= "data"  value="{{ old('data') }}" type="text" class="form-control  @error('data') is-invalid @enderror " >
 
-                            </div>
-                            @error('data')
-                            <span class="invalid-feedback" role="alert">
+                                @error('data')
+                                <span class="invalid-feedback" role="alert">
 
                                         <strong>
                                            {{$message}}
 
                                         </strong>
                                     </span>
-                            @enderror
+                                @enderror
+                            </div>
+
 
                             <div class="form-group" >
                                 <label >Value</label>
 
-                                <input id="valor" style="width: 200px"  name= "valor"  value="{{ old('valor') }}"type="txt" class="form-control" @error('valor') is-invalid @enderror >
+                                <input id="valor" style="width: 200px"  name= "valor"  value="{{ old('valor') }}"type="txt" class="form-control @error('valor') is-invalid @enderror" >
 
-                            </div>
-                            @error('valor')
-                            <span class="invalid-feedback" role="alert">
+                                @error('valor')
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                            @enderror
+                                @enderror
+                            </div>
+
 
                             <div class="form-group" >
                                 <label >Movement Type: </label>
-                                <select class="form-control" name="tipoMovimemto" >
+                                <select class="form-control" name="tipoMovimento" >
                                     <option value="D">Expense</option>
                                     <option value="R">Revenue</option>
                                 </select>
@@ -61,30 +66,37 @@
                                 <div class="form-group">
                                     <label >Category (optional) </label>
 
-                                    <select class="form-control" name="categoria" >
+                                    <select class="form-control" name="categoria_id" >
                                         <option value={{null}}>No category</option>
                                         @foreach($categorias as $cat)
                                             <option value="{{$cat->id}}">{{$cat->nome}}</option>
                                         @endforeach
                                     </select>
+
+
+                                    @if(session('error'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong> {{session('error')}}</strong>
+                                          </span>
+                                    @endif
+
                                 </div>
 
-                            @error('categoria')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
+
 
                             <div class="form-group" >
                                 <label >Description (optional) </label>
-                                <input  id="descricao" name= "descricao" value="{{old('descricao') }}" style="height: 200px" type="txt" class="form-control">
-                            </div>
+                                <input  id="descricao" name= "descricao" value="{{old('descricao') }}" style="height: 200px" type="txt" class="form-control @error('descricao') is-invalid @enderror">
 
-                            @error('descricao')
-                            <span class="invalid-feedback" role="alert">
+
+                                @error('descricao')
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                            @enderror
+                                @enderror
+                            </div>
+
+
 
 
 

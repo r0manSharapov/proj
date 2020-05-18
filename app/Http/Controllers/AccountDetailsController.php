@@ -14,7 +14,7 @@ use Illuminate\Validation\Rule;
 
 class AccountDetailsController extends Controller
 {
-    public function index(User $user,Conta $conta ){
+    public function index(User $user,Conta $conta){
 
         $movimentos = Movimento::join('categorias','movimentos.categoria_id','=','categorias.id')
                     ->where('movimentos.conta_id', $conta->id)
@@ -78,27 +78,29 @@ class AccountDetailsController extends Controller
         return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
     }
 
-    public function store(Request $request, User $user,Conta $conta,Categoria $categoria){
+    public function store(Request $request, User $user,Conta $conta){
 
 
 
         $request->validate( [
-            'data'=>['required','date'], //FAZER + VERIFICACOES PARA A DATA
-            'valor'=>['required','numeric','between:0,99999999999.99'],
-            'descricao'=>['nullable','string','max:255']
+            'data'=>['required','date'],
+            'valor'=>['required','numeric','between:0.01,99999999999.99'],
+            'descricao'=>['nullable','string','max:255'],
 
         ]);
 
+        $categoria_id = $request->get('categoria_id');
 
-        $categoria = $request->get('categoria');
+
+        $categoria = Categoria::where('id',$categoria_id)
+            ->select('tipo')->get();
+
         $tipo=$request->get('tipoMovimento');
 
 
 
-        if($categoria != null && $categoria->tipo != $tipo){
-
-
-            //retornar mensagem de erro
+        if($categoria_id != null && $categoria[0]->tipo != $tipo){
+            //retornar mensagem de erro se o tipo de categoria diferente do tipo do movimento
             return back()->with('error','Category type has to be the same of movement type');
 
         }
@@ -106,30 +108,45 @@ class AccountDetailsController extends Controller
         $valor =$request->get('valor');
         $saldoInicial=$conta->saldo_atual;
 
+
         if($tipo == 'R'){
 
             $saldoFinal = $saldoInicial + $valor;
+
         }
         if($tipo=='D'){
             $saldoFinal = $saldoInicial - $valor;
         }
 
+
         $contaID= $conta->id;
+
+
+        //UPDATE SALDO DA CONTA
+
+        Conta::where('id',$conta->id)
+            ->update(
+                ['saldo_atual'=> $saldoFinal]
+            );
+
+        //
+
 
         $movimento = Movimento::create([
             'conta_id'=> $contaID,
             'data'=>$request->get('data'),
             'valor'=> $valor,
             'descricao'=>$request->get('descricao'),
-            'categoria'=>$categoria->id,
+            'categoria_id'=>$categoria_id,
             'tipo'=> $tipo,
-            'saldo_inical'=>$saldoInicial,
+            'saldo_inicial'=>$saldoInicial,
             'saldo_final'=>$saldoFinal,
             'imagem_doc'=>null,
             'deleted_at'=>null
 
 
         ]);
+
 
         $movimento->save();
 
