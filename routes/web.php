@@ -53,7 +53,7 @@ Route::post('/contas/{user}/{conta}/updateAccount', 'PrivateAreaController@updat
 //soft delete de conta
 Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth")->middleware('can:view,conta');
 Route::post('/contas/{user}', 'ContaController@restore')->name('restore');
-Route::delete('/contas/{conta}/delete', 'ContaController@destroy')->name('contaDelete');
+Route::delete('/contas/delete/{conta}', 'ContaController@destroy')->name('delete');
 
 //mostrar detalhes contas
 Route::get('/contas/{user}/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
