@@ -13,7 +13,12 @@ class Movimento extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'conta_id','valor','descricao','saldo_inicial','saldo_final','categoria','tipo','imagem_doc','date'
+        'conta_id','valor','data','descricao','saldo_inicial','saldo_final','categoria_id','tipo','imagem_doc'
+    ];
+
+    protected $cats=[
+        'deleted_at'=>'date',
+
     ];
 
 
