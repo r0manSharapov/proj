@@ -16,7 +16,9 @@ use Illuminate\Validation\Rule;
 
 class PrivateAreaController extends Controller
 {
-    public function show( User $user){
+    public function show(User $user){
+        //dd($user);
+       //$this->authorize('view',$user);
         $contas = Conta::withTrashed()->where('user_id', $user->id)->get(); //buscar contas so de 1 pessoa
         return view('privateArea.contas.index')->withContas($contas)->withUser($user);
     }
