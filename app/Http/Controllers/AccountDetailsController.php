@@ -9,7 +9,7 @@ use App\User;
 use App\Movimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Validation\Rule;
+
 
 
 class AccountDetailsController extends Controller
@@ -74,8 +74,19 @@ class AccountDetailsController extends Controller
     }
 
     public function showMoreInfo(Movimento $movimento){
-        $movimento->id;
+       $movimento->id;
+//
         return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
+//
+
+    }
+    public function show_foto(Movimento $movimento){
+//        $movimento->id;
+//
+//        return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento)
+//
+        //dd($movimento);
+        return response()->file(storage_path('app/docs/' . $movimento->imagem_doc));
     }
 
     public function store(Request $request, User $user,Conta $conta){

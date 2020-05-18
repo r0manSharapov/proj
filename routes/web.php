@@ -53,13 +53,15 @@ Route::post('/contas/{user}/{conta}/updateAccount', 'PrivateAreaController@updat
 //soft delete de conta
 Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth");
 Route::post('/contas/{user}', 'ContaController@restore')->name('restore');
-Route::delete('/contas/delete/{conta}', 'ContaController@destroy')->name('delete');
+Route::delete('/contas/delete/{conta_id}', 'ContaController@destroy')->name('delete');
 
 //mostrar detalhes contas
 Route::get('/contas/{user}/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
     ->middleware("auth")->middleware("verified");//->middleware('can:view,App\Movimento');
 Route::get('/contas/{user}/{conta}/details/{movement}/moreInfo', 'AccountDetailsController@showMoreInfo')->name('accountDetailsMoreInfo');
 Route::get('/contas/{user}/{conta}/details/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
+Route::get('/movimentos/{movimento}/doc', 'AccountDetailsController@show_foto')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
+//Alternativa contas/{conta}/movimentos/{movement}
 
 //adicionar Movimentos
 Route::get('/contas/{user}/{conta}/addMovement', 'AccountDetailsController@showForm')->name('viewAddMovement');

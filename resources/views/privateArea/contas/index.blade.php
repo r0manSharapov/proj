@@ -72,13 +72,13 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
 
-                                                    <form action="{{ route('delete', ['conta' => $conta])}}" method="post" >
+                                                    <form action="{{ route('delete', ['conta_id' => $conta->id])}}" method="post" >
 
                                                         @csrf
                                                         @method('DELETE')
 
 
-                                                        <button  value="{{$conta->id}}" name="delete" type="submit" class="btn btn-danger">Delete</button>
+                                                        <button   type="submit" class="btn btn-danger">Delete</button>
 
                                                     </form>
                                                 </div>
