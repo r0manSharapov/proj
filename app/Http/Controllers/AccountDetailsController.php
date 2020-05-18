@@ -66,6 +66,7 @@ class AccountDetailsController extends Controller
 
         $categorias = Categoria::all();
 
+
         if(Route::currentRouteName()=='viewAddMovement') {
             return view('privateArea.accountDetails.form')->withUser($user)->withConta($conta)->withCategorias($categorias);
         }
@@ -77,7 +78,7 @@ class AccountDetailsController extends Controller
         return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
     }
 
-    public function store(Request $request, User $user,Conta $conta){
+    public function store(Request $request, User $user,Conta $conta,Categoria $categoria){
 
 
 
@@ -87,6 +88,7 @@ class AccountDetailsController extends Controller
             'descricao'=>['nullable','string','max:255']
 
         ]);
+
 
         $categoria = $request->get('categoria');
         $tipo=$request->get('tipoMovimento');
