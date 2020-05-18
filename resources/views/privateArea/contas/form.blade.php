@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
     @if(session()->get('message'))
         <div class="alert alert-success" role="alert">
             <a href="#" class="close" data-dismiss="alert" arial-label="close">&times;</a>
@@ -26,30 +27,38 @@
                             @csrf
                             <div class="form-group">
                                 <label >Name</label>
-                                <input name= "name"  value="{{ old('name') }}" type="text" class="form-control  @error('name') is-invalid @enderror" autofocus  >
+                                <input name= "name"  value="{{ old('name') }}" type="text" class="form-control  @error('name') is-invalid @enderror">
 
-                            </div>
-                            @error('name')
-                            <span class="invalid-feedback" role="alert">
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                            @enderror
+                                @enderror
+
+                            </div>
+
 
                             <div class="form-group" >
                                 <label >Starting Balance</label>
 
                                 <input id="startBalance" style="width: 200px"  name= "startBalance"  value="{{ old('startBalance') }}"type="txt" class="form-control @error('startBalance') is-invalid @enderror ">
 
-                            </div>
-                            @error('startBalance')
-                            <span class="invalid-feedback" role="alert">
+                                @error('startBalance')
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                            @enderror
+                                @enderror
+                            </div>
+
 
                             <div class="form-group" >
                                 <label >Description (optional) </label>
                                 <input  id="description" name= "description" value="{{old('description')}}" style="height: 200px" type="txt" class="form-control">
+                                @error('description')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
 
 
@@ -68,44 +77,52 @@
                                         <label >Name</label>
                                         <input  id="name" name= "name"  value="{{ $conta->nome }}" type="text" class="form-control  @error('name') is-invalid @enderror"  >
 
-                                    </div>
-                                    @error('name')
-                                    <span class="invalid-feedback" role="alert">
+                                        @error('name')
+                                        <span class="invalid-feedback" role="alert">
 
                                         <strong>
                                            {{$message}}
 
                                         </strong>
                                     </span>
-                                    @enderror
+                                        @enderror
+                                    </div>
+
 
                                     <div class="form-group" >
                                         <label >Starting Balance</label>
 
                                         <input id="startBalance" style="width: 200px"  name= "startBalance"  value="{{ $conta->saldo_abertura}}"type="txt" class="form-control @error('startBalance') is-invalid @enderror" >
 
-                                    </div>
-                                    @error('startBalance')
-                                    <span class="invalid-feedback" role="alert">
+                                        @error('startBalance')
+                                        <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                    @enderror
+                                        @enderror
+                                    </div>
+
 
                                     <div class="form-group" >
                                         <label >Current Balance</label>
 
                                         <input id="currentBalance" style="width: 200px"  name= "currentBalance"  value="{{ $conta->saldo_atual}}"type="txt" class="form-control @error('currentBalance') is-invalid @enderror" >
 
-                                    </div>
-                                    @error('currentBalance')
-                                    <span class="invalid-feedback" role="alert">
+                                        @error('currentBalance')
+                                        <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                    @enderror
+                                        @enderror
+                                    </div>
+
 
                                     <div class="form-group" >
                                         <label >Description (optional) </label>
                                         <input  id="description" name= "description" value="{{$conta->descricao}}" style="height: 200px" type="txt" class="form-control">
+                                        @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                        @enderror
                                     </div>
 
 
