@@ -62,7 +62,7 @@
                                 </li>
                             @endif
                         @else
-                            <a class="navbar-brand" href="{{ url(Auth::id(),'profile') }}">
+                            <a class="navbar-brand" href="{{ url('profile',Auth::id()) }}">
                                My Account |
                             </a>
                             <li class="nav-item dropdown">

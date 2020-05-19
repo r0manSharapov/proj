@@ -35,9 +35,9 @@ Route::delete('account/delete', 'SettingsController@destroy')->name('account/del
 
 Route::get('/allUsers', 'UsersListController@search')->name('allUsers')->middleware("auth")->middleware("verified");
 
-Route::get('{id}/profile', 'UsersListController@show')->name('profile')->middleware("auth")->middleware("verified");
-Route::post('{id}/profile','HomeController@store')->name('profile')->middleware("auth")->middleware("verified");
-Route::post('{id}/profile','AdminController@change')->name('change')->middleware("auth")->middleware("verified");
+Route::get('profile/{id}', 'UsersListController@show')->name('profile')->middleware("auth")->middleware("verified");
+Route::post('profile/{id}','HomeController@store')->name('profile')->middleware("auth")->middleware("verified");
+Route::post('profile/{id}','AdminController@change')->name('change')->middleware("auth")->middleware("verified");
 
 
 //mostar area privada Contas
