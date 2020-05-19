@@ -68,4 +68,4 @@ Route::post('{user}/contas/{conta}/addMovement', 'AccountDetailsController@store
 
 // atualizar Movimentos
 Route::get('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@showForm')->name('viewUpdateMovement');
-Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@updateAccount')->name('updateMovement');
+Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@updateMovement')->name('updateMovement');

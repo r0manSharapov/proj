@@ -71,6 +71,7 @@
                                         @endif
                                     </td>
                                     <td>
+
                                         <a  class="btn btn-dark" href="{{route('viewUpdateMovement',[ 'user'=>$user,'conta' => $conta,'movimento'=>$movimento])}}">Update</a>
                                     </td>
                                     <td><button type="button" class="btn btn-danger">Delete</button> </td>
