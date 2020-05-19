@@ -70,7 +70,9 @@
                                             Receita
                                         @endif
                                     </td>
-                                    <td><button type="button" class="btn btn-dark">Update</button></td>
+                                    <td>
+                                        <a  class="btn btn-dark" href="{{route('viewUpdateMovement',[ 'user'=>$user,'conta' => $conta,'movimento'=>$movimento])}}">Update</a>
+                                    </td>
                                     <td><button type="button" class="btn btn-danger">Delete</button> </td>
                                     <td>
                                         <a class="btn btn-success" href="{{ route('accountDetailsMoreInfo', ['user'=>$user,'conta' => $conta, 'movement' => $movimento])}}">More Info</a>

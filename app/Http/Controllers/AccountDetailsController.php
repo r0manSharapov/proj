@@ -62,7 +62,7 @@ class AccountDetailsController extends Controller
             ->withConta($conta)->withUser($user);
     }
 
-    public function showForm(User $user,Conta $conta){
+    public function showForm(User $user,Conta $conta,Movimento $movimento){
 
         $categorias = Categoria::all();
 
@@ -70,11 +70,13 @@ class AccountDetailsController extends Controller
         if(Route::currentRouteName()=='viewAddMovement') {
             return view('privateArea.accountDetails.form')->withUser($user)->withConta($conta)->withCategorias($categorias);
         }
-
+        if(Route::currentRouteName()=='viewUpdateMovement') {
+            return view('privateArea.accountDetails.form')->withUser($user)->withConta($conta)->withCategorias($categorias)->withMovimento($movimento);
+        }
     }
 
     public function showMoreInfo(Movimento $movimento){
-        $movimento->id;
+
         return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
     }
 
