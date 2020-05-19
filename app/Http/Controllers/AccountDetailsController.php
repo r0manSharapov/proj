@@ -75,17 +75,13 @@ class AccountDetailsController extends Controller
 
     public function showMoreInfo(Movimento $movimento){
        $movimento->id;
-//
+
         return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
-//
+
 
     }
     public function show_foto(Movimento $movimento){
-//        $movimento->id;
-//
-//        return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento)
-//
-        //dd($movimento);
+
         return response()->file(storage_path('app/docs/' . $movimento->imagem_doc));
     }
 
