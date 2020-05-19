@@ -17,7 +17,7 @@
                         </p>
                     </div>
                     <div class="card-body">
-                        <p style="text-align:center"><img src="{{$movimento->image_doc != null ? route('accountDetailsMoreInfo', ['user'=>$user,'conta' => $conta, 'movement' => $movimento]) : "No foto for this movement"}}" alt="Document image"></p>
+                        <p style="text-align:center"><img src="{{$movimento->image_doc != null ? route('accountDetailsShowPhoto', ['movimento' => $movimento ]) : "No foto for this movement"}}" alt="Document image"></p>
                     </div>
 
                 </div>

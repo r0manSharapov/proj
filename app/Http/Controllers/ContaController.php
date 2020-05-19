@@ -22,12 +22,12 @@ class ContaController extends Controller
         return back()->with('message','Successfully deleted! You can still recover your account or permanently delete it!');
     }
 
-    public function restore(Request $request)
+    public function restore($conta_id)
     {
-        $id_conta = $request->get('recover');
-        $conta_restore = Conta::withTrashed()->where('id', $id_conta);
+       // $id_conta = $request->get('recover');
+        $conta_restore = Conta::withTrashed()->where('id', $conta_id);
         $conta_restore->restore();
-        $movimentos_restore = Movimento::withTrashed()->where('conta_id', $id_conta);
+        $movimentos_restore = Movimento::withTrashed()->where('conta_id', $conta_id);
         $movimentos_restore->restore();
 
         return back()->with('message','Successfully recovered!');

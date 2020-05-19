@@ -36,38 +36,42 @@ Route::delete('account/delete', 'SettingsController@destroy')->name('account/del
 Route::get('/allUsers', 'UsersListController@search')->name('allUsers')->middleware("auth")->middleware("verified");
 
 Route::get('profile/{id}', 'UsersListController@show')->name('profile')->middleware("auth")->middleware("verified");
-Route::post('/profile/{id}','HomeController@store')->name('profile')->middleware("auth")->middleware("verified");
+Route::post('profile/{id}','HomeController@store')->name('profile')->middleware("auth")->middleware("verified");
 Route::post('profile/{id}','AdminController@change')->name('change')->middleware("auth")->middleware("verified");
 
 
 //mostar area privada Contas
-Route::get('/contas/{user}', 'PrivateAreaController@show')->name('privateArea')
+Route::get('{user}/contas', 'PrivateAreaController@show')->name('privateArea')
     ->middleware("auth")->middleware("verified")->middleware('can:view,user');
 //adicionar contas
-Route::get('/contas/{user}/addAccount', 'privateAreaController@showForm')->name('viewAddAccount');
-Route::post('/contas/{user}/addAccount', 'PrivateAreaController@store')->name('addAccount');
+Route::get('{user}/contas/addAccount', 'privateAreaController@showForm')->name('viewAddAccount');
+Route::post('{user}/contas/addAccount', 'PrivateAreaController@store')->name('addAccount');
 // atualizar contas
 Route::get('/contas/{user}/{conta}/updateAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,conta');
 Route::post('/contas/{user}/{conta}/updateAccount', 'PrivateAreaController@updateAccount')->name('updateAccount')->middleware('can:view,conta');
 
-//soft delete de conta
+//soft delete de conta links feios
 Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth")->middleware('can:view,conta');
-Route::post('/contas/{user}', 'ContaController@restore')->name('restore');
+
+Route::post('/contas/{conta_id}', 'ContaController@restore')->name('restore');
 Route::delete('/contas/delete/{conta_id}', 'ContaController@destroy')->name('delete');
+Route::post('{conta_id}/contas', 'ContaController@restore')->name('restore');
+//Route::delete('/contas/delete/{conta}', 'ContaController@destroy')->name('delete');
 
 //mostrar detalhes contas
-Route::get('/contas/{user}/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
+Route::get('{user}/contas/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
     ->middleware("auth")->middleware("verified")->middleware('can:view,conta');
-Route::get('/contas/{user}/{conta}/details/{movement}/moreInfo', 'AccountDetailsController@showMoreInfo')->name('accountDetailsMoreInfo');
-Route::get('/contas/{user}/{conta}/details/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
-Route::get('/movimentos/{movimento}/doc', 'AccountDetailsController@show_foto')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
+
+Route::get('/movimentos/{movimento}/doc', 'AccountDetailsController@show_foto')->name('accountDetailsShowPhoto')->middleware("auth")->middleware("verified");
 //Alternativa contas/{conta}/movimentos/{movement}
+Route::get('details/{movimento}/moreInfo', 'AccountDetailsController@showMoreInfo')->name('accountDetailsMoreInfo');
+Route::get('{user}/contas/{conta}/details/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
 
 //adicionar Movimentos
-Route::get('/contas/{user}/{conta}/addMovement', 'AccountDetailsController@showForm')->name('viewAddMovement');
-Route::post('/contas/{user}/{conta}/addMovement', 'AccountDetailsController@store')->name('addMovement');
+Route::get('{user}/contas/{conta}/addMovement', 'AccountDetailsController@showForm')->name('viewAddMovement');
+Route::post('{user}/contas/{conta}/addMovement', 'AccountDetailsController@store')->name('addMovement');
 
 
 // atualizar Movimentos
-Route::get('/contas/{user}/{conta}/updateMovement', 'AccountDetailsController@showForm')->name('viewUpdateMovement');
-Route::post('/contas/{user}/{conta}/updateMovement', 'AccountDetailsController@updateAccount')->name('updateMovement');
+Route::get('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@showForm')->name('viewUpdateMovement');
+Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@updateMovement')->name('updateMovement');

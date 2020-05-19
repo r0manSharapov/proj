@@ -19,6 +19,8 @@
                     <div class="card-header">
                         @if(Route::currentRouteName()=='viewAddMovement')
                         <h2>Add Movement</h2>
+                            @elseif(Route::currentRouteName()=='viewUpdateMovement')
+                            <h2>Update Movement</h2>
                         @endif
                     </div>
                     <div class="card-body">
@@ -107,7 +109,101 @@
 
 
                         </form>
+                            @elseif(Route::currentRouteName()=='viewUpdateMovement')
 
+                            <form action="{{route('updateMovement',['user' => $user,'conta'=>$conta,'movimento'=>$movimento])}}" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label >Date</label>
+                                    <input  id="data" name= "data"  value="{{ $movimento->data }}" type="text" class="form-control  @error('data') is-invalid @enderror " >
+
+                                    @error('data')
+                                    <span class="invalid-feedback" role="alert">
+
+                                        <strong>
+                                           {{$message}}
+
+                                        </strong>
+                                    </span>
+                                    @enderror
+                                </div>
+
+
+                                <div class="form-group" >
+                                    <label >Value</label>
+
+                                    <input id="valor" style="width: 200px"  name= "valor"  value="{{ $movimento->valor}}"type="txt" class="form-control @error('valor') is-invalid @enderror" >
+
+                                    @error('valor')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+
+
+
+                                <div class="form-group" >
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1" name="alterMovType">
+                                        <label >Movement Type: </label>
+                                        <select class="form-control" name="tipoMovimento" >
+                                            <option value="D">Expense</option>
+                                            <option value="R">Revenue</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1" name="alterCatType">
+                                        <label >Category (optional) </label>
+
+
+                                        <select class="form-control" name="categoria_id" >
+                                            <option value={{null}}>No category</option>
+                                            @foreach($categorias as $cat)
+                                                <option value="{{$cat->id}}">{{$cat->nome}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+
+                                    @if(session('error'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong> {{session('error')}}</strong>
+                                          </span>
+                                    @endif
+
+                                </div>
+
+
+
+                                <div class="form-group" >
+                                    <label >Description (optional) </label>
+                                    <input  id="descricao" name= "descricao" value="{{$movimento->descricao}}" style="height: 200px" type="txt" class="form-control @error('descricao') is-invalid @enderror">
+
+
+                                    @error('descricao')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+
+
+
+
+
+
+
+                                <input type="submit" class="btn btn-secondary" value="Submit">
+
+
+
+                            </form>
                         @endif
                     </div>
                 </div>

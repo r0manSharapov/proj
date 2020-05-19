@@ -32,7 +32,7 @@
                                         <td>{{ $conta->nome}}</td>
                                     @if($conta->trashed())
                                         <td style="text-align:center;">-</td>
-                                        <form action="{{ route('restore', ['user' => $user])}}" method="post">
+                                        <form action="{{ route('restore', ['conta_id' => $conta->id])}}" method="post">
                                             @csrf
                                             <td><button value="{{$conta->id}}" name="recover" type="submit" class="btn btn-warning">Recover</button>
                                             </td>
