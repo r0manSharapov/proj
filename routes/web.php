@@ -44,7 +44,7 @@ Route::post('profile/{id}','AdminController@change')->name('change')->middleware
 Route::get('{user}/contas', 'PrivateAreaController@show')->name('privateArea')
     ->middleware("auth")->middleware("verified")->middleware('can:view,user');
 //adicionar contas
-Route::get('{user}/contas/addAccount', 'privateAreaController@showForm')->name('viewAddAccount');
+Route::get('{user}/contas/addAccount', 'privateAreaController@showForm')->name('viewAddAccount')->middleware("auth");
 Route::post('{user}/contas/addAccount', 'PrivateAreaController@store')->name('addAccount');
 // atualizar contas
 Route::get('/contas/{user}/{conta}/updateAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,conta');
@@ -68,10 +68,10 @@ Route::get('details/{movimento}/moreInfo', 'AccountDetailsController@showMoreInf
 Route::get('{user}/contas/{conta}/details/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
 
 //adicionar Movimentos
-Route::get('{user}/contas/{conta}/addMovement', 'AccountDetailsController@showForm')->name('viewAddMovement');
+Route::get('{user}/contas/{conta}/addMovement', 'AccountDetailsController@showForm')->name('viewAddMovement')->middleware("auth");
 Route::post('{user}/contas/{conta}/addMovement', 'AccountDetailsController@store')->name('addMovement');
 
 
 // atualizar Movimentos
-Route::get('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@showForm')->name('viewUpdateMovement');
-Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@updateMovement')->name('updateMovement');
+Route::get('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@showForm')->name('viewUpdateMovement')->middleware("auth");
+Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@updateMovement')->name('updateMovement')->middleware("auth");

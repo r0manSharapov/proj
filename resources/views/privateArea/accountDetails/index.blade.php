@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div>
+            <div class="col-xl">
                 <div class="card">
                     <div class="card-header">
 
@@ -26,7 +26,6 @@
                     @endif
                     <div class="card-body">
                         <form action="{{route('accountDetailsSearch', ['conta' => $conta,'user'=>$user])}}" method="get" class="form-group">
-                            @csrf
                             <div class="input-group"  style="z-index: 1;">
                                 <input type="text" name="search" class="form-control" placeholder="Search in movements list">
                                 <div class="d-inline">

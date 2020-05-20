@@ -71,17 +71,18 @@ class AccountDetailsController extends Controller
             return view('privateArea.accountDetails.form')->withUser($user)->withConta($conta)->withCategorias($categorias);
         }
         if(Route::currentRouteName()=='viewUpdateMovement') {
-            return view('privateArea.accountDetails.form')->withUser($user)->withConta($conta)->withCategorias($categorias)->withMovimento($movimento);
+            return view('privateArea.accountDetails.form')->withUser($user)->withConta($conta)->withMovimento($movimento)->withCategorias($categorias);
         }
     }
 
     public function showMoreInfo(Movimento $movimento){
-
+        //dd($movimento->id);
         return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
 
 
     }
     public function show_foto(Movimento $movimento){
+        dd($movimento->imagem_doc);
 
         return response()->file(storage_path('app/docs/' . $movimento->imagem_doc));
     }

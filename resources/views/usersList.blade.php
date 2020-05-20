@@ -13,7 +13,7 @@
                     <div class="card-header">
                         <div class="col-md-12">
                             <form action="{{route('allUsers')}}" method="get" class="form-group">
-                                @csrf
+                                {{--@csrf--}}
                                 <div class="input-group"  style="z-index: 1;">
                                     <input type="text" name="search" class="form-control" placeholder="Search for a user...">
 
