@@ -60,7 +60,10 @@ Route::post('{conta_id}/contas', 'ContaController@restore')->name('restore');
 
 //mostrar detalhes contas
 Route::get('{user}/contas/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
-    ->middleware("auth")->middleware("verified")->middleware('can:view,conta');
+    ->middleware("auth")->middleware("verified")->middleware('can:view,conta')->middleware('can:view,user');
+    
+//apagar movimento
+Route::delete('/movimentos/delete/{movimento_id}', 'AccountDetailsController@destroy')->name('deleteMovement');
 
 Route::get('/movimentos/{movimento}/doc', 'AccountDetailsController@show_foto')->name('accountDetailsShowPhoto')->middleware("auth")->middleware("verified");
 //Alternativa contas/{conta}/movimentos/{movement}
@@ -68,10 +71,10 @@ Route::get('details/{movimento}/moreInfo', 'AccountDetailsController@showMoreInf
 Route::get('{user}/contas/{conta}/details/search', 'AccountDetailsController@search')->name('accountDetailsSearch')->middleware("auth")->middleware("verified");
 
 //adicionar Movimentos
-Route::get('{user}/contas/{conta}/addMovement', 'AccountDetailsController@showForm')->name('viewAddMovement')->middleware("auth");
+Route::get('{user}/contas/{conta}/addMovement', 'AccountDetailsController@showForm')->name('viewAddMovement')->middleware("auth")->middleware('can:view,conta')->middleware('can:view,user');
 Route::post('{user}/contas/{conta}/addMovement', 'AccountDetailsController@store')->name('addMovement');
 
 
 // atualizar Movimentos
-Route::get('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@showForm')->name('viewUpdateMovement')->middleware("auth");
+Route::get('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@showForm')->name('viewUpdateMovement')->middleware("auth")->middleware('can:view,conta')->middleware('can:view,user');
 Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@updateMovement')->name('updateMovement')->middleware("auth");

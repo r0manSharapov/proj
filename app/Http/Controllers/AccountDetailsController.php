@@ -264,4 +264,12 @@ $movimento_id = $movimento->id;
         return redirect()->route('accountDetails',['user'=>$user,'conta'=>$conta])->with('message','Movement added successfully!');
 
     }
+
+    public function destroy($id)
+    {
+        dd($id);
+        //Movimento::where('id',$id)->forceDelete();
+
+        return back()->with('message','Successfully deleted!');
+    }
 }

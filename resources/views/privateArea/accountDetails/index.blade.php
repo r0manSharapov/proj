@@ -73,11 +73,34 @@
 
                                         <a  class="btn btn-dark" href="{{route('viewUpdateMovement',[ 'user'=>$user,'conta' => $conta,'movimento'=>$movimento])}}">Update</a>
                                     </td>
-                                    <td><button type="button" class="btn btn-danger">Delete</button> </td>
+                                    <td>
+                                        <a class="btn btn-danger" data-toggle="modal" href="#myModal{{$movimento->id}}">Delete</a>
+                                    </td>
                                     <td>
                                         <a class="btn btn-success" href="{{ route('accountDetailsMoreInfo', ['movimento' => $movimento])}}">More Info</a>
                                     </td>
                                 </tr>
+                                <div id="myModal{{$movimento->id}}" class="modal fade">
+                                    <div class="modal-dialog modal-confirm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Are you sure?</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Do you really want to delete this movement? This process cannot be undone.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                                <form action="{{ route('deleteMovement', ['movimento_id' => $movimento->id])}}" method="post" >
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button   type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
 
 
