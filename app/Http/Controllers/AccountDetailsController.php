@@ -9,6 +9,7 @@ use App\User;
 use App\Movimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -76,13 +77,12 @@ class AccountDetailsController extends Controller
     }
 
     public function showMoreInfo(Movimento $movimento){
-        //dd($movimento->id);
+
         return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
 
 
     }
     public function show_foto(Movimento $movimento){
-        dd($movimento->imagem_doc);
 
         return response()->file(storage_path('app/docs/' . $movimento->imagem_doc));
     }
@@ -95,7 +95,7 @@ class AccountDetailsController extends Controller
             'data'=>['required','date'],
             'valor'=>['required','numeric','between:0.01,99999999999.99'],
             'descricao'=>['nullable','string','max:255'],
-
+            'imagem_doc'=>['nullable'],
         ]);
 
         $categoria_id = $request->get('categoria_id');
@@ -140,7 +140,15 @@ class AccountDetailsController extends Controller
 
         //
 
+        //if($request->hasFile('imagem_doc')){
+        //dd($request->imagem_doc);
+        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
+            $doc_image = basename($path);
 
+        //}else{
+            //$doc_image = null;
+        //}
+            dd($request->file('imagem_doc'));
         $movimento = Movimento::create([
             'conta_id'=> $contaID,
             'data'=>$request->get('data'),
@@ -150,7 +158,7 @@ class AccountDetailsController extends Controller
             'tipo'=> $tipo,
             'saldo_inicial'=>$saldoInicial,
             'saldo_final'=>$saldoFinal,
-            'imagem_doc'=>null,
+            'imagem_doc'=>$doc_image,
             'deleted_at'=>null
 
 
@@ -172,6 +180,7 @@ class AccountDetailsController extends Controller
             'data'=>['required','date'],
             'valor'=>['required','numeric','between:0.01,99999999999.99'],
             'descricao'=>['nullable','string','max:255'],
+            'imagem_doc'=>['nullable'],
 
         ]);
 
@@ -241,6 +250,13 @@ if($alterMoveType) { //se alterar o tipo de movimento atulizar saldo inicial e f
 
 }
 
+        $old_doc_image = $movimento->imagem_doc;
+
+//            unlink(storage_path('public/fotos'.$old_foto));
+        Storage::delete((storage_path('app/docs/')) . $old_doc_image);
+        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
+        $imagem_doc = basename($path);
+
 $movimento_id = $movimento->id;
             Movimento::where('id',$movimento_id)
                 ->update([
@@ -252,7 +268,7 @@ $movimento_id = $movimento->id;
                 'tipo' => $tipo,
                 'saldo_inicial' => $saldoInicial,
                 'saldo_final' => $saldoFinal,
-                'imagem_doc' => null,
+                'imagem_doc' => $imagem_doc,
                 'deleted_at' => null
 
 

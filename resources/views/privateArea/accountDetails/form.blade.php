@@ -65,38 +65,50 @@
                                 </select>
                             </div>
 
+                            <div class="form-group">
+                                <label >Category (optional) </label>
+
+                                <select class="form-control" name="categoria_id" >
+                                    <option value={{null}}>No category</option>
+                                    @foreach($categorias as $cat)
+                                        <option value="{{$cat->id}}">{{$cat->nome}}</option>
+                                    @endforeach
+                                </select>
+
+
+                                @if(session('error'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong> {{session('error')}}</strong>
+                                      </span>
+                                @endif
+
+                                </div>
+
                                 <div class="form-group">
-                                    <label >Category (optional) </label>
+                                    <label >Document Image </label>
+                                    <input id="imagem_doc" type="file" class="form-control @error('imagem_doc') is-invalid @enderror" name="imagem_doc">
 
-                                    <select class="form-control" name="categoria_id" >
-                                        <option value={{null}}>No category</option>
-                                        @foreach($categorias as $cat)
-                                            <option value="{{$cat->id}}">{{$cat->nome}}</option>
-                                        @endforeach
-                                    </select>
-
-
-                                    @if(session('error'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong> {{session('error')}}</strong>
-                                          </span>
-                                    @endif
-
+                                    @error('imagem_doc')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
 
 
 
-                            <div class="form-group" >
-                                <label >Description (optional) </label>
-                                <input  id="descricao" name= "descricao" value="{{old('descricao') }}" style="height: 200px" type="txt" class="form-control @error('descricao') is-invalid @enderror">
+                                <div class="form-group" >
+                                    <label >Description (optional) </label>
+                                    <input  id="descricao" name= "descricao" value="{{old('descricao') }}" style="height: 200px" type="txt" class="form-control @error('descricao') is-invalid @enderror">
 
 
-                                @error('descricao')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                                    @error('descricao')
+                                    <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
 
 
 
