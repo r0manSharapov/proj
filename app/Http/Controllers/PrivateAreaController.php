@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Conta;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+
 
 
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +16,8 @@ use Illuminate\Validation\Rule;
 
 class PrivateAreaController extends Controller
 {
+
+
     public function show(User $user){
         //dd($user);
        //$this->authorize('view',$user);
