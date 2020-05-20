@@ -10,11 +10,19 @@ use App\Movimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 
 
 class AccountDetailsController extends Controller
 {
+
+    public function getCreatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value);
+        return $date->format('Y-m-d');
+    }
+
     public function index(User $user,Conta $conta){
 
         $movimentos = Movimento::join('categorias','movimentos.categoria_id','=','categorias.id')
@@ -97,7 +105,8 @@ class AccountDetailsController extends Controller
             'descricao'=>['nullable','string','max:255'],
             'imagem_doc'=>['nullable'],
         ]);
-
+        $dataRecebida =$request->get('data');
+        $data = $this->getCreatedAtAttribute($dataRecebida);
         $categoria_id = $request->get('categoria_id');
 
 
@@ -151,7 +160,7 @@ class AccountDetailsController extends Controller
             dd($request->file('imagem_doc'));
         $movimento = Movimento::create([
             'conta_id'=> $contaID,
-            'data'=>$request->get('data'),
+            'data'=>$data,
             'valor'=> $valor,
             'descricao'=>$request->get('descricao'),
             'categoria_id'=>$categoria_id,
@@ -183,6 +192,9 @@ class AccountDetailsController extends Controller
             'imagem_doc'=>['nullable'],
 
         ]);
+
+        $dataRecebida =$request->get('data');
+        $data = $this->getCreatedAtAttribute($dataRecebida);
 
         $alterCatType= $request->get('alterCatType');
         $alterMoveType=$request->get('alterMovType');
@@ -279,5 +291,13 @@ $movimento_id = $movimento->id;
 
         return redirect()->route('accountDetails',['user'=>$user,'conta'=>$conta])->with('message','Movement added successfully!');
 
+    }
+
+    public function destroy($id)
+    {
+        dd($id);
+        //Movimento::where('id',$id)->forceDelete();
+
+        return back()->with('message','Successfully deleted!');
     }
 }
