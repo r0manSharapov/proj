@@ -17,7 +17,11 @@
                                 <div class="input-group"  style="z-index: 1;">
                                     <input type="text" name="search" class="form-control" placeholder="Search for a user...">
 
-                                        @if(Auth::user()->adm ==1)
+                                        
+                                        <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
+                                </div>
+                                <br>
+                                @if(Auth::user()->adm ==1)
                                             <div class="d-inline">
                                                 Blocked: <input type="checkbox" id="myCheck" value="1" name="blocked">
                                             </div>
@@ -30,9 +34,6 @@
                                                 </select>
                                             </div>
                                         @endif
-
-                                </div>
-                                <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
                             </form>
 
                         </div>

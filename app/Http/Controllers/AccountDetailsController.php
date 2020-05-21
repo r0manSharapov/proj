@@ -53,9 +53,7 @@ class AccountDetailsController extends Controller
         $movementType = $request->get('movementType');
         if ($movementType != 0) {
             if ($movementType == 1) {
-
                 $movementsSearch->where('movimentos.tipo', 'R');
-
             }
             if ($movementType == 2) {
                 $movementsSearch->where('movimentos.tipo', 'D');
@@ -75,7 +73,6 @@ class AccountDetailsController extends Controller
 
         $categorias = Categoria::all();
 
-
         if(Route::currentRouteName()=='viewAddMovement') {
             return view('privateArea.accountDetails.form')->withUser($user)->withConta($conta)->withCategorias($categorias);
         }
@@ -87,8 +84,6 @@ class AccountDetailsController extends Controller
     public function showMoreInfo(Movimento $movimento){
 
         return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
-
-
     }
     public function show_foto(Movimento $movimento){
 
@@ -96,8 +91,6 @@ class AccountDetailsController extends Controller
     }
 
     public function store(Request $request, User $user,Conta $conta){
-
-
 
         $request->validate( [
             'data'=>['required','date'],
@@ -109,36 +102,27 @@ class AccountDetailsController extends Controller
         $data = $this->getCreatedAtAttribute($dataRecebida);
         $categoria_id = $request->get('categoria_id');
 
-
         $categoria = Categoria::where('id',$categoria_id)
             ->select('tipo')->get();
 
         $tipo=$request->get('tipoMovimento');
 
-
-
         if($categoria_id != null && $categoria[0]->tipo != $tipo){
             //retornar mensagem de erro se o tipo de categoria diferente do tipo do movimento
             return back()->with('error','Category type has to be the same of movement type');
-
         }
 
         $valor =$request->get('valor');
         $saldoInicial=$conta->saldo_atual;
 
-
         if($tipo == 'R'){
-
             $saldoFinal = $saldoInicial + $valor;
-
         }
         if($tipo=='D'){
             $saldoFinal = $saldoInicial - $valor;
         }
 
-
         $contaID= $conta->id;
-
 
         //UPDATE SALDO DA CONTA
 
@@ -170,9 +154,7 @@ class AccountDetailsController extends Controller
             'imagem_doc'=>$doc_image,
             'deleted_at'=>null
 
-
         ]);
-
 
         $movimento->save();
 
@@ -182,8 +164,6 @@ class AccountDetailsController extends Controller
 
 
     public function updateMovement(Request $request, User $user,Conta $conta,Movimento $movimento){
-
-
 
         $request->validate( [
             'data'=>['required','date'],
@@ -225,7 +205,6 @@ class AccountDetailsController extends Controller
 
         }
 
-
             $valor = $request->get('valor');
         $contaID = $conta->id;
 
@@ -241,10 +220,6 @@ if($alterMoveType) { //se alterar o tipo de movimento atulizar saldo inicial e f
         $saldoInicial=$saldoInicial+$movimento->valor; //anula o movimento
         $saldoFinal = $saldoInicial - $valor;
     }
-
-
-
-
 
     //UPDATE SALDO DA CONTA
 
@@ -285,9 +260,6 @@ $movimento_id = $movimento->id;
 
 
             ]);
-
-
-
 
         return redirect()->route('accountDetails',['user'=>$user,'conta'=>$conta])->with('message','Movement added successfully!');
 

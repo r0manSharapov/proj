@@ -28,23 +28,24 @@
                         <form action="{{route('accountDetailsSearch', ['conta' => $conta,'user'=>$user])}}" method="get" class="form-group">
                             <div class="input-group"  style="z-index: 1;">
                                 <input type="text" name="search" class="form-control" placeholder="Search in movements list">
-                                <div class="d-inline">
-                                    <select class="default-select" name="movementType" style="width:200px;">
+                                
+                                <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
+                            </div>
+                            <br>
+                            <div class="d-inline">
+                                    <select class="selectpicker" data-live-search="true" name="movementType" style="width:200px;">
                                         <option value="0">Movement type</option>
                                         <option value="1">Receita</option>
                                         <option value="2">Despesa</option>
                                     </select>
                                 </div>
-
-                            </div>
-                            <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
                         </form>
                         <table class="table">
-                            <thead class="thead-dark">
-                            <tr>
+                            <thead class="thead-dark" >
+                            <tr style="text-align:center">
                                 <th scope="col">Date</th>
                                 <th scope="col">Value</th>
-                                <th scope="col">Starting Balance</th>
+                                <th scope="col" >Starting Balance</th>
                                 <th scope="col">Current Balance</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Type</th>
@@ -56,8 +57,8 @@
                             </thead>
                             <tbody>
                             @foreach($movimentos as $movimento)
-                                <tr>
-                                    <td>     {{ $movimento->data}}</td>
+                                <tr style="text-align:center;">
+                                    <td>{{ $movimento->data}}</td>
                                     <td>     {{ $movimento->valor}}€</td>
                                     <td>     {{ $movimento->saldo_inicial}}€</td>
                                     <td>     {{ $movimento->saldo_final}}€</td>
@@ -70,14 +71,13 @@
                                         @endif
                                     </td>
                                     <td>
-
                                         <a  class="btn btn-dark" href="{{route('viewUpdateMovement',[ 'user'=>$user,'conta' => $conta,'movimento'=>$movimento])}}">Update</a>
                                     </td>
                                     <td>
                                         <a class="btn btn-danger" data-toggle="modal" href="#myModal{{$movimento->id}}">Delete</a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success" href="{{ route('accountDetailsMoreInfo', ['movimento' => $movimento])}}">More Info</a>
+                                        <a class="btn btn-success" href="{{ route('accountDetailsMoreInfo', ['movimento' => $movimento->id])}}">More Info</a>
                                     </td>
                                 </tr>
                                 <div id="myModal{{$movimento->id}}" class="modal fade">
