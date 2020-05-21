@@ -133,15 +133,15 @@ class AccountDetailsController extends Controller
 
         //
 
-        //if($request->hasFile('imagem_doc')){
-        //dd($request->imagem_doc);
-        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
-            $doc_image = basename($path);
-
-        //}else{
-            //$doc_image = null;
-        //}
-            dd($request->file('imagem_doc'));
+//        if($request->hasFile('imagem_doc')){
+//        dd($request->imagem_doc);
+//        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
+//            $doc_image = basename($path);
+//
+//        }else{
+//            $doc_image = null;
+//        }
+//            dd($request->file('imagem_doc'));
         $movimento = Movimento::create([
             'conta_id'=> $contaID,
             'data'=>$data,
@@ -151,7 +151,7 @@ class AccountDetailsController extends Controller
             'tipo'=> $tipo,
             'saldo_inicial'=>$saldoInicial,
             'saldo_final'=>$saldoFinal,
-            'imagem_doc'=>$doc_image,
+            'imagem_doc'=>null,
             'deleted_at'=>null
 
         ]);
@@ -237,12 +237,12 @@ if($alterMoveType) { //se alterar o tipo de movimento atulizar saldo inicial e f
 
 }
 
-        $old_doc_image = $movimento->imagem_doc;
-
-//            unlink(storage_path('public/fotos'.$old_foto));
-        Storage::delete((storage_path('app/docs/')) . $old_doc_image);
-        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
-        $imagem_doc = basename($path);
+//        $old_doc_image = $movimento->imagem_doc;
+//
+////            unlink(storage_path('public/fotos'.$old_foto));
+//        Storage::delete((storage_path('app/docs/')) . $old_doc_image);
+//        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
+//        $imagem_doc = basename($path);
 
 $movimento_id = $movimento->id;
             Movimento::where('id',$movimento_id)
@@ -255,7 +255,7 @@ $movimento_id = $movimento->id;
                 'tipo' => $tipo,
                 'saldo_inicial' => $saldoInicial,
                 'saldo_final' => $saldoFinal,
-                'imagem_doc' => $imagem_doc,
+                'imagem_doc' => null,
                 'deleted_at' => null
 
 
