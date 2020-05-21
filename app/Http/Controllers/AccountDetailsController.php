@@ -226,8 +226,7 @@ class AccountDetailsController extends Controller
 
     public function destroy($id)
     {
-        dd($id);
-        //Movimento::where('id',$id)->forceDelete();
+        Movimento::where('id',$id)->forceDelete();
 
         return back()->with('message','Successfully deleted!');
     }
