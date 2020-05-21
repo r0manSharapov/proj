@@ -132,16 +132,19 @@ class AccountDetailsController extends Controller
             );
 
         //
+        dd($request->imagem_doc);
 
-//        if($request->hasFile('imagem_doc')){
-//        dd($request->imagem_doc);
-//        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
-//            $doc_image = basename($path);
-//
-//        }else{
-//            $doc_image = null;
-//        }
-//            dd($request->file('imagem_doc'));
+        if($request->hasFile('imagem_doc')){
+        //dd($request->imagem_doc);
+        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
+            $doc_image = basename($path);
+    //    dd($doc_image);
+        }else{
+            $doc_image = null;
+        }
+            //dd($request->file('imagem_doc'));
+        //dd($doc_image);
+
         $movimento = Movimento::create([
             'conta_id'=> $contaID,
             'data'=>$data,
@@ -151,7 +154,7 @@ class AccountDetailsController extends Controller
             'tipo'=> $tipo,
             'saldo_inicial'=>$saldoInicial,
             'saldo_final'=>$saldoFinal,
-            'imagem_doc'=>null,
+            'imagem_doc'=>$doc_image,
             'deleted_at'=>null
 
         ]);
