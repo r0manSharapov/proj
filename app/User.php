@@ -37,4 +37,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'is_admin' => 'boolean',
     ];
+
+    public function contas()
+      {
+          return $this->hasMany(Conta::class);
+      }
 }

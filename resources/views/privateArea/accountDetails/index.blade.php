@@ -6,7 +6,6 @@
             <div class="col-xl">
                 <div class="card">
                     <div class="card-header">
-
                         <h2>Details of account: {{$conta->nome}}</h2>
                         <p>Description:
                             @if($conta->descricao == null)
@@ -16,7 +15,15 @@
                         </p>
                         <p>Starting Balance: {{$conta->saldo_abertura}}€</p>
                         <p>Current Balance: {{$conta->saldo_atual}}€</p>
-
+                        <!-- para procurar user por mail para partilhar conta
+                        <div class="col">
+                            <div class="input-group"  style="z-index: 1;">
+                                <input type="text" name="search" class="form-control" placeholder="Share with... (email)">
+                                
+                                <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
+                            </div>
+                        </div>
+                        -->
                     </div>
                     @if(session()->get('message'))
                         <div class="alert alert-success" role="alert">
