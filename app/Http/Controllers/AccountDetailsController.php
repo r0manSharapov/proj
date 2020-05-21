@@ -127,28 +127,9 @@ class AccountDetailsController extends Controller
         $saldoInicial=$conta->saldo_atual;
 
 
-        if($tipo == 'R'){
-
-            $saldoFinal = $saldoInicial + $valor;
-
-        }
-        if($tipo=='D'){
-            $saldoFinal = $saldoInicial - $valor;
-        }
-
-
         $contaID= $conta->id;
 
 
-        //UPDATE SALDO DA CONTA
-
-        Conta::where('id',$conta->id)
-            ->update(
-                ['saldo_atual'=> $saldoFinal]
-            );
-
-        //
-        dd($request->imagem_doc);
 
         if($request->hasFile('imagem_doc')){
         //dd($request->imagem_doc);
@@ -168,14 +149,15 @@ class AccountDetailsController extends Controller
             'descricao'=>$request->get('descricao'),
             'categoria_id'=>$categoria_id,
             'tipo'=> $tipo,
-            'saldo_inicial'=>$saldoInicial,
-            'saldo_final'=>$saldoFinal,
+            'saldo_inicial'=>0, // atualiza saldos depois
+            'saldo_final'=>0,
             'imagem_doc'=>$doc_image,
             'deleted_at'=>null
 
 
         ]);
 
+        $this->atualizaSaldos($data,$conta);
 
         $movimento->save();
 
@@ -232,38 +214,8 @@ class AccountDetailsController extends Controller
             $valor = $request->get('valor');
         $contaID = $conta->id;
 
-if($alterMoveType) { //se alterar o tipo de movimento atulizar saldo inicial e final e saldo de conta
-
-    $saldoInicial = $conta->saldo_atual;
-    if ($tipo == 'R') {
-        $saldoInicial=$saldoInicial-$movimento->valor; // anula o movimento
-        $saldoFinal = $saldoInicial + $valor;
-
-    }
-    if ($tipo == 'D') {
-        $saldoInicial=$saldoInicial+$movimento->valor; //anula o movimento
-        $saldoFinal = $saldoInicial - $valor;
-    }
 
 
-
-
-
-    //UPDATE SALDO DA CONTA
-
-    Conta::where('id', $conta->id)
-        ->update(
-            ['saldo_atual' => $saldoFinal]
-        );
-
-    //
-
-}else{ //se nao alterar fica igual
-
-    $saldoInicial=$movimento->saldo_inicial;
-        $saldoFinal=$movimento->saldo_final;
-
-}
 
 //        $old_doc_image = $movimento->imagem_doc;
 //
@@ -272,23 +224,24 @@ if($alterMoveType) { //se alterar o tipo de movimento atulizar saldo inicial e f
 //        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
 //        $imagem_doc = basename($path);
 
-$movimento_id = $movimento->id;
+            $movimento_id = $movimento->id;
             Movimento::where('id',$movimento_id)
                 ->update([
                 'conta_id' => $contaID,
-                'data' => $request->get('data'),
+                'data' => $data,
                 'valor' => $valor,
                 'descricao' => $request->get('descricao'),
                 'categoria_id' => $categoria_id,
                 'tipo' => $tipo,
-                'saldo_inicial' => $saldoInicial,
-                'saldo_final' => $saldoFinal,
+                'saldo_inicial' => 0,
+                'saldo_final' => 0,
                 'imagem_doc' => null,
                 'deleted_at' => null
 
 
             ]);
 
+            $this->atualizaSaldos($data,$conta);
 
 
 
@@ -302,5 +255,56 @@ $movimento_id = $movimento->id;
         //Movimento::where('id',$id)->forceDelete();
 
         return back()->with('message','Successfully deleted!');
+    }
+
+    private function atualizaSaldos($data, $conta){ //depois dessa data
+
+
+        $ultimoMoveValido = Movimento::where('conta_id',$conta->id)
+            ->where('data','<',$data)
+            ->orderBy('data','desc')->orderBy('id','desc')->first();
+
+        //qual o primeiro saldo inicial
+        if($ultimoMoveValido==null){
+
+            $saldo_inicial= $conta->saldo_abertura;
+        }else{
+
+            $saldo_inicial=$ultimoMoveValido->saldo_final;
+        }
+
+        $movesAAlterar = Movimento::
+        where('conta_id',$conta->id)
+            ->where('data','>=',$data)
+            ->orderBy('data')->orderBy('id')->get();
+
+        foreach ($movesAAlterar as $moveAAlterar){
+
+            $valor = $moveAAlterar->valor;
+
+            if($moveAAlterar->tipo == 'D'){ //se for uma despesa
+                $valor = - $valor;
+            }
+
+            $saldo_final = $saldo_inicial+$valor;
+            Movimento::where('id',$moveAAlterar->id)
+                ->update([
+                    'saldo_inicial'=>$saldo_inicial,
+                    'saldo_final'=>$saldo_final
+
+                ]);
+
+            $saldo_inicial= $saldo_final;
+        }
+
+        //atualiza a conta com o saldo final do ultimo movimento atualizado
+        Conta::where('id',$conta->id)->update(
+            [
+
+                'saldo_atual'=>$saldo_inicial, // o ultimo que sai do foreach
+            ]
+        );
+
+
     }
 }
