@@ -21,5 +21,8 @@ class Movimento extends Model
 
     ];
 
-
+    public function categoria()
+    {
+        return $this->belongsTo('App\Categoria');
+    }
 }

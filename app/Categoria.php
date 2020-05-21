@@ -9,4 +9,9 @@ class Categoria extends Model
     protected $fillable = [
         'nome','tipo'
     ];
+
+    public function movimento()
+    {
+        return $this->hasMany('App\Movimento');
+    }
 }

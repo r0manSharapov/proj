@@ -25,12 +25,9 @@ class AccountDetailsController extends Controller
 
     public function index(User $user,Conta $conta){
 
-        $movimentos = Movimento::join('categorias','movimentos.categoria_id','=','categorias.id')
-                    ->where('movimentos.conta_id', $conta->id)
+        $movimentos = Movimento::where('movimentos.conta_id', $conta->id)
                     ->orderBy('movimentos.data', 'desc')
                     ->paginate(6);
-
-       //passa o nome da categoria como "nome"
 
         return view('privateArea.accountDetails.index')->withMovimentos($movimentos)
                                            ->withConta($conta)->withUser($user);
@@ -46,9 +43,6 @@ class AccountDetailsController extends Controller
                                       ->orwhere('categorias.nome','like','%'.$search.'%');
                 })
                 ->where('conta_id', $conta->id)->orderBy('movimentos.data', 'desc');
-
-
-
 
         $movementType = $request->get('movementType');
         if ($movementType != 0) {
@@ -115,31 +109,7 @@ class AccountDetailsController extends Controller
         $valor =$request->get('valor');
         $saldoInicial=$conta->saldo_atual;
 
-<<<<<<< HEAD
-        if($tipo == 'R'){
-            $saldoFinal = $saldoInicial + $valor;
-        }
-        if($tipo=='D'){
-            $saldoFinal = $saldoInicial - $valor;
-        }
-
         $contaID= $conta->id;
-
-        //UPDATE SALDO DA CONTA
-
-        Conta::where('id',$conta->id)
-            ->update(
-                ['saldo_atual'=> $saldoFinal]
-            );
-
-        //
-        dd($request->imagem_doc);
-=======
-
-        $contaID= $conta->id;
-
-
->>>>>>> 66017221b77f6722a35d2d658cf864a76bab66bc
 
         if($request->hasFile('imagem_doc')){
         //dd($request->imagem_doc);
@@ -166,11 +136,8 @@ class AccountDetailsController extends Controller
 
         ]);
 
-<<<<<<< HEAD
-=======
         $this->atualizaSaldos($data,$conta);
 
->>>>>>> 66017221b77f6722a35d2d658cf864a76bab66bc
         $movimento->save();
 
         return redirect()->route('accountDetails',['user'=>$user,'conta'=>$conta])->with('message','Movement added successfully!');
@@ -224,25 +191,6 @@ class AccountDetailsController extends Controller
         $contaID = $conta->id;
 
 
-<<<<<<< HEAD
-    //UPDATE SALDO DA CONTA
-
-    Conta::where('id', $conta->id)
-        ->update(
-            ['saldo_atual' => $saldoFinal]
-        );
-
-    //
-
-}else{ //se nao alterar fica igual
-
-    $saldoInicial=$movimento->saldo_inicial;
-        $saldoFinal=$movimento->saldo_final;
-
-}
-=======
-
->>>>>>> 66017221b77f6722a35d2d658cf864a76bab66bc
 
 //        $old_doc_image = $movimento->imagem_doc;
 //
@@ -268,13 +216,10 @@ class AccountDetailsController extends Controller
 
             ]);
 
-<<<<<<< HEAD
-=======
             $this->atualizaSaldos($data,$conta);
 
 
 
->>>>>>> 66017221b77f6722a35d2d658cf864a76bab66bc
         return redirect()->route('accountDetails',['user'=>$user,'conta'=>$conta])->with('message','Movement added successfully!');
 
     }
@@ -330,11 +275,8 @@ class AccountDetailsController extends Controller
         //atualiza a conta com o saldo final do ultimo movimento atualizado
         Conta::where('id',$conta->id)->update(
             [
-
                 'saldo_atual'=>$saldo_inicial, // o ultimo que sai do foreach
             ]
         );
-
-
     }
 }
