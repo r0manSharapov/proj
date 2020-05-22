@@ -227,13 +227,12 @@ class AccountDetailsController extends Controller
     public function destroy($id)
     {
 
-
-
-
-        $movimento = Movimento::where('id',$id);
-        $conta = Conta::where('id',$movimento->conta_id);
+        
+        $movimento = Movimento::where('id',$id)->first();
+        $conta = Conta::where('id',$movimento->conta_id)->first();
         $data = $movimento->data;
         $movimento->forceDelete();
+
         $this->atualizaSaldos($data,$conta);
         return back()->with('message','Successfully deleted!');
     }
