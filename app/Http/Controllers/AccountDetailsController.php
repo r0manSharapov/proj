@@ -227,7 +227,7 @@ class AccountDetailsController extends Controller
     public function destroy($id)
     {
 
-        
+
         $movimento = Movimento::where('id',$id)->first();
         $conta = Conta::where('id',$movimento->conta_id)->first();
         $data = $movimento->data;
@@ -237,16 +237,18 @@ class AccountDetailsController extends Controller
         return back()->with('message','Successfully deleted!');
     }
 
-    private function atualizaSaldos($data, $conta){ //depois dessa data
+    public function atualizaSaldos($data, $conta){ //depois dessa data
 
 
-        $ultimoMoveValido = Movimento::where('conta_id',$conta->id)
-            ->where('data','<',$data)
-            ->orderBy('data','desc')->orderBy('id','desc')->first();
+
+            $ultimoMoveValido = Movimento::where('conta_id', $conta->id)
+                ->where('data', '<', $data)
+                ->orderBy('data', 'desc')->orderBy('id', 'desc')->first();
+
 
         //qual o primeiro saldo inicial
-        if($ultimoMoveValido==null){
-
+        if($ultimoMoveValido==null ){
+            //se for o primeiro move
             $saldo_inicial= $conta->saldo_abertura;
         }else{
 
