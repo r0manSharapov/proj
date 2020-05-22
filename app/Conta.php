@@ -19,4 +19,8 @@ class Conta extends Model
         'data_ultimo_movimento'=>'datetime',
         'deleted_at'=>'datetime'
     ];
+
+    public function users() {
+        return $this->hasMany(User::class);
+     }
 }

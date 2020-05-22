@@ -25,12 +25,9 @@ class AccountDetailsController extends Controller
 
     public function index(User $user,Conta $conta){
 
-        $movimentos = Movimento::join('categorias','movimentos.categoria_id','=','categorias.id')
-                    ->where('movimentos.conta_id', $conta->id)
+        $movimentos = Movimento::where('movimentos.conta_id', $conta->id)
                     ->orderBy('movimentos.data', 'desc')
                     ->paginate(6);
-
-       //passa o nome da categoria como "nome"
 
         return view('privateArea.accountDetails.index')->withMovimentos($movimentos)
                                            ->withConta($conta)->withUser($user);
@@ -47,15 +44,10 @@ class AccountDetailsController extends Controller
                 })
                 ->where('conta_id', $conta->id)->orderBy('movimentos.data', 'desc');
 
-
-
-
         $movementType = $request->get('movementType');
         if ($movementType != 0) {
             if ($movementType == 1) {
-
                 $movementsSearch->where('movimentos.tipo', 'R');
-
             }
             if ($movementType == 2) {
                 $movementsSearch->where('movimentos.tipo', 'D');
@@ -75,7 +67,6 @@ class AccountDetailsController extends Controller
 
         $categorias = Categoria::all();
 
-
         if(Route::currentRouteName()=='viewAddMovement') {
             return view('privateArea.accountDetails.form')->withUser($user)->withConta($conta)->withCategorias($categorias);
         }
@@ -87,8 +78,6 @@ class AccountDetailsController extends Controller
     public function showMoreInfo(Movimento $movimento){
 
         return view('privateArea.accountDetails.moreInfo')->withMovimento($movimento);
-
-
     }
     public function show_foto(Movimento $movimento){
 
@@ -96,8 +85,6 @@ class AccountDetailsController extends Controller
     }
 
     public function store(Request $request, User $user,Conta $conta){
-
-
 
         $request->validate( [
             'data'=>['required','date'],
@@ -109,27 +96,20 @@ class AccountDetailsController extends Controller
         $data = $this->getCreatedAtAttribute($dataRecebida);
         $categoria_id = $request->get('categoria_id');
 
-
         $categoria = Categoria::where('id',$categoria_id)
             ->select('tipo')->get();
 
         $tipo=$request->get('tipoMovimento');
 
-
-
         if($categoria_id != null && $categoria[0]->tipo != $tipo){
             //retornar mensagem de erro se o tipo de categoria diferente do tipo do movimento
             return back()->with('error','Category type has to be the same of movement type');
-
         }
 
         $valor =$request->get('valor');
         $saldoInicial=$conta->saldo_atual;
 
-
         $contaID= $conta->id;
-
-
 
         if($request->hasFile('imagem_doc')){
         //dd($request->imagem_doc);
@@ -154,7 +134,6 @@ class AccountDetailsController extends Controller
             'imagem_doc'=>$doc_image,
             'deleted_at'=>null
 
-
         ]);
 
         $this->atualizaSaldos($data,$conta);
@@ -167,8 +146,6 @@ class AccountDetailsController extends Controller
 
 
     public function updateMovement(Request $request, User $user,Conta $conta,Movimento $movimento){
-
-
 
         $request->validate( [
             'data'=>['required','date'],
@@ -210,10 +187,8 @@ class AccountDetailsController extends Controller
 
         }
 
-
             $valor = $request->get('valor');
         $contaID = $conta->id;
-
 
 
 
@@ -252,11 +227,14 @@ class AccountDetailsController extends Controller
     public function destroy($id)
     {
 
-       // $movimento = Movimento::where('id',$id);
-       // $conta = Conta::where('id',$movimento->conta_id);
-        //$data = $movimento->data;
-        //$movimento->forceDelete();
-        //$this->atualizaSaldos($data,$conta);
+
+
+
+        $movimento = Movimento::where('id',$id);
+        $conta = Conta::where('id',$movimento->conta_id);
+        $data = $movimento->data;
+        $movimento->forceDelete();
+        $this->atualizaSaldos($data,$conta);
         return back()->with('message','Successfully deleted!');
     }
 
@@ -304,10 +282,10 @@ class AccountDetailsController extends Controller
         Conta::where('id',$conta->id)->update(
             [
 
+
                 'saldo_atual'=>$saldo_final, // o ultimo que sai do foreach
+
             ]
         );
-
-
     }
 }

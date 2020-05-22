@@ -40,8 +40,6 @@ class PrivateAreaController extends Controller
 
     public function store(Request $request, User $user){
 
-
-
        $request->validate( [
             'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')   ],
             'startBalance'=>['required','numeric','between:0,99999999999.99'], //porque o tipo de dados é decimal(11,2)
