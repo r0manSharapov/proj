@@ -17,7 +17,7 @@ use Carbon\Carbon;
 class AccountDetailsController extends Controller
 {
 
-    public function getCreatedAtAttribute($value)
+    private  function getCreatedAtAttribute($value)
     {
         $date = Carbon::parse($value);
         return $date->format('Y-m-d');
@@ -245,15 +245,18 @@ class AccountDetailsController extends Controller
 
 
 
-        return redirect()->route('accountDetails',['user'=>$user,'conta'=>$conta])->with('message','Movement added successfully!');
+        return redirect()->route('accountDetails',['user'=>$user,'conta'=>$conta])->with('message','Movement updated successfully!');
 
     }
 
     public function destroy($id)
     {
-        dd($id);
-        //Movimento::where('id',$id)->forceDelete();
 
+       // $movimento = Movimento::where('id',$id);
+       // $conta = Conta::where('id',$movimento->conta_id);
+        //$data = $movimento->data;
+        //$movimento->forceDelete();
+        //$this->atualizaSaldos($data,$conta);
         return back()->with('message','Successfully deleted!');
     }
 
@@ -301,7 +304,7 @@ class AccountDetailsController extends Controller
         Conta::where('id',$conta->id)->update(
             [
 
-                'saldo_atual'=>$saldo_inicial, // o ultimo que sai do foreach
+                'saldo_atual'=>$saldo_final, // o ultimo que sai do foreach
             ]
         );
 
