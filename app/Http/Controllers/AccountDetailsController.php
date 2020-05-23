@@ -34,10 +34,6 @@ class AccountDetailsController extends Controller
         //dd($movimentos);
        //passa o nome da categoria como "nome"
 
-        $movimentos = Movimento::where('movimentos.conta_id', $conta->id)
-                    ->orderBy('movimentos.data', 'desc')
-                    ->paginate(6);
-
 
         return view('privateArea.accountDetails.index')->withMovimentos($movimentos)
                                            ->withConta($conta)->withUser($user);
@@ -100,7 +96,7 @@ class AccountDetailsController extends Controller
             'data'=>['required','date'],
             'valor'=>['required','numeric','between:0.01,99999999999.99'],
             'descricao'=>['nullable','string','max:255'],
-            'imagem_doc'=>['nullable'],
+            'imagem_doc'=>['nullable','image'],
         ]);
         $dataRecebida =$request->get('data');
         $data = $this->getCreatedAtAttribute($dataRecebida);
@@ -158,7 +154,7 @@ class AccountDetailsController extends Controller
             'data'=>['required','date'],
             'valor'=>['required','numeric','between:0.01,99999999999.99'],
             'descricao'=>['nullable','string','max:255'],
-            'imagem_doc'=>['required'],
+            'imagem_doc'=>['nullable','image'],
 
         ]);
 

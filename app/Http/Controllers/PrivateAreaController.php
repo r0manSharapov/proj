@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Conta;
 use App\Movimento;
+use App\Autorizacoes_conta;
+
 use Illuminate\Http\Request;
 
 
@@ -23,7 +25,12 @@ class PrivateAreaController extends Controller
         //dd($user);
        //$this->authorize('view',$user);
         $contas = Conta::withTrashed()->where('user_id', $user->id)->get(); //buscar contas so de 1 pessoa
-        return view('privateArea.contas.index')->withContas($contas)->withUser($user);
+
+       // $contasPartilhadas = Autorizacoes_conta::where('user_id', $user->id)->get();
+        //dd($contasPartilhadas);
+        //$informacaoContas = Conta::where('id', $contasPartilhadas->conta_id)->with('user')->get();
+//        return view('privateArea.contas.index')->withContas($contas)->withInformacaoContas($informacaoContas)->withUser($user);
+       return view('privateArea.contas.index')->withContas($contas)->withUser($user);
 
     }
 

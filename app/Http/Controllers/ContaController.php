@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Conta;
 use App\Movimento;
@@ -40,10 +41,34 @@ class ContaController extends Controller
 
         return back()->with('message','Successfully deleted!');
     }
-    
+
     /*
     public function share($conta_id){ talvez receba a conta e o user com quem quer partilhar
-        $conta = Conta::where('id', $conta_id); encontra a conta 
+        $conta = Conta::where('id', $conta_id); encontra a conta
         $conta->users()->attach(auth()->user()); dá a conta a esse user, maybe
     }*/
+
+//    public function showShared(User $user){
+//        $contasPartilhadas = Autorizacoes_conta::where('user_id', $user->id)->get();
+//        $informacaoContas = Conta::where('id', $contasPartilhadas->conta_id)->with('user')->get();
+//
+//        return view('privateArea.contas.index')->withInformacaoContas($informacaoContas)->withUser($user);
+//
+//    }
+    public function index(){
+        $users= User::paginate(5);
+        return view('privateArea.contas.addUserToAccount')->withAllUsers($users);
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+        $usersSearch = User::where(function ($query) use($search) {
+            $query->where('name','like','%'.$search.'%')
+                ->orwhere('email','like','%'.$search.'%');
+        });
+
+        return view('privateArea.contas.addUserToAccount')->withAllUsers($usersSearch->paginate(5))
+            ->withSearch($search);
+    }
 }

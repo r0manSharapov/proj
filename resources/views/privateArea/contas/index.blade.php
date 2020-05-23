@@ -24,6 +24,7 @@
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -56,6 +57,12 @@
                                             @method('DELETE')
                                             <td><button type="submit" class="btn btn-danger">Delete</button></td>
                                         </form>
+                                        <td>
+                                            <a  class="btn btn-primary" href="{{route('addAccountToUser', ['conta' => $conta])}}" >
+                                                Add User
+                                            </a>
+                                        </td>
+
                                         </tr>
                                     @endif
 
@@ -96,12 +103,6 @@
                     <div class="card-header">
                         <h2>Shared Accounts</h2>
                     </div>
-                    @if(session()->get('message'))
-                        <div class="alert alert-success" role="alert">
-                        <a href="#" class="close" data-dismiss="alert" arial-label="close">&times;</a>
-                        <strong>SUCCESS:</strong>&nbsp;{{session()->get('message')}}
-                        </div>
-                    @endif
 
                     <div class="card-body">
                         <table class="table">
@@ -115,7 +116,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            {{--@foreach($informacaoContas as $infoConta)--}}
                                 <tr>
+                                    {{--<td> {{ $infoConta->nome}} </td>--}}
                                     <td> nome </td>
                                     <td> 0000E </td>
                                     <td> who </td>
@@ -125,6 +128,7 @@
                                     <td><a  class="btn btn-dark" >Update</a></td>
                                     end if -->
                                 </tr>
+                            {{--@endforeach--}}
                             </tbody>
                         </table>
                     </div>

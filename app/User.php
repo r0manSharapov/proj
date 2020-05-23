@@ -40,6 +40,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function contas()
       {
-          return $this->hasMany(Conta::class);
+          return $this->belongsToMany(Conta::class);
       }
 }
