@@ -122,15 +122,12 @@ class AccountDetailsController extends Controller
         $contaID= $conta->id;
 
         if($request->hasFile('imagem_doc')){
-        //dd($request->imagem_doc);
-        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
+            $path = $request->imagem_doc->store('docs');
             $doc_image = basename($path);
-    //    dd($doc_image);
         }else{
             $doc_image = null;
         }
-            //dd($request->file('imagem_doc'));
-        //dd($doc_image);
+
 
         $movimento = Movimento::create([
             'conta_id'=> $contaID,
@@ -161,7 +158,7 @@ class AccountDetailsController extends Controller
             'data'=>['required','date'],
             'valor'=>['required','numeric','between:0.01,99999999999.99'],
             'descricao'=>['nullable','string','max:255'],
-            'imagem_doc'=>['nullable'],
+            'imagem_doc'=>['required'],
 
         ]);
 
@@ -202,12 +199,15 @@ class AccountDetailsController extends Controller
 
 
 
-//        $old_doc_image = $movimento->imagem_doc;
-//
-////            unlink(storage_path('public/fotos'.$old_foto));
-//        Storage::delete((storage_path('app/docs/')) . $old_doc_image);
-//        $path = Storage::putFile(storage_path('app/docs'), $request->file('imagem_doc'));
-//        $imagem_doc = basename($path);
+        $old_doc_image = $movimento->imagem_doc;
+        Storage::delete(('docs/') . $old_doc_image);
+
+
+            $path = $request->imagem_doc->store('docs');
+        $imagem_doc = basename($path);
+
+
+        $imagem_doc = basename($path);
 
             $movimento_id = $movimento->id;
             Movimento::where('id',$movimento_id)
@@ -220,7 +220,7 @@ class AccountDetailsController extends Controller
                 'tipo' => $tipo,
                 'saldo_inicial' => 0,
                 'saldo_final' => 0,
-                'imagem_doc' => null,
+                'imagem_doc' => $imagem_doc,
                 'deleted_at' => null
 
 

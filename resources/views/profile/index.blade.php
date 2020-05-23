@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-4" >
-                    <p style="text-align:center"><img src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}" class="rounded-circle" width="250" height="250" alt="Profile picture"></p>
+                    <p style="text-align:center"><img src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/default_image.jpg')}}" class="rounded-circle" width="250" height="250" alt="Profile picture"></p>
 
                     @if ($user->id == Auth::id())
                         <form method="POST" action="{{ url('profile',$user->id) }}" enctype="multipart/form-data">

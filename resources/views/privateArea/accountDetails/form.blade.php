@@ -26,7 +26,7 @@
                     <div class="card-body">
 
                         @if(Route::currentRouteName()=='viewAddMovement')
-                        <form action="{{route('addMovement',['user' => $user,'conta'=>$conta])}}" method="post">
+                        <form action="{{route('addMovement',['user' => $user,'conta'=>$conta])}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label >Date</label>
@@ -123,7 +123,7 @@
                         </form>
                             @elseif(Route::currentRouteName()=='viewUpdateMovement')
 
-                            <form action="{{route('updateMovement',['user' => $user,'conta'=>$conta,'movimento'=>$movimento])}}" method="post">
+                            <form action="{{route('updateMovement',['user' => $user,'conta'=>$conta,'movimento'=>$movimento])}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label >Date</label>
@@ -191,7 +191,16 @@
 
                                 </div>
 
+                                <div class="form-group">
+                                    <label >Document Image </label>
+                                    <input id="imagem_doc" type="file" class="form-control @error('imagem_doc') is-invalid @enderror" name="imagem_doc">
 
+                                    @error('imagem_doc')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
 
                                 <div class="form-group" >
                                     <label >Description (optional) </label>

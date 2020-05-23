@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body">
                         <p style="text-align:center">
-                            <img src="{{$movimento->imagem_doc ? route('accountDetailsShowPhoto', ['movimento' => $movimento ]) : "No document for this movement"}}" alt="Document image">
+                            <img src="{{$movimento->imagem_doc ? route('accountDetailsShowPhoto', ['movimento' => $movimento ]) : asset(storage_path('app\docs\default_image.png'))}}"width="250" height="250" alt="Document image">
                         </p>
                     </div>
 
