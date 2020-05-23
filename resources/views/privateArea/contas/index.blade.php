@@ -91,6 +91,44 @@
                         <a  class="btn btn-secondary"  href="{{route('viewAddAccount',['user'=>$user])}}">Add Account</a>
                     </div>
                 </div>
+                <br>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Shared Accounts</h2>
+                    </div>
+                    @if(session()->get('message'))
+                        <div class="alert alert-success" role="alert">
+                        <a href="#" class="close" data-dismiss="alert" arial-label="close">&times;</a>
+                        <strong>SUCCESS:</strong>&nbsp;{{session()->get('message')}}
+                        </div>
+                    @endif
+
+                    <div class="card-body">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Balance</th>
+                                    <th scope="col">Owner</th>
+                                    <th scope="col">Access</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> nome </td>
+                                    <td> 0000E </td>
+                                    <td> who </td>
+                                    <td> complete or read only </td>
+                                    <td><a  class="btn btn-primary" >Details</a></td>
+                                    <!-- if autorizaçoes_contas->so_leitura == 0 
+                                    <td><a  class="btn btn-dark" >Update</a></td>
+                                    end if -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

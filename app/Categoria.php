@@ -10,7 +10,8 @@ class Categoria extends Model
         'nome','tipo'
     ];
 
-    public function movimentos(){
+    public function movimentos()
+    {
         return $this->hasMany(Movimento::class);
     }
 }

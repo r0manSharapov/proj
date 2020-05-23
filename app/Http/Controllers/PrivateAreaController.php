@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Conta;
+use App\Movimento;
 use Illuminate\Http\Request;
 
 
@@ -40,10 +41,10 @@ class PrivateAreaController extends Controller
 
     public function store(Request $request, User $user){
 
-
-
        $request->validate( [
-            'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')   ],
+            'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome') ->where(function ($query) use ($user) {
+                return $query->where('user_id', $user->id);
+            }) ],//A conta tem de ter um nome diferente das contas do proprio user
             'startBalance'=>['required','numeric','between:0,99999999999.99'], //porque o tipo de dados é decimal(11,2)
             'description'=>['nullable','string','max:255'] //VARCHAR(255) e optional
 
@@ -69,19 +70,20 @@ class PrivateAreaController extends Controller
 
 
     public function updateAccount(Request $request, User $user,Conta $conta){
-        $contaId=$conta->id;
 
         $request->validate( [
-            'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')->ignore($contaId)],
+            'name'=>['required','string', 'max:20',Rule::unique('contas', 'nome')->where(function ($query) use ($user) {
+            return $query->where('user_id', $user->id);
+        })->ignore($conta)], //A conta tem de ter um nome diferente das contas do proprio user e ignora se é igual ao antigo nome
             'startBalance'=>['required','numeric','between:0,99999999999.99'], //porque o tipo de dados é decimal(11,2)
             'currentBalance'=>['required','numeric','between:0,99999999999.99'],
             'description'=>['nullable','string','max:255'] //VARCHAR(255) e optional
         ]);
 
 
+        $contaId=$conta->id;
 
-
-        Conta::where('id',$contaId)
+       Conta::where('id',$contaId)
         ->update(
             [
                 'nome'=>$request->name,
