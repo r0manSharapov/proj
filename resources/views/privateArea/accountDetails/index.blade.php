@@ -61,7 +61,8 @@
                                     <td>     {{ $movimento->valor}}€</td>
                                     <td>     {{ $movimento->saldo_inicial}}€</td>
                                     <td>     {{ $movimento->saldo_final}}€</td>
-                                    <td>     {{ $movimento->nome}}</td>
+
+                                    <td>     {{ $movimento->categoria ? $movimento->categoria->nome:null}}</td>
                                     <td>
                                         @if($movimento->tipo == 'D')
                                             Despesa

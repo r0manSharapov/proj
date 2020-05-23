@@ -25,11 +25,12 @@ class AccountDetailsController extends Controller
 
     public function index(User $user,Conta $conta){
 
-        $movimentos = Movimento::join('categorias','movimentos.categoria_id','=','categorias.id')
-                    ->where('movimentos.conta_id', $conta->id)
-                    ->orderBy('movimentos.data', 'desc')
+        $movimentos = Movimento::
+                    where('conta_id', $conta->id)
+                    ->with('categoria')
+                    ->orderBy('data', 'desc')
                     ->paginate(6);
-
+        //dd($movimentos);
        //passa o nome da categoria como "nome"
 
         return view('privateArea.accountDetails.index')->withMovimentos($movimentos)

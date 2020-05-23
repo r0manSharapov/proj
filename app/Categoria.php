@@ -9,4 +9,8 @@ class Categoria extends Model
     protected $fillable = [
         'nome','tipo'
     ];
+
+    public function movimentos(){
+        return $this->hasMany(Movimento::class);
+    }
 }
