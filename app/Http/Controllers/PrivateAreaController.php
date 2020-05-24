@@ -21,19 +21,17 @@ class PrivateAreaController extends Controller
 {
 
 
-    public function show(User $user){
-        //dd($user);
-       //$this->authorize('view',$user);
-        $contas = Conta::withTrashed()->where('user_id', $user->id)->get(); //buscar contas so de 1 pessoa
+    public function show(User $user)
+    {
 
-       // $contasPartilhadas = Autorizacoes_conta::where('user_id', $user->id)->get();
-        //dd($contasPartilhadas);
-        //$informacaoContas = Conta::where('id', $contasPartilhadas->conta_id)->with('user')->get();
-//        return view('privateArea.contas.index')->withContas($contas)->withInformacaoContas($informacaoContas)->withUser($user);
-       return view('privateArea.contas.index')->withContas($contas)->withUser($user);
+        $contas = Conta::withTrashed()->where('user_id', $user->id)->get(); //buscar contas so de 1 pessoa
+        $contasPartilhadas = $user->autorizacoesContas()->with('user')->get();
+
+
+
+       return view('privateArea.contas.index')->withContas($contas)->withContasPartilhadas($contasPartilhadas)->withUser($user);
 
     }
-
 
     public function showForm(User $user,Conta $conta){
 

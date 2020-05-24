@@ -14,4 +14,12 @@ class Autorizacoes_conta extends Model
 
     protected $dates = ['deleted_at'];
     public $timestamps = false;
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function conta(){
+        return $this->belongsTo(User::class);
+    }
 }

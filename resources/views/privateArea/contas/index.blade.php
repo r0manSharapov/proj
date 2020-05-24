@@ -99,40 +99,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Shared Accounts</h2>
-                    </div>
-
-                    <div class="card-body">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Balance</th>
-                                    <th scope="col">Owner</th>
-                                    <th scope="col">Access</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {{--@foreach($informacaoContas as $infoConta)--}}
-                                <tr>
-                                    {{--<td> {{ $infoConta->nome}} </td>--}}
-                                    <td> nome </td>
-                                    <td> 0000E </td>
-                                    <td> who </td>
-                                    <td> complete or read only </td>
-                                    <td><a  class="btn btn-primary" >Details</a></td>
-                                    <!-- if autorizaçoes_contas->so_leitura == 0 
-                                    <td><a  class="btn btn-dark" >Update</a></td>
-                                    end if -->
-                                </tr>
-                            {{--@endforeach--}}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                @include('privateArea.contas.sharedAccounts')
             </div>
         </div>
     </div>

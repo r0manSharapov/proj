@@ -47,6 +47,7 @@ Route::get('{user}/contas', 'PrivateAreaController@show')->name('privateArea')
 Route::get('contas/addUserToAccount', 'ContaController@search')->name('addAccountToUser')->middleware("auth")->middleware("verified");
 
 
+
 //adicionar contas
 Route::get('{user}/contas/addAccount', 'privateAreaController@showForm')->name('viewAddAccount')->middleware("auth");
 Route::post('{user}/contas/addAccount', 'PrivateAreaController@store')->name('addAccount');

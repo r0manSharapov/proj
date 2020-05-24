@@ -50,11 +50,13 @@ class ContaController extends Controller
 
 //    public function showShared(User $user){
 //        $contasPartilhadas = Autorizacoes_conta::where('user_id', $user->id)->get();
-//        $informacaoContas = Conta::where('id', $contasPartilhadas->conta_id)->with('user')->get();
+//        dd($contasPartilhadas);
+//        $informacaoContas = Conta::whereIn('id', $contasPartilhadas->conta_id)->with('user')->get();
 //
-//        return view('privateArea.contas.index')->withInformacaoContas($informacaoContas)->withUser($user);
+//        return view('privateArea.contas.sharedAccounts')->withInformacaoContas($informacaoContas)->withUser($user);
 //
 //    }
+
     public function index(){
         $users= User::paginate(5);
         return view('privateArea.contas.addUserToAccount')->withAllUsers($users);
