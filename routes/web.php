@@ -53,7 +53,7 @@ Route::get('{user}/contas/addAccount', 'privateAreaController@showForm')->name('
 Route::post('{user}/contas/addAccount', 'PrivateAreaController@store')->name('addAccount');
 // atualizar contas
 Route::get('/contas/{user}/{conta}/updateAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,conta');
-Route::post('/contas/{user}/{conta}/updateAccount', 'PrivateAreaController@updateAccount')->name('updateAccount')->middleware('can:view,conta');
+Route::post('/contas/{user}/{conta}/updateAccount', 'PrivateAreaController@updateAccount')->name('updateAccount');
 
 //soft delete de conta links feios
 Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth")->middleware('can:view,conta');
@@ -83,3 +83,10 @@ Route::post('{user}/contas/{conta}/addMovement', 'AccountDetailsController@store
 // atualizar Movimentos
 Route::get('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@showForm')->name('viewUpdateMovement')->middleware("auth")->middleware('can:view,conta')->middleware('can:view,user');
 Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsController@updateMovement')->name('updateMovement')->middleware("auth");
+
+
+//contas partilhadas buttons
+Route::get('{user}/contasPartilhadas/{conta}/details', 'AccountDetailsController@index')->name('sharedAccountDetails')
+    ->middleware("auth")->middleware("verified")->middleware('can:view,user');//falta proteger a conta
+
+Route::get('/contas/{user}/{conta}/updateSharedAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,user');

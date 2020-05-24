@@ -20,7 +20,7 @@
             <tr>
                 <td> {{ $infoConta->nome}} </td>
                 <td> {{ $infoConta->saldo_atual}} </td>
-                {{--{{dd($infoConta->pivot)}}--}}
+                {{--{{dd($infoConta)}}--}}
                 <td> {{ $infoConta->user->name}} </td>
                 <td>
                     @if($infoConta->pivot->so_leitura == 0)
@@ -29,14 +29,15 @@
                         Total
                     @endif
                 </td>
+
                 <td>
-                    <a  class="btn btn-primary" href="{{ route('accountDetails', ['conta' => $infoConta,'user'=>$infoConta->user])}}" >
+                    <a  class="btn btn-primary" href="{{ route('sharedAccountDetails', ['conta' => $infoConta,'user'=>$infoConta->pivot->user_id])}}" >
                         Details
                     </a>
                 </td>
                 @if ($infoConta->pivot->so_leitura == 1)
                     <td>
-                        <a  class="btn btn-dark" href="{{route('viewUpdateAccount',['user'=>$infoConta->user,'conta'=>$infoConta])}}" >
+                        <a  class="btn btn-dark" href="{{route('viewUpdateAccount',['user'=>$infoConta->pivot->user_id,'conta'=>$infoConta])}}" >
                             Update
                         </a>
                     </td>
