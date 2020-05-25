@@ -66,7 +66,7 @@ Route::post('{conta_id}/contas', 'ContaController@restore')->name('restore');
 //mostrar detalhes contas
 Route::get('{user}/contas/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
     ->middleware("auth")->middleware("verified")->middleware('can:view,conta')->middleware('can:view,user');
-    
+
 //apagar movimento
 Route::delete('/movimentos/delete/{movimento_id}', 'AccountDetailsController@destroy')->name('deleteMovement');
 
@@ -90,3 +90,6 @@ Route::get('{user}/contasPartilhadas/{conta}/details', 'AccountDetailsController
     ->middleware("auth")->middleware("verified")->middleware('can:view,user');//falta proteger a conta
 
 Route::get('/contas/{user}/{conta}/updateSharedAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,user');
+
+//estatisticas
+Route::get('{user}/financialSatistics','StatisticsController@index')->name('viewStats');
