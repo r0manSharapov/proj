@@ -15,6 +15,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -99,12 +101,10 @@
 
     <div class="w3-sidebar w3-bar-block" style="width:15%;right:0;height: 100%; background: #42474f; color: white;top:52px;  z-index: 1;">
 
-        <a  class="w3-bar-item w3-button" href="#home">Financial Information</a>
-        <a  class="w3-bar-item w3-button" href="#news">News</a>
-        <a  class="w3-bar-item w3-button" href="#contact">Contact</a>
+
         <a  class="w3-bar-item w3-button" href="{{Route('privateArea', Auth::id() )}}">My Private Area</a>
         <a  class="w3-bar-item w3-button" href="{{ route('allUsers') }}">{{ __('Users List') }}</a>
-
+        <a  class="w3-bar-item w3-button" href="{{Route('viewStats', Auth::id() )}}">Financial Statistics</a>
 
 
     </div>

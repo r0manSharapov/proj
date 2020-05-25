@@ -65,7 +65,7 @@ Route::post('{conta_id}/contas', 'ContaController@restore')->name('restore');
 //mostrar detalhes contas
 Route::get('{user}/contas/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
     ->middleware("auth")->middleware("verified")->middleware('can:view,conta')->middleware('can:view,user');
-    
+
 //apagar movimento
 Route::delete('/movimentos/delete/{movimento_id}', 'AccountDetailsController@destroy')->name('deleteMovement');
 
@@ -96,3 +96,5 @@ Route::post('/contas/{conta_id}/addUser', 'ContaController@addUser')->name('addU
 
 //partilhar conta no perfil de x user
 Route::post('profile/{id}/share', 'UsersListController@shareAccount')->name('shareAccount')->middleware("auth")->middleware("verified");
+//estatisticas
+Route::get('{user}/financialSatistics','StatisticsController@index')->name('viewStats');
