@@ -88,6 +88,9 @@ Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsC
 Route::get('{user}/contasPartilhadas/{conta}/details', 'AccountDetailsController@index')->name('sharedAccountDetails')
     ->middleware("auth")->middleware("verified")->middleware('can:view,user');//falta proteger a conta
 
+Route::get('{user}/contasPartilhadas/{conta}/detailsRead', 'AccountDetailsController@index')->name('sharedAccountDetailsRead')
+    ->middleware("auth")->middleware("verified")->middleware('can:view,user');//falta proteger a conta
+
 Route::get('/contas/{user}/{conta}/updateSharedAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,user');
 
 //search by email

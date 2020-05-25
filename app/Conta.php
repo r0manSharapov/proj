@@ -28,4 +28,10 @@ class Conta extends Model
     {
         return $this->belongsToMany(User::class, 'autorizacoes_contas')->withPivot('so_leitura');
     }
+
+    public function movimentos() {
+        return $this->hasMany(Movimento::class);
+    }
+
+
 }

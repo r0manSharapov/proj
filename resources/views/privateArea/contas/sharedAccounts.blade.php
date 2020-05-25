@@ -20,7 +20,7 @@
             <tr>
                 <td> {{ $infoConta->nome}} </td>
                 <td> {{ $infoConta->saldo_atual}} </td>
-                {{--{{dd($infoConta)}}--}}
+                {{--{{dd($infoConta->autorizacoes_users)}}--}}
                 <td> {{ $infoConta->user->name}} </td>
                 <td>
                     @if($infoConta->pivot->so_leitura == 1)
@@ -29,16 +29,22 @@
                         Complete
                     @endif
                 </td>
-
-                <td>
-                    <a  class="btn btn-primary" href="{{ route('sharedAccountDetails', ['conta' => $infoConta,'user'=>$infoConta->pivot->user_id])}}" >
-                        Details
-                    </a>
-                </td>
                 @if ($infoConta->pivot->so_leitura == 0)
+                    <td>
+                        <a  class="btn btn-primary" href="{{ route('sharedAccountDetails', ['conta' => $infoConta,'user'=>$infoConta->pivot->user_id])}}" >
+                            Details
+                        </a>
+                    </td>
+
                     <td>
                         <a  class="btn btn-dark" href="{{route('viewUpdateAccount',['user'=>$infoConta->pivot->user_id,'conta'=>$infoConta])}}" >
                             Update
+                        </a>
+                    </td>
+                @elseif($infoConta->pivot->so_leitura == 1)
+                    <td>
+                        <a  class="btn btn-primary" href="{{ route('sharedAccountDetailsRead', ['conta' => $infoConta,'user'=>$infoConta->pivot->user_id])}}" >
+                            Details
                         </a>
                     </td>
                 @endif

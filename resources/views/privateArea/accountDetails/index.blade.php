@@ -63,8 +63,11 @@
                             </tr>
                             </thead>
                             <tbody>
+
+                            {{--{{dd($conta->autorizacoesUsers)}}--}}
                             @foreach($movimentos as $movimento)
                                 <tr style="text-align:center;">
+                                    {{--{{dd($movimento->conta->autorizacoesUsers)}}--}}
                                     <td>{{ $movimento->data}}</td>
                                     <td>     {{ $movimento->valor}}€</td>
                                     <td>     {{ $movimento->saldo_inicial}}€</td>
@@ -79,12 +82,15 @@
                                             Receita
                                         @endif
                                     </td>
-                                    <td>
-                                        <a  class="btn btn-dark" href="{{route('viewUpdateMovement',[ 'user'=>$user,'conta' => $conta,'movimento'=>$movimento])}}">Update</a>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-danger" data-toggle="modal" href="#myModal{{$movimento->id}}">Delete</a>
-                                    </td>
+                                    @if(Route::currentRouteName()=='accountDetails' || Route::currentRouteName()=='sharedAccountDetails')
+
+                                        <td>
+                                            <a  class="btn btn-dark" href="{{route('viewUpdateMovement',[ 'user'=>$user,'conta' => $conta,'movimento'=>$movimento])}}">Update</a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-danger" data-toggle="modal" href="#myModal{{$movimento->id}}">Delete</a>
+                                        </td>
+                                    @endif
                                     <td>
                                         <a class="btn btn-success" href="{{ route('accountDetailsMoreInfo', ['movimento' => $movimento->id])}}">More Info</a>
                                     </td>
@@ -116,9 +122,10 @@
                             </tbody>
 
                         </table>
+                        @if(Route::currentRouteName()=='accountDetails' || Route::currentRouteName()=='sharedAccountDetails')
 
                         <a  class="btn btn-secondary" href="{{route('viewAddMovement',[ 'user'=>$user,'conta' => $conta])}}">AddMovement</a>
-
+                        @endif
                     </div>
                     {{$movimentos->withQueryString()->links()}}
                 </div>
