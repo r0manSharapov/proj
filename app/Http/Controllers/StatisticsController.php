@@ -11,11 +11,11 @@ class StatisticsController
 {
     public function index(User $user){
 
-        $saldoTotal=$user->contas()->sum('saldo_atual');
+        $contas = Conta::where('user_id',$user->id);
+        $saldoTotal=$contas->sum('saldo_atual');
 
 
-
-        return view('statistics.index')->with('saldoTotal',$saldoTotal);
+        return view('statistics.index')->with('saldoTotal',$saldoTotal)->withContas($contas->get());
     }
 
 
