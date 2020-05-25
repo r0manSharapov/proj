@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
+use App\Conta;
+use App\Autorizacoes_conta;
 
 
 class UsersListController extends Controller
@@ -44,13 +46,12 @@ class UsersListController extends Controller
                 $usersSearch=$usersSearch->where('bloqueado',1);
             }
 
-
-
             return view('usersList')->withAllUsers($usersSearch->paginate(5))
                 ->withSearch($search)
                 ->withUserType($userType)
                 ->withBlocked($blocked);
         }
+
 
         return view('usersList')->withAllUsers($usersSearch->paginate(5))
             ->withSearch($search);
@@ -58,8 +59,25 @@ class UsersListController extends Controller
 
     public function show($id)
     {
+        $contas = Conta::where('user_id', Auth::id())->get();
         $user = User::findOrFail($id);
-        return view('profile.index')->withUser($user);
+        return view('profile.index')->withUser($user)->withContas($contas);
     }
 
+    public function shareAccount(Request $request, $id){
+        $contaID = $request->get('addUser');
+
+        if($contaID){
+            Autorizacoes_conta::create([
+                'user_id'=> $id,
+                'conta_id'=>$contaID,
+                'so_leitura'=> 1,
+                'deleted_at'=>null
+            ])->save(); 
+
+            return back()->with('message',"You shared your account successfully!");
+        }
+
+        return back();
+    }
 }

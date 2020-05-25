@@ -55,7 +55,7 @@
                         <h5 style="text-align:center;"><strong>NIF:</strong> {{$user->NIF}}</h5>
                 </div>
                 
-                @if (!($user->id == Auth::id())) <!-- se o user for o autenticado -->
+                @if (!($user->id == Auth::id())) <!-- se o user n for o autenticado -->
                     <div class="col-sm-7" style="text-align:right">
                         @if(Auth::user()->adm ==1) <!-- se for admin -->
                             <form method="post" action="{{ route('change', ['id' => $user->id]) }}"> 
@@ -80,6 +80,20 @@
                                 </div>
                             </form>    
                         @endif 
+                        <br>
+                        <form method="post" action="{{ route('shareAccount', ['id' => $user->id]) }}"> 
+                        @csrf
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Share Account
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    @foreach($contas as $conta)
+                                        <button value="{{$conta->id}}" name="addUser" class="dropdown-item" type="submit">{{$conta->nome}}</option>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 @endif
             </div>

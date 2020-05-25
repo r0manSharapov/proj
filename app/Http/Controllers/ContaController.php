@@ -73,4 +73,29 @@ class ContaController extends Controller
         return view('privateArea.contas.addUserToAccount')->withAllUsers($usersSearch->paginate(5))
             ->withSearch($search);
     }
+
+    public function addUser(Request $request, $id){
+
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255']
+        ]);
+        
+        if (User::where('email', $request->get('email'))->exists()) {
+
+            $email = $request->get('email');
+
+            $userID = User::where('email', $email)->first()->id;
+
+            Autorizacoes_conta::create([
+                'user_id'=> $userID,
+                'conta_id'=>$id,
+                'so_leitura'=> 1,
+                'deleted_at'=>null
+            ])->save(); 
+
+            return back()->with('message',"You shared this account successfully!");
+        }
+
+        return back()->with('error','Invalid email');
+    }
 }

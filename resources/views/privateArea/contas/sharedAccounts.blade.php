@@ -23,10 +23,10 @@
                 {{--{{dd($infoConta)}}--}}
                 <td> {{ $infoConta->user->name}} </td>
                 <td>
-                    @if($infoConta->pivot->so_leitura == 0)
-                        Só leitura
+                    @if($infoConta->pivot->so_leitura == 1)
+                        Read
                     @else
-                        Total
+                        Complete
                     @endif
                 </td>
 
@@ -35,7 +35,7 @@
                         Details
                     </a>
                 </td>
-                @if ($infoConta->pivot->so_leitura == 1)
+                @if ($infoConta->pivot->so_leitura == 0)
                     <td>
                         <a  class="btn btn-dark" href="{{route('viewUpdateAccount',['user'=>$infoConta->pivot->user_id,'conta'=>$infoConta])}}" >
                             Update

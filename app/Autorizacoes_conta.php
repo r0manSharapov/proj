@@ -9,6 +9,11 @@ class Autorizacoes_conta extends Model
 {
     //Override primary key -> chave primária composta
     protected $primaryKey=['user_id','conta_id'];
+    public $incrementing = false;
+    
+    protected $fillable = [
+        'user_id', 'conta_id', 'so_leitura'
+    ];
 
     use SoftDeletes;
 

@@ -39,7 +39,6 @@ Route::get('profile/{id}', 'UsersListController@show')->name('profile')->middlew
 Route::post('profile/{id}','HomeController@store')->name('profile')->middleware("auth")->middleware("verified");
 Route::post('profile/{id}','AdminController@change')->name('change')->middleware("auth")->middleware("verified");
 
-
 //mostar area privada Contas
 Route::get('{user}/contas', 'PrivateAreaController@show')->name('privateArea')
     ->middleware("auth")->middleware("verified")->middleware('can:view,user');
@@ -90,3 +89,10 @@ Route::get('{user}/contasPartilhadas/{conta}/details', 'AccountDetailsController
     ->middleware("auth")->middleware("verified")->middleware('can:view,user');//falta proteger a conta
 
 Route::get('/contas/{user}/{conta}/updateSharedAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,user');
+
+//search by email
+//Route::get('autocomplete', 'SearchController@autocomplete')->name('autocomplete');
+Route::post('/contas/{conta_id}/addUser', 'ContaController@addUser')->name('addUser');
+
+//partilhar conta no perfil de x user
+Route::post('profile/{id}/share', 'UsersListController@shareAccount')->name('shareAccount')->middleware("auth")->middleware("verified");

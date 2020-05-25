@@ -232,8 +232,6 @@ class AccountDetailsController extends Controller
 
     public function destroy($id)
     {
-
-
         $movimento = Movimento::where('id',$id)->first();
         $conta = Conta::where('id',$movimento->conta_id)->first();
         $data = $movimento->data;
@@ -243,14 +241,12 @@ class AccountDetailsController extends Controller
         return back()->with('message','Successfully deleted!');
     }
 
-    public function atualizaSaldos($data, $conta){ //depois dessa data
+    public function atualizaSaldos($data, $conta)
+    { //depois dessa data
 
-
-
-            $ultimoMoveValido = Movimento::where('conta_id', $conta->id)
-                ->where('data', '<', $data)
-                ->orderBy('data', 'desc')->orderBy('id', 'desc')->first();
-
+        $ultimoMoveValido = Movimento::where('conta_id', $conta->id)
+            ->where('data', '<', $data)
+            ->orderBy('data', 'desc')->orderBy('id', 'desc')->first();
 
         //qual o primeiro saldo inicial
         if($ultimoMoveValido==null ){
@@ -279,7 +275,6 @@ class AccountDetailsController extends Controller
                 ->update([
                     'saldo_inicial'=>$saldo_inicial,
                     'saldo_final'=>$saldo_final
-
                 ]);
 
             $saldo_inicial= $saldo_final;
@@ -288,10 +283,7 @@ class AccountDetailsController extends Controller
         //atualiza a conta com o saldo final do ultimo movimento atualizado
         Conta::where('id',$conta->id)->update(
             [
-
-
                 'saldo_atual'=>$saldo_final, // o ultimo que sai do foreach
-
             ]
         );
     }
