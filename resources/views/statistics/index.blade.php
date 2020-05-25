@@ -6,17 +6,7 @@
 <div style="padding: 100px">
 
     <div class="row" style="width: 70rem;">
-        <div class="col-sm-6">
-            <div class="card text-white bg-dark mb-3">
-                <div class="card-header">
-                <h3>Total Balance</h3>
-                </div>
-                <div class="card-body">
-                    <h4 class="card-text">{{$saldoTotal}}€</h4>
 
-                </div>
-            </div>
-        </div>
         <div class="col-sm-6">
             <div  class="card border-info mb-3">
 
@@ -48,6 +38,18 @@
 
 
                     <p class="card-text">Account's relative weight to total balance.</p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-header">
+                    <h3>Total Balance</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-text">{{$saldoTotal}}€</h4>
 
                 </div>
             </div>
