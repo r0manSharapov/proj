@@ -89,7 +89,7 @@ class ContaController extends Controller
          return view('privateArea.contas.addUser')->withConta($conta);
     }
 
-    public function store(Request $request,$id){
+    public function store(Request $request,$conta){
 
         $validated = $request->validate( [
             'email'=>['required', 'string', 'email', 'max:255','exists:users'], //verifica se existe
@@ -101,9 +101,10 @@ class ContaController extends Controller
 
         $userID = User::where('email', $email)->first()->id;
 
+
         Autorizacoes_conta::create([
             'user_id'=> $userID,
-            'conta_id'=>$id,
+            'conta_id'=>$conta->id,
             'so_leitura'=> $type,
             'deleted_at'=>null
         ])->save(); 
@@ -112,7 +113,6 @@ class ContaController extends Controller
         $firstname = head(explode(' ', trim($user->name)));
         $lastname = last (explode(' ', trim($user->name)));
 
-        $conta = Conta::where('id',$id)->first();
         $usersDaConta = $conta->autorizacoesUsers()->with('contas')->get();
 
       return redirect()->route('viewManageUsers',['conta'=>$conta])->with('message',"You shared this account with $firstname $lastname successfully!")->withUsersDaConta($usersDaConta)->withConta($conta);
