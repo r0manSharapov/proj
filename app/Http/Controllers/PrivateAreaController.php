@@ -26,7 +26,6 @@ class PrivateAreaController extends Controller
 
         $contas = Conta::withTrashed()->where('user_id', $user->id)->get(); //buscar contas so de 1 pessoa incluindo soft-delete
         $contasPartilhadas = $user->autorizacoesContas()->with('user')->get();
-
        return view('privateArea.contas.index')->withContas($contas)->withContasPartilhadas($contasPartilhadas)->withUser($user);
 
     }
