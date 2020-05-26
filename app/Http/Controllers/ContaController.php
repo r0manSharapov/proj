@@ -60,55 +60,76 @@ class ContaController extends Controller
             ->withSearch($search);
     }
 
-    public function addUser(Request $request, $id){
-
-        $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255']
-        ]);
-        
-        if (User::where('email', $request->get('email'))->exists()) {
-
-            $email = $request->get('email');
-
-            $userID = User::where('email', $email)->first()->id;
-
-            Autorizacoes_conta::create([
-                'user_id'=> $userID,
-                'conta_id'=>$id,
-                'so_leitura'=> 1,
-                'deleted_at'=>null
-            ])->save(); 
-
-            return back()->with('message',"You shared this account successfully!");
-        }
-
-        return back()->with('error','Invalid email');
-    }
-
     public function updateUser(Request $request){
-
-
         $read = $request->get('read');
-        $complete = $request->get('$complete');
+        $complete = $request->get('complete');
         if($read){
             Autorizacoes_conta::where('user_id',$read)->update(['so_leitura'=> '1']);
 
-            return back()->with('message',"Changed successfully to read!");
+            return back()->with('message',"You changed the access type to read only!");
         }
 
         if($complete){
             Autorizacoes_conta::where('user_id',$complete)->update(['so_leitura'=> '0']);
 
-            return back()->with('message',"Changed successfully to complete!");
+            return back()->with('message',"You changed the access type to complete!");
         }
 
         return back();
     }
 
     public function showManageUsers(Conta $conta){
-        //dd($conta->user);
         $usersDaConta = $conta->autorizacoesUsers()->with('contas')->get();
         return view('privateArea.contas.manageSharedAccounts')->withUsersDaConta($usersDaConta)->withConta($conta);
 
+    }
+
+    public function showForm($conta){
+
+         return view('privateArea.contas.addUser')->withConta($conta);
+    }
+
+    public function store(Request $request,$id){
+
+        $validated = $request->validate( [
+            'email'=>['required', 'string', 'email', 'max:255','exists:users'], //verifica se existe
+            'type_access'=>['required','integer','digits_between:0,1'],
+        ]);
+
+        $type = $validated['type_access'];
+        $email = $validated['email'];
+
+        $userID = User::where('email', $email)->first()->id;
+
+        Autorizacoes_conta::create([
+            'user_id'=> $userID,
+            'conta_id'=>$id,
+            'so_leitura'=> $type,
+            'deleted_at'=>null
+        ])->save(); 
+
+        $user = User::where('email',$email)->first();
+        $firstname = head(explode(' ', trim($user->name)));
+        $lastname = last (explode(' ', trim($user->name)));
+
+        $conta = Conta::where('id',$id)->first();
+        $usersDaConta = $conta->autorizacoesUsers()->with('contas')->get();
+
+      return redirect()->route('viewManageUsers',['conta'=>$conta])->with('message',"You shared this account with $firstname $lastname successfully!")->withUsersDaConta($usersDaConta)->withConta($conta);
+    }
+
+    public function destroyUser(Request $request,$id){
+        $delete = $request->get('delete');
+
+        if($delete){
+            Autorizacoes_conta::where('conta_id', $id)
+            ->where('user_id', $delete)->forceDelete();
+        }
+
+        $user = User::where('id',$delete)->first();
+        $firstname = head(explode(' ', trim($user->name)));
+        $lastname = last (explode(' ', trim($user->name)));
+
+        return back()->with('message',"You removed $firstname $lastname from this account!");
     }
 }

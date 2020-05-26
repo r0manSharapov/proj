@@ -68,17 +68,13 @@ class SettingsController
 
         $userID = $user->id;
 
-
         $contas = Conta::select('id')
             ->where('user_id',$userID);
 
         Movimento::whereIn('conta_id',$contas)->forcedelete();
+        Autorizacoes_conta::where('user_id',$userID)->forcedelete();
 
-        $contas->forcedelete ();
-        Autorizacoes_conta::select('conta_id')
-            ->where('user_id',$userID)->forcedelete();
-
-
+        $contas->forcedelete();
         $user->delete ();
 
        return redirect('/');

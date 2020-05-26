@@ -1,13 +1,20 @@
 @extends('layouts.app')
+@section('title','Shared Account')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-10">
             <div class="card">
                 <div class="card-header">
-                    <h2>User who has access to account </h2>
-                    {{--{{$conta->nome}}--}}
+                    <h2>Users with access to <strong> {{$conta->nome}}</strong></h2>
                 </div>
+
+                @if(session()->get('message'))
+                    <div class="alert alert-success" role="alert">
+                        <a href="#" class="close" data-dismiss="alert" arial-label="close">&times;</a>
+                        <strong>SUCCESS:</strong>&nbsp;{{session()->get('message')}}
+                    </div>
+                @endif
 
                 <div class="card-body">
                     <table class="table">
@@ -15,7 +22,7 @@
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Change access to account</th>
+                            <th scope="col">Access</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
@@ -30,64 +37,35 @@
                                         <div class="dropdown">
                                             <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 @if($infoUser->pivot->so_leitura == 1)
-                                                    Read
+                                                    Read Only
                                                 @else
                                                     Complete
                                                 @endif
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                @if($infoUser->pivot->so_leitura == 0)
-                                                <button value="{{$infoUser->id}}" name="read" class="dropdown-item" type="submit">Read</button>
+                                                @if($infoUser->pivot->so_leitura == 1)
+                                                    <button value="{{$infoUser->id}}" name="complete" class="dropdown-item" type="submit">Complete</button>
                                                 @else
-                                                <button value="{{$infoUser->id}}" name="complete" class="dropdown-item" type="submit">Complete</button>
+                                                    <button value="{{$infoUser->id}}" name="read" class="dropdown-item" type="submit">Read Only</button>
                                                 @endif
-
                                             </div>
                                         </div>
                                     </form>
                                 </td>
                                 <td>
-                                    <a  class="btn btn-danger" href="#" >
-                                        Delete
-                                    </a>
+                                    <form action="{{ route('removeUser', ['conta_id' => $conta->id])}}" method="post" >
+                                        @csrf
+                                        @method('delete')
+                                        <button value="{{$infoUser->id}}" name="delete" class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
                                 </td>
-
                             </tr>
-
-
-
                         @endforeach
                         </tbody>
                     </table>
-                    <a  class="btn btn-primary" data-toggle="modal" href="#myModalAdd{{$conta->id}}" >
+                    <a  class="btn btn-primary" href="{{ route('viewAddUser', ['conta_id' => $conta->id])}}" >
                         Add User
                     </a>
-
-                    <div id="myModalAdd{{$conta->id}}" class="modal fade">
-                        <div class="modal-dialog modal-confirm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Share account with...</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                </div>
-                                @if(session('error'))
-                                    <div class="alert alert-danger" role="alert">
-                                        {{session('error')}}
-                                    </div>
-                                @endif
-                                <form action="{{ route('addUser', ['conta_id' => $conta->id])}}" method="post" >
-                                    @csrf
-                                    <div class="modal-body">
-                                        <input id="email" name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="Search user by email">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-success">Add</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

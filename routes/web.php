@@ -57,10 +57,8 @@ Route::post('/contas/{user}/{conta}/updateAccount', 'PrivateAreaController@updat
 //soft delete de conta links feios
 Route::delete('/contas/{conta}/softdeleted', 'ContaController@softDelete')->name('softDelete')->middleware("auth")->middleware('can:view,conta');
 
-Route::post('/contas/{conta_id}', 'ContaController@restore')->name('restore');
 Route::delete('/contas/delete/{conta_id}', 'ContaController@destroy')->name('delete');
 Route::post('{conta_id}/contas', 'ContaController@restore')->name('restore');
-//Route::delete('/contas/delete/{conta}', 'ContaController@destroy')->name('delete');
 
 //mostrar detalhes contas
 Route::get('{user}/contas/{conta}/details', 'AccountDetailsController@index')->name('accountDetails')
@@ -93,10 +91,6 @@ Route::get('{user}/contasPartilhadas/{conta}/detailsRead', 'AccountDetailsContro
 
 Route::get('/contas/{user}/{conta}/updateSharedAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,user');
 
-//search by email
-//Route::get('autocomplete', 'SearchController@autocomplete')->name('autocomplete');
-Route::post('/contas/{conta_id}/addUser', 'ContaController@addUser')->name('addUser');
-
 //partilhar conta no perfil de x user
 Route::post('profile/{id}/share', 'UsersListController@shareAccount')->name('shareAccount')->middleware("auth")->middleware("verified");
 //estatisticas
@@ -104,4 +98,11 @@ Route::get('{user}/financialSatistics','StatisticsController@index')->name('view
 
 //gerir utilizadores das contas partilhadas
 Route::get('contasPartilhadas/{conta}/manageUsers', 'ContaController@showManageUsers')->name('viewManageUsers')->middleware("auth")->middleware('can:view,conta');
-Route::post('/contas/{conta_id}/updateUser', 'ContaController@updateUser')->name('updateUser');
+Route::post('/contasPartilhadas/{conta_id}/updateUser', 'ContaController@updateUser')->name('updateUser');
+
+//add user a conta partilhada
+Route::get('/contasPartilhadas/{conta_id}/addUser', 'ContaController@showForm')->name('viewAddUser')->middleware("auth");
+Route::post('/contasPartilhadas/{conta_id}/addUser', 'ContaController@store')->name('addUser');
+
+//remover user da conta partilhada
+Route::delete('/contasPartilhadas/{conta_id}/removeUser', 'ContaController@destroyUser')->name('removeUser');
