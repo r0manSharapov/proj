@@ -28,7 +28,7 @@
                             <tr  >
 
                             <td>{{$conta->nome}}</td>
-                            <td>{{ round($conta->saldo_atual/ $saldoTotal,2)}}</td>
+                            <td>{{ round($conta->saldo_atual/ $saldoTotal,3)}}</td>
                             </tr>
                         @endforeach
 
@@ -59,7 +59,7 @@
 
 <div class="row" style="width: 70rem; padding-top: 10px">
     <div class="col-sm-6">
-        <div class="card border-dark mb-3">
+        <div class="card border-info mb-3">
             <div class="card-header">
 
             </div>
@@ -71,7 +71,7 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="card border-dark mb-3">
+        <div class="card border-info mb-3">
             <div class="card-header">
 
             </div>
