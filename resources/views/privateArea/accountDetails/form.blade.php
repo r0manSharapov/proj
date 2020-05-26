@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title','Movement')
 @section('content')
     @if(session()->get('message'))
         <div class="alert alert-success" role="alert">

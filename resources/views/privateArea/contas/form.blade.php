@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title','Account')
 @section('content')
 
     @if(session()->get('message'))
