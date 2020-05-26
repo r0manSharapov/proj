@@ -57,11 +57,11 @@
                                             @method('DELETE')
                                             <td><button type="submit" class="btn btn-danger">Delete</button></td>
                                         </form>
-                                        <td>
-                                            <a  class="btn btn-primary" data-toggle="modal" href="#myModalAdd{{$conta->id}}" >
-                                                Add User
-                                            </a>
-                                        </td>
+                                            <td>
+                                                <a  class="btn btn-primary"  href="{{route('viewManageUsers',['conta'=>$conta])}}" >
+                                                    Manage Users
+                                                </a>
+                                            </td>
 
                                         </tr>
                                     @endif
@@ -90,31 +90,7 @@
                                     </div>
 
 
-                                    <div id="myModalAdd{{$conta->id}}" class="modal fade">
-                                        <div class="modal-dialog modal-confirm">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Share account with...</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                </div>
-                                                @if(session('error'))
-                                                    <div class="alert alert-danger" role="alert">
-                                                    {{session('error')}}
-                                                    </div>
-                                                @endif
-                                                <form action="{{ route('addUser', ['conta_id' => $conta->id])}}" method="post" >
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <input id="email" name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="Search user by email">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                                                        <button type="submit" class="btn btn-danger">Add</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 @endforeach
                             </tbody>
                         </table>

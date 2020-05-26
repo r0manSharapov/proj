@@ -101,3 +101,7 @@ Route::post('/contas/{conta_id}/addUser', 'ContaController@addUser')->name('addU
 Route::post('profile/{id}/share', 'UsersListController@shareAccount')->name('shareAccount')->middleware("auth")->middleware("verified");
 //estatisticas
 Route::get('{user}/financialSatistics','StatisticsController@index')->name('viewStats');
+
+//gerir utilizadores das contas partilhadas
+Route::get('contasPartilhadas/{conta}/manageUsers', 'ContaController@showManageUsers')->name('viewManageUsers')->middleware("auth")->middleware('can:view,conta');
+Route::post('/contas/{conta_id}/updateUser', 'ContaController@updateUser')->name('updateUser');

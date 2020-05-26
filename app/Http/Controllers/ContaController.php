@@ -42,20 +42,6 @@ class ContaController extends Controller
         return back()->with('message','Successfully deleted!');
     }
 
-    /*
-    public function share($conta_id){ talvez receba a conta e o user com quem quer partilhar
-        $conta = Conta::where('id', $conta_id); encontra a conta
-        $conta->users()->attach(auth()->user()); dá a conta a esse user, maybe
-    }*/
-
-//    public function showShared(User $user){
-//        $contasPartilhadas = Autorizacoes_conta::where('user_id', $user->id)->get();
-//        dd($contasPartilhadas);
-//        $informacaoContas = Conta::whereIn('id', $contasPartilhadas->conta_id)->with('user')->get();
-//
-//        return view('privateArea.contas.sharedAccounts')->withInformacaoContas($informacaoContas)->withUser($user);
-//
-//    }
 
     public function index(){
         $users= User::paginate(5);
@@ -97,5 +83,32 @@ class ContaController extends Controller
         }
 
         return back()->with('error','Invalid email');
+    }
+
+    public function updateUser(Request $request){
+
+
+        $read = $request->get('read');
+        $complete = $request->get('$complete');
+        if($read){
+            Autorizacoes_conta::where('user_id',$read)->update(['so_leitura'=> '1']);
+
+            return back()->with('message',"Changed successfully to read!");
+        }
+
+        if($complete){
+            Autorizacoes_conta::where('user_id',$complete)->update(['so_leitura'=> '0']);
+
+            return back()->with('message',"Changed successfully to complete!");
+        }
+
+        return back();
+    }
+
+    public function showManageUsers(Conta $conta){
+        //dd($conta->user);
+        $usersDaConta = $conta->autorizacoesUsers()->with('contas')->get();
+        return view('privateArea.contas.manageSharedAccounts')->withUsersDaConta($usersDaConta)->withConta($conta);
+
     }
 }
