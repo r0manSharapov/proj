@@ -27,7 +27,7 @@ class AccountDetailsController extends Controller
 
 
         $movimentos = Movimento::
-                    with('conta')
+                    where('conta_id', $conta->id)
                     ->with('categoria')
                     ->orderBy('data', 'desc')
                     ->paginate(6);
