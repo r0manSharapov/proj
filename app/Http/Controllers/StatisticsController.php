@@ -42,7 +42,7 @@ class StatisticsController
 
         ];
 
-        $usersChart = new ChartStatistics();
+        $relativeWeightChart = new ChartStatistics();
         $nomesConta = $contas->pluck('nome')->toArray();
 
         $relativeWeight = [];
@@ -51,13 +51,16 @@ class StatisticsController
         }
 
 
-        $usersChart->labels($nomesConta);
-        $usersChart->dataset('Relative Weight', 'doughnut', $relativeWeight)
+        $relativeWeightChart->labels($nomesConta);
+        $relativeWeightChart->dataset('Relative Weight', 'doughnut', $relativeWeight)
         ->color($borderColors)
             ->backgroundcolor($fillColors);
+
         return view('statistics.index')->with('saldoTotal',$saldoTotal)->withContas($contas->get())
-            ->withUsersChart($usersChart);
+            ->withRelativeWeightChart($relativeWeightChart);
     }
+
+
 
 
 }

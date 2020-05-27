@@ -2,6 +2,53 @@
 @section('title','Financial Statistics')
 @section('content')
 
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Account Statistics</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Movements Statistics</a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div style=" padding:50px ">
+                                    <div class="card bg-info" >
+                                        <div class="card-body text-center">
+                                            <p class="card-text" style="color: white">TOTAL BALANCE: {{$saldoTotal}}€</p>
+                                        </div>
+                                    </div>
+
+                                    <div style="padding-top: 20px">
+                                    {!! $relativeWeightChart->container() !!}
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+
+                            </div>
+
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--
 
 <div style="padding: 100px">
 
@@ -13,22 +60,13 @@
                     <h3>Account's relative weight</h3>
                 </div>
                 <div class="card-body">
+                 <div class="container">
+                      <div class="row">
 
-
-                    <div class="container">
-
-                        <div class="row">
-
-                                        {!! $usersChart->container() !!}
-
-
+                                        {!! $relativeWeightChart->container() !!}
 
                         </div>
                     </div>
-
-
-
-
                 </div>
             </div>
         </div>
@@ -51,7 +89,7 @@
     <div class="col-sm-6">
         <div class="card border-info mb-3">
             <div class="card-header">
-
+                <h3>Movements Statistics</h3>
             </div>
             <div class="card-body">
 
@@ -59,7 +97,7 @@
 
                     <div class="row">
 
-                       
+
 
 
 
@@ -90,10 +128,10 @@
     </div>
 </div>
 
-</div>
+</div> -->
 {{-- ChartScript --}}
-@if($usersChart)
-    {!! $usersChart->script() !!}
+@if($relativeWeightChart)
+    {!! $relativeWeightChart->script() !!}
 @endif
 
 @endsection
