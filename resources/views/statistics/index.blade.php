@@ -9,35 +9,25 @@
 
         <div class="col-sm-6">
             <div  class="card border-info mb-3">
-
+                <div class="card-header">
+                    <h3>Account's relative weight</h3>
+                </div>
                 <div class="card-body">
 
-                    <table class="table table-striped">
-                        <thead>
-                        <tr  >
 
-                            <th scope="col">Account Name</th>
-                            <th scope="col">Relative Weight</th>
+                    <div class="container">
 
-                        </tr>
-                        </thead>
-                        <tbody>
+                        <div class="row">
 
-
-                        @foreach($contas as $conta)
-                            <tr  >
-
-                            <td>{{$conta->nome}}</td>
-                            <td>{{ round($conta->saldo_atual/ $saldoTotal,3)}}</td>
-                            </tr>
-                        @endforeach
-
-                        </tbody>
-                    </table>
+                                        {!! $usersChart->container() !!}
 
 
 
-                    <p class="card-text">Account's relative weight to total balance.</p>
+                        </div>
+                    </div>
+
+
+
 
                 </div>
             </div>
@@ -64,8 +54,17 @@
 
             </div>
             <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+                <div class="container">
+
+                    <div class="row">
+
+                       
+
+
+
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -76,15 +75,25 @@
 
             </div>
             <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <div class="container">
 
+                    <div class="row">
+
+
+
+
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 </div>
-
+{{-- ChartScript --}}
+@if($usersChart)
+    {!! $usersChart->script() !!}
+@endif
 
 @endsection

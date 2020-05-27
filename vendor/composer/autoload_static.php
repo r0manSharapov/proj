@@ -493,6 +493,7 @@ class ComposerStaticInita054d368bf3dc9cde59eb4e9e5f1b864
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\PrivateAreaController' => __DIR__ . '/../..' . '/app/Http/Controllers/PrivateAreaController.php',
+        'App\\Http\\Controllers\\SearchController' => __DIR__ . '/../..' . '/app/Http/Controllers/SearchController.php',
         'App\\Http\\Controllers\\SettingsController' => __DIR__ . '/../..' . '/app/Http/Controllers/SettingsController.php',
         'App\\Http\\Controllers\\StatisticsController' => __DIR__ . '/../..' . '/app/Http/Controllers/StatisticsController.php',
         'App\\Http\\Controllers\\UsersListController' => __DIR__ . '/../..' . '/app/Http/Controllers/UsersListController.php',
