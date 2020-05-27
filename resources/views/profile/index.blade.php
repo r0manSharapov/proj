@@ -47,52 +47,118 @@
                             @endif
                         </div>    
                     @endif
-
+                        <br>
                         <h4 style="text-align:center;" ><strong>{{$user->name}}</strong></h4>
                         <h5 style="text-align:center;"><strong>E-mail:</strong> {{$user->email}}</h5>
-                        <h5 style="text-align:center;"><strong>Phone Number:</strong> {{$user->telefone}}</h5>
-                        <h5 style="text-align:center;"><strong>NIF:</strong> {{$user->NIF}}</h5>
-                </div>
-                
-                @if (!($user->id == Auth::id())) <!-- se o user n for o autenticado -->
-                    <div class="col-sm-7" style="text-align:right">
+
+                    @if (!($user->id == Auth::id())) <!-- se o user n for o autenticado -->
                         @if(Auth::user()->adm ==1) <!-- se for admin -->
                             <form method="post" action="{{ route('change', ['id' => $user->id]) }}"> 
                                 @csrf
-                                @if($user->bloqueado)
-                                    <h3><button value="{{$user->id}}" class="btn btn-warning" type="submit" name="unblock"><strong>Unblock</strong></button></h3>
-                                @else
-                                    <h3><button value="{{$user->id}}" name="block" type="submit" class="btn btn-danger">Block</button></h3>
-                                @endif
-                            
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Change type of user
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        @if($user->adm)
-                                            <button value="{{$user->id}}" name="user" class="dropdown-item" type="submit">User</button>
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        @if($user->bloqueado)
+                                            <h3><button value="{{$user->id}}" class="btn btn-warning" type="submit" name="unblock"><strong>Unblock</strong></button></h3>
                                         @else
-                                            <button value="{{$user->id}}" name="admin" class="dropdown-item" type="submit">Admin</button>
+                                            <h3><button value="{{$user->id}}" name="block" type="submit" class="btn btn-danger">Block</button></h3>
                                         @endif
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Change type of user
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                @if($user->adm)
+                                                    <button value="{{$user->id}}" name="user" class="dropdown-item" type="submit">User</button>
+                                                @else
+                                                    <button value="{{$user->id}}" name="admin" class="dropdown-item" type="submit">Admin</button>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>    
-                        @endif 
-                        <br>
-                        <form method="post" action="{{ route('shareAccount', ['id' => $user->id]) }}"> 
-                        @csrf
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Share Account
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    @foreach($contas as $conta)
-                                        <button value="{{$conta->id}}" name="addUser" class="dropdown-item" type="submit">{{$conta->nome}}</option>
-                                    @endforeach
+                    @endif 
+                </div>
+                
+                
+                    <div class="col-sm-7" >
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h2>Accounts shared</h2>
+                                        </div>
+                                        <div class="card-body">
+                                            <table class="table">
+                                                <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Balance</th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($contasShared as $conta)
+                                                        <tr>
+                                                            <td> {{ $conta->nome}} </td>
+                                                            <td> {{ $conta->saldo_atual}} </td>
+                                                            <td>
+                                                                <form action="{{ route('updateUser', ['conta_id' => $conta->id])}}" method="post" >
+                                                                    @csrf
+                                                                    <div class="dropdown">
+                                                                    @foreach($autorizacoes as $autorizacao)
+                                                                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                                                            @if($autorizacao->so_leitura == 1)
+                                                                                Read Only
+                                                                            @else
+                                                                                Complete
+                                                                            @endif
+                                                                        </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                                            @if($autorizacao->so_leitura == 1)
+                                                                                <button value="{{$user->id}}" name="complete" class="dropdown-item" type="submit">Complete</button>
+                                                                            @else
+                                                                                <button value="{{$user->id}}" name="read" class="dropdown-item" type="submit">Read Only</button>
+                                                                            @endif
+                                                                        </div>
+                                                                    @endforeach
+                                                                    </div>
+                                                                </form>
+                                                            </td>
+                                                            <td>
+                                                                <form action="{{ route('removeUser', ['conta_id' => $conta->id])}}" method="post" >
+                                                                    @csrf
+                                                                    @method('delete')
+                                                                    <button value="{{$user->id}}" name="delete" class="btn btn-danger" type="submit">Delete</button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                        <br>
+                        <div style="text-align:right;">
+                            <form method="post" action="{{ route('shareAccount', ['id' => $user->id]) }}"> 
+                            @csrf
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Share Account
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        @foreach($contas as $conta)
+                                            <button value="{{$conta->id}}" name="addUser" class="dropdown-item" type="submit">{{$conta->nome}}</option>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 @endif
             </div>

@@ -60,8 +60,15 @@ class UsersListController extends Controller
     public function show($id)
     {
         $contas = Conta::where('user_id', Auth::id())->get();
+        $contasID = Conta::select('id')->where('user_id', Auth::id())->get();
         $user = User::findOrFail($id);
-        return view('profile.index')->withUser($user)->withContas($contas);
+        $autorizacoes = Autorizacoes_conta::where('user_id', $id)->whereIn('conta_id',$contasID)->get();
+        $contaID = $autorizacoes->pluck('conta_id');
+        $contasShared = Conta::whereIn('id',$contaID)->get();
+        //dd($autorizacoes);
+        
+        return view('profile.index')->withUser($user)->withContas($contas)
+            ->withContasShared($contasShared)->withAutorizacoes($autorizacoes);
     }
 
     public function shareAccount(Request $request, $id){
