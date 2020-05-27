@@ -94,7 +94,7 @@ Route::get('/contas/{user}/{conta}/updateSharedAccount', 'privateAreaController@
 //partilhar conta no perfil de x user
 Route::post('profile/{id}/share', 'UsersListController@shareAccount')->name('shareAccount')->middleware("auth")->middleware("verified");
 //estatisticas
-Route::get('{user}/financialSatistics','StatisticsController@index')->name('viewStats');
+Route::get('{user}/financialSatistics','StatisticsController@index')->name('viewStats')->middleware('can:view,user');
 
 //gerir utilizadores das contas partilhadas
 Route::get('contasPartilhadas/{conta}/manageUsers', 'ContaController@showManageUsers')->name('viewManageUsers')->middleware("auth")->middleware('can:view,conta');

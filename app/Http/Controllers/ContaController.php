@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Conta;
 use App\Movimento;
 use App\Autorizacoes_conta;
+use Illuminate\Support\Facades\Auth;
 
 class ContaController extends Controller
 {
@@ -89,7 +90,7 @@ class ContaController extends Controller
          return view('privateArea.contas.addUser')->withConta($conta);
     }
 
-    public function store(Request $request,$conta){
+    public function store(Request $request,$id){
 
         $validated = $request->validate( [
             'email'=>['required', 'string', 'email', 'max:255','exists:users'], //verifica se existe
@@ -101,19 +102,29 @@ class ContaController extends Controller
 
         $userID = User::where('email', $email)->first()->id;
 
-
-        Autorizacoes_conta::create([
-            'user_id'=> $userID,
-            'conta_id'=>$conta->id,
-            'so_leitura'=> $type,
-            'deleted_at'=>null
-        ])->save(); 
-
+        $conta = Conta::where('id',$id)->first();
         $user = User::where('email',$email)->first();
         $firstname = head(explode(' ', trim($user->name)));
         $lastname = last (explode(' ', trim($user->name)));
+        
+        $exists = Autorizacoes_conta::where('user_id',$userID)->where('conta_id',$id)->first();
 
         $usersDaConta = $conta->autorizacoesUsers()->with('contas')->get();
+
+        if($exists){
+            return redirect()->route('viewManageUsers',['conta'=>$conta])->with('error',"You already shared this account with $firstname $lastname!")->withUsersDaConta($usersDaConta)->withConta($conta);
+        }
+
+        if($userID == Auth::user()->id ){
+            return redirect()->route('viewManageUsers',['conta'=>$conta])->with('error',"You cant add yourself, this account belongs to you!")->withUsersDaConta($usersDaConta)->withConta($conta);
+        }
+
+        Autorizacoes_conta::create([
+            'user_id'=> $userID,
+            'conta_id'=>$id,
+            'so_leitura'=> $type,
+            'deleted_at'=>null
+        ])->save(); 
 
       return redirect()->route('viewManageUsers',['conta'=>$conta])->with('message',"You shared this account with $firstname $lastname successfully!")->withUsersDaConta($usersDaConta)->withConta($conta);
     }
