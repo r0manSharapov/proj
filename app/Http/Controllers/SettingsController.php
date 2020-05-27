@@ -72,10 +72,11 @@ class SettingsController
             ->where('user_id',$userID);
 
         Movimento::whereIn('conta_id',$contas)->forcedelete();
-        Autorizacoes_conta::where('user_id',$userID)->forcedelete();
+        Autorizacoes_conta::where('user_id',$userID)->orWhereIn('conta_id',$contas)->forcedelete();
+
 
         $contas->forcedelete();
-        $user->delete ();
+        $user->delete();
 
        return redirect('/');
     }

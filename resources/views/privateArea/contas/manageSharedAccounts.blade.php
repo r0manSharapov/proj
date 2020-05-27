@@ -16,6 +16,13 @@
                     </div>
                 @endif
 
+                @if(session()->get('error'))
+                    <div class="alert alert-danger" role="alert">
+                        <a href="#" class="close" data-dismiss="alert" arial-label="close">&times;</a>
+                        <strong>ERROR:</strong>&nbsp;{{session()->get('error')}}
+                    </div>
+                @endif
+
                 <div class="card-body">
                     <table class="table">
                         <thead class="thead-dark">
@@ -63,7 +70,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <a  class="btn btn-primary" href="{{ route('viewAddUser', ['conta_id' => $conta->id])}}" >
+                    <a  class="btn btn-primary" href="{{ route('viewAddUser', ['conta' => $conta])}}" >
                         Add User
                     </a>
                 </div>

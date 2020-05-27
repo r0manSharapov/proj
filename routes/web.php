@@ -94,15 +94,15 @@ Route::get('/contas/{user}/{conta}/updateSharedAccount', 'privateAreaController@
 //partilhar conta no perfil de x user
 Route::post('profile/{id}/share', 'UsersListController@shareAccount')->name('shareAccount')->middleware("auth")->middleware("verified");
 //estatisticas
-Route::get('{user}/financialSatistics','StatisticsController@index')->name('viewStats');
+Route::get('{user}/financialSatistics','StatisticsController@index')->name('viewStats')->middleware('can:view,user');
 
 //gerir utilizadores das contas partilhadas
 Route::get('contasPartilhadas/{conta}/manageUsers', 'ContaController@showManageUsers')->name('viewManageUsers')->middleware("auth")->middleware('can:view,conta');
 Route::post('/contasPartilhadas/{conta_id}/updateUser', 'ContaController@updateUser')->name('updateUser');
 
 //add user a conta partilhada
-Route::get('/contasPartilhadas/{conta_id}/addUser', 'ContaController@showForm')->name('viewAddUser')->middleware("auth");
-Route::post('/contasPartilhadas/{conta_id}/addUser', 'ContaController@store')->name('addUser');
+Route::get('/contasPartilhadas/{conta}/addUser', 'ContaController@showForm')->name('viewAddUser')->middleware("auth");//->middleware('can:view,conta');
+Route::post('/contasPartilhadas/{conta_id}/addUser', 'ContaController@store')->name('addUser')->middleware("auth")->middleware("verified");
 
 //remover user da conta partilhada
-Route::delete('/contasPartilhadas/{conta_id}/removeUser', 'ContaController@destroyUser')->name('removeUser');
+Route::delete('/contasPartilhadas/{conta_id}/removeUser', 'ContaController@destroyUser')->name('removeUser')->middleware("auth")->middleware("verified");;
