@@ -31,8 +31,7 @@ class AccountDetailsController extends Controller
                     ->with('categoria')
                     ->orderBy('data', 'desc')
                     ->paginate(6);
-        //dd($movimentos);
-       //passa o nome da categoria como "nome"
+
 
 
         return view('privateArea.accountDetails.index')->withMovimentos($movimentos)

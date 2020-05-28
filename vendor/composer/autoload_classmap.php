@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Autorizacoes_conta' => $baseDir . '/app/Autorizacoes_conta.php',
     'App\\Categoria' => $baseDir . '/app/Categoria.php',
+    'App\\Charts\\ChartStatistics' => $baseDir . '/app/Charts/ChartStatistics.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Conta' => $baseDir . '/app/Conta.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
