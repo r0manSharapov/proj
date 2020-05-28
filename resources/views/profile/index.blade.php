@@ -100,7 +100,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($contasShared as $conta)
+                                                    @foreach($contasUser as $conta)
                                                         <tr>
                                                             <td> {{ $conta->nome}} </td>
                                                             <td> {{ $conta->saldo_atual}} </td>
@@ -108,22 +108,20 @@
                                                                 <form action="{{ route('updateUser', ['conta_id' => $conta->id])}}" method="post" >
                                                                     @csrf
                                                                     <div class="dropdown">
-                                                                    @foreach($autorizacoes as $autorizacao)
                                                                         <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                                                                            @if($autorizacao->so_leitura == 1)
+                                                                            @if($conta->pivot->so_leitura == 1)
                                                                                 Read Only
                                                                             @else
                                                                                 Complete
                                                                             @endif
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                                            @if($autorizacao->so_leitura == 1)
-                                                                                <button value="{{$user->id}}" name="complete" class="dropdown-item" type="submit">Complete</button>
+                                                                            @if($conta->pivot->so_leitura == 1)
+                                                                                    <button value="{{$user->id}}" name="complete" class="dropdown-item" type="submit">Complete</button>
                                                                             @else
-                                                                                <button value="{{$user->id}}" name="read" class="dropdown-item" type="submit">Read Only</button>
+                                                                                    <button value="{{$user->id}}" name="read" class="dropdown-item" type="submit">Read Only</button>
                                                                             @endif
                                                                         </div>
-                                                                    @endforeach
                                                                     </div>
                                                                 </form>
                                                             </td>
@@ -152,9 +150,14 @@
                                         Share Account
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        @foreach($contas as $conta)
-                                            <button value="{{$conta->id}}" name="addUser" class="dropdown-item" type="submit">{{$conta->nome}}</option>
+                                        @foreach($notUser as $conta)
+                                                    <button value="{{$conta->id}}" name="addUser" class="dropdown-item" type="submit">{{$conta->nome}}</option>
                                         @endforeach
+                                        @if($notUser->count() == 0)
+                                            <div class="dropdown-item" aria-labelledby="dropdownItem">
+                                                No more accounts 
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </form>
