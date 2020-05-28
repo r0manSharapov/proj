@@ -62,13 +62,13 @@ class UsersListController extends Controller
         $contas = Conta::where('user_id', Auth::id())->get();
         $contasID = Conta::select('id')->where('user_id', Auth::id())->get();
         $user = User::findOrFail($id);
-        $autorizacoes = Autorizacoes_conta::where('user_id', $id)->whereIn('conta_id',$contasID)->get();
-        $contaID = $autorizacoes->pluck('conta_id');
-        $contasShared = Conta::whereIn('id',$contaID)->get();
-        //dd($autorizacoes);
+
+        $contasUser = $user->autorizacoesContas()->whereIn('conta_id',$contasID)->with('user')->get();
         
-        return view('profile.index')->withUser($user)->withContas($contas)
-            ->withContasShared($contasShared)->withAutorizacoes($autorizacoes);
+        $contasNotUser = $contas->whereNotIn('id', $contasUser->pluck('id'));
+        
+        return view('profile.index')->withUser($user)
+            ->withContasUser($contasUser)->withContas($contas)->withNotUser($contasNotUser);
     }
 
     public function shareAccount(Request $request, $id){
