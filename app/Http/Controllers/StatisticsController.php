@@ -3,10 +3,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Categoria;
 use App\Charts\Chart;
 use App\Charts\ChartStatistics;
 use App\Conta;
+use App\Movimento;
 use App\User;
+use Carbon\Carbon;
+use Illuminate\Validation\Rule;
+
+use Illuminate\Http\Request;
 
 class StatisticsController
 {
@@ -14,6 +20,104 @@ class StatisticsController
 
         $contas = Conta::where('user_id',$user->id);
         $saldoTotal=$contas->sum('saldo_atual');
+
+
+        $movimentos= Movimento::whereIn('conta_id',$contas->get('id'))->get();
+        $totalBalance[0]= $movimentos->where('tipo','R')->sum('valor');
+        $totalBalance[1]= $movimentos->where('tipo','D')->sum('valor');
+       //moves chart
+        $movementsChart = $this->fillChart(['Revenues','Expenses'],$totalBalance,'total value','bar');
+
+
+        return view('statistics.index')
+            ->withUser($user)
+            ->withSaldoTotal($saldoTotal)
+            ->withContas($contas->get())
+            ->withMovementsChart($movementsChart);
+    }
+
+    private  function getCreatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value);
+        return $date->format('Y-m-d');
+    }
+
+
+    public function search(User $user,Request $request)
+    {
+
+        $contas = Conta::where('user_id',$user->id);
+        $saldoTotal=$contas->sum('saldo_atual');
+
+
+        $dataFim = $request->get('dataFim');
+        $dataInicio = $request->get('dataInicio');
+
+
+        $movimentos= Movimento::
+        whereIn('conta_id',$contas->get('id'));
+
+        if($dataInicio==null ){
+            $dataInicio= $movimentos->min('data');
+
+        }else{
+            $dataInicio = $this->getCreatedAtAttribute($request->get('dataInicio'));
+        }
+        if($dataFim==null){
+            $dataFim=$movimentos->max('data');
+        }else{
+            $dataFim = $this->getCreatedAtAttribute($request->get('dataFim'));
+
+        }
+
+        $categoria = $request->get('categoria');
+
+        
+        $movimentos=$movimentos
+            ->whereBetween('data',[$dataInicio,$dataFim])
+            ->get();
+
+
+        if($categoria) {
+
+            $nomesCategoria = Categoria::pluck('nome')->toArray();
+
+            $i=0;
+
+            foreach ($nomesCategoria as $nome){
+                $values[] = $movimentos->where('categoria_id',$i)->sum('valor');
+                $i++;
+            }
+            $nomesCategoria[$i]='Not classified';
+            $values[$i]=$movimentos->where('categoria_id',null)->sum('valor');
+            //moves chart
+            $movementsChart = $this->fillChart($nomesCategoria,$values,'total value','line');
+
+
+        }else{
+
+
+            $totalBalance[0]= $movimentos->where('tipo','R')->sum('valor');
+            $totalBalance[1]= $movimentos->where('tipo','D')->sum('valor');
+            //moves chart
+            $movementsChart = $this->fillChart(['Revenues','Expenses'],$totalBalance,'total value','bar');
+
+        }
+
+
+
+
+        return view('statistics.index')
+            ->withUser($user)
+            ->withSaldoTotal($saldoTotal)
+            ->withContas($contas->get())
+            ->withMovementsChart($movementsChart);
+
+    }
+
+    public function fillChart($labels, $values,$name,$chartType){
+
+        $chart = new ChartStatistics();
 
         //CHARTS ->
         $borderColors = [
@@ -42,25 +146,12 @@ class StatisticsController
 
         ];
 
-        $relativeWeightChart = new ChartStatistics();
-        $nomesConta = $contas->pluck('nome')->toArray();
-
-        $relativeWeight = [];
-        foreach($contas->get() as $conta){
-            $relativeWeight[] = $conta->saldo_atual/$saldoTotal;
-        }
-
-
-        $relativeWeightChart->labels($nomesConta);
-        $relativeWeightChart->dataset('Relative Weight', 'doughnut', $relativeWeight)
-        ->color($borderColors)
+        $chart->labels($labels);
+        $chart->dataset($name, $chartType, $values)
+            ->color($borderColors)
             ->backgroundcolor($fillColors);
 
-        return view('statistics.index')->with('saldoTotal',$saldoTotal)->withContas($contas->get())
-            ->withRelativeWeightChart($relativeWeightChart);
+        return $chart;
     }
-
-
-
 
 }

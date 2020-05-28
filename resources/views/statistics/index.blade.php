@@ -7,35 +7,90 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Account Statistics</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Movements Statistics</a>
-                            </li>
-
-                        </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="tab-pane fade show active" id="accounts" role="tabpanel" aria-labelledby="accounts-tab">
                                 <div style=" padding:50px ">
-                                    <div class="card bg-info" >
+                                    <h3 style="padding-bottom: 20px">Account Statistics</h3>
+                                    <div class="card text-white bg-dark mb-3" >
                                         <div class="card-body text-center">
                                             <p class="card-text" style="color: white">TOTAL BALANCE: {{$saldoTotal}}€</p>
                                         </div>
                                     </div>
 
-                                    <div style="padding-top: 20px">
-                                    {!! $relativeWeightChart->container() !!}
+                                    <div style="padding-top: 20px; padding-bottom: 20px">
+                                        <table class="table table-hover table-bordered">
+                                            <thead>
+                                            <tr  >
+
+                                                <th scope="col">Account Name</th>
+                                                <th scope="col">Relative Weight (%)</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                            @foreach($contas as $conta)
+                                                <tr  >
+
+                                                    <td>{{$conta->nome}}</td>
+                                                    <td>{{round(($conta->saldo_atual/ $saldoTotal)*100,2)}}% </td>
+                                                </tr>
+                                            @endforeach
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                    <div class="dropdown-divider" ></div>
+                                    <h3 style="padding-bottom: 20px">Movements Statistics</h3>
+                                    <form action="{{route('searchStats',['user'=>$user])}}" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="card-columns">
+                                            <div class="form-group">
+                                                <label >Starting Date</label>
+                                                <input  id="dataInicio" name= "dataInicio"  value="{{ old('dataInicio') }}" type="text" class="form-control  @error('dataInicio') is-invalid @enderror "  style="width: 150px" >
+
+                                                @error('dataInicio')
+                                                <span class="invalid-feedback" role="alert">
+                                        <strong>
+                                           {{$message}}
+                                        </strong>
+                                        </span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label >End Date</label>
+                                                <input  id="dataFim" name= "dataFim"  value="{{ old('dataFim') }}" type="text" class="form-control  @error('dataFim') is-invalid @enderror " style="width: 150px">
+
+                                                @error('dataFim')
+                                                <span class="invalid-feedback" role="alert">
+                                        <strong>
+                                           {{$message}}
+                                        </strong>
+                                        </span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-check" style="padding-bottom: 10px">
+                                                <input class="form-check-input" type="checkbox" value="1" id="defaultCheck1" name="categoria">
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                    by Category
+                                                </label>
+                                            </div>
+
+                                            <input type="submit" class="btn btn-primary" value="Search">
+                                        </div>
+                                    </form>
+                                    <div>
+                                        {!! $movementsChart->container() !!}
                                     </div>
 
                                 </div>
 
                             </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-
-
-                            </div>
 
                         </div>
 
@@ -44,94 +99,12 @@
                 </div>
             </div>
         </div>
-    </div>
+
+    @if($movementsChart)
+        {!! $movementsChart->script() !!}
+    @endif
 
 
 
-    <!--
-
-<div style="padding: 100px">
-
-    <div class="row" style="width: 70rem;">
-
-        <div class="col-sm-6">
-            <div  class="card border-info mb-3">
-                <div class="card-header">
-                    <h3>Account's relative weight</h3>
-                </div>
-                <div class="card-body">
-                 <div class="container">
-                      <div class="row">
-
-                                        {!! $relativeWeightChart->container() !!}
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6">
-            <div class="card text-white bg-dark mb-3">
-                <div class="card-header">
-                    <h3>Total Balance</h3>
-                </div>
-                <div class="card-body">
-                    <h4 class="card-text">{{$saldoTotal}}€</h4>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-<div class="row" style="width: 70rem; padding-top: 10px">
-    <div class="col-sm-6">
-        <div class="card border-info mb-3">
-            <div class="card-header">
-                <h3>Movements Statistics</h3>
-            </div>
-            <div class="card-body">
-
-                <div class="container">
-
-                    <div class="row">
-
-
-
-
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="card border-info mb-3">
-            <div class="card-header">
-
-            </div>
-            <div class="card-body">
-                <div class="container">
-
-                    <div class="row">
-
-
-
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-</div> -->
-{{-- ChartScript --}}
-@if($relativeWeightChart)
-    {!! $relativeWeightChart->script() !!}
-@endif
 
 @endsection
