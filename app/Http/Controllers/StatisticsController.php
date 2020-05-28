@@ -22,9 +22,8 @@ class StatisticsController
         $saldoTotal=$contas->sum('saldo_atual');
 
 
-        $movimentos= Movimento::whereIn('conta_id',$contas->get('id'))->get();
-        $totalBalance[0]= $movimentos->where('tipo','R')->sum('valor');
-        $totalBalance[1]= $movimentos->where('tipo','D')->sum('valor');
+        $movimentos= Movimento::whereIn('conta_id',$contas->get('id'));
+        $totalBalance= $movimentos->groupBy('tipo')->selectRaw('tipo, sum(valor) as sum')->pluck('sum');
        //moves chart
         $movementsChart = $this->fillChart(['Revenues','Expenses'],$totalBalance,'total value','bar');
 
@@ -58,6 +57,7 @@ class StatisticsController
         $dataInicio = $request->get('dataInicio');
 
 
+
         $movimentos= Movimento::
         whereIn('conta_id',$contas->get('id'));
 
@@ -75,38 +75,58 @@ class StatisticsController
         }
 
         $categoria = $request->get('categoria');
-
-
         $movimentos=$movimentos
             ->whereBetween('data',[$dataInicio,$dataFim])
-            ->get();
+            ;
 
+        $ano= $request->get('ano');
 
         if($categoria) {
 
-            $nomesCategoria = Categoria::pluck('nome')->toArray();
 
+            $nomesCategoria = Categoria::pluck('nome');
+
+
+            $nomeAMudar = 'Not Classified';
             $i=0;
-
-            foreach ($nomesCategoria as $nome){
-                $values[] = $movimentos->where('categoria_id',$i)->sum('valor');
-                $i++;
+            for($i;$i<sizeof($nomesCategoria);$i++){
+                $nomeAntigo = $nomesCategoria[$i];
+                $nomesCategoria[$i]=$nomeAMudar;
+                $nomeAMudar=$nomeAntigo;
             }
-            $nomesCategoria[$i]='Not classified';
-            $values[$i]=$movimentos->where('categoria_id',null)->sum('valor');
-            //moves chart
-            $movementsChart = $this->fillChart($nomesCategoria,$values,'total value','line');
+            $nomesCategoria[$i++]= $nomeAMudar;
 
+
+           /* if($ano){
+
+                $values =$movimentos->groupBy('categoria_id','data')->selectRaw('sum(valor) as sum,categoria_id, YEAR(data) as data')->pluck('categoria_id','data','sum');
+
+                dd($values);
+            }else {
+
+
+            }*/
+
+            $values =$movimentos->groupBy('categoria_id')->selectRaw('categoria_id, sum(valor) as sum')->pluck('sum');
+            //moves chart
+            $movementsChart = $this->fillChart($nomesCategoria, $values, 'total value', 'line');
 
         }else{
+            /*if($ano){
+
+                $totalBalance= $movimentos->groupBy('tipo')->selectRaw('tipo, sum(valor) as sum,YEAR(data) as data')->pluck('sum','data');
+            }else {
+
+            }*/
 
 
-            $totalBalance[0]= $movimentos->where('tipo','R')->sum('valor');
-            $totalBalance[1]= $movimentos->where('tipo','D')->sum('valor');
+            $totalBalance= $movimentos->groupBy('tipo')->selectRaw('tipo, sum(valor) as sum')->pluck('sum');
             //moves chart
             $movementsChart = $this->fillChart(['Revenues','Expenses'],$totalBalance,'total value','bar');
 
         }
+
+
 
 
 
@@ -153,7 +173,8 @@ class StatisticsController
         $chart->labels($labels);
         $chart->dataset($name, $chartType, $values)
             ->color($borderColors)
-            ->backgroundcolor($fillColors);
+            ->backgroundcolor($fillColors)
+           ;
 
         return $chart;
     }
