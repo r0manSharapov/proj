@@ -72,7 +72,7 @@ class StatisticsController
 
         $categoria = $request->get('categoria');
 
-        
+
         $movimentos=$movimentos
             ->whereBetween('data',[$dataInicio,$dataFim])
             ->get();

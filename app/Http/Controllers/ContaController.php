@@ -61,17 +61,17 @@ class ContaController extends Controller
             ->withSearch($search);
     }
 
-    public function updateUser(Request $request){
+    public function updateUser(Request $request, $id){
         $read = $request->get('read');
         $complete = $request->get('complete');
         if($read){
-            Autorizacoes_conta::where('user_id',$read)->update(['so_leitura'=> '1']);
+            Autorizacoes_conta::where('user_id',$read)->where('conta_id',$id)->update(['so_leitura'=> '1']);
 
             return back()->with('message',"You changed the access type to read only!");
         }
 
         if($complete){
-            Autorizacoes_conta::where('user_id',$complete)->update(['so_leitura'=> '0']);
+            Autorizacoes_conta::where('user_id',$complete)->where('conta_id',$id)->update(['so_leitura'=> '0']);
 
             return back()->with('message',"You changed the access type to complete!");
         }

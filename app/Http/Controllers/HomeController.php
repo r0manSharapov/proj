@@ -43,11 +43,7 @@ class HomeController extends Controller
 
         User::where('id',Auth::id())
             ->update(
-                [
-                    'foto'=>$foto,
-                ]
-            );
-
+                ['foto'=>$foto]);
 
         Auth::user()->save();
 
