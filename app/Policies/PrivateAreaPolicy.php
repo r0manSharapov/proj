@@ -31,8 +31,9 @@ class PrivateAreaPolicy
      */
     public function view(User $user,Conta $conta)
     {
-        //dd($user->id);
-        return $user->id == $conta->user_id ;
+
+        //dd($user->autorizacoesContas->first()->pivot->user_id   );
+        return $user->id == $conta->user_id || $user->autorizacoesContas->first()->pivot->user_id == $$conta->user_id ;
     }
 
     /**

@@ -84,7 +84,7 @@ Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsC
 
 //contas partilhadas buttons
 Route::get('{user}/contasPartilhadas/{conta}/details', 'AccountDetailsController@index')->name('sharedAccountDetails')
-    ->middleware("auth")->middleware("verified")->middleware('can:view,user');//falta proteger a conta
+    ->middleware("auth")->middleware("verified")->middleware('can:view,user')->middleware('can:view,conta');//falta proteger a conta
 
 Route::get('{user}/contasPartilhadas/{conta}/detailsRead', 'AccountDetailsController@index')->name('sharedAccountDetailsRead')
     ->middleware("auth")->middleware("verified")->middleware('can:view,user');//falta proteger a conta
