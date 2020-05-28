@@ -49,6 +49,10 @@ class StatisticsController
         $contas = Conta::where('user_id',$user->id);
         $saldoTotal=$contas->sum('saldo_atual');
 
+        $request->validate( [
+            'dataInicio'=>['date','nullable'],
+            'dataFim'=>['date','nullable'],
+        ]);
 
         $dataFim = $request->get('dataFim');
         $dataInicio = $request->get('dataInicio');
