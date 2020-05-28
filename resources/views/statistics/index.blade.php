@@ -81,6 +81,13 @@
                                                 </label>
                                             </div>
 
+                                            <div class="form-check" style="padding-bottom: 10px">
+                                                <input class="form-check-input" type="checkbox" value="1" id="defaultCheck1" name="ano">
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                    by ano
+                                                </label>
+                                            </div>
+
                                             <input type="submit" class="btn btn-primary" value="Search">
                                         </div>
                                     </form>
