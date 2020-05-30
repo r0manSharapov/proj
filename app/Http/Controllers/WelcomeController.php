@@ -28,7 +28,7 @@ class WelcomeController extends Controller
     public function index()
     {
         $totalUtilizadores = User::count();
-        $totalContas= Conta::where('deleted_at',null)->count();
+        $totalContas= Conta::count();
         $totalMovimentos=Movimento::count();
 
 

@@ -10,6 +10,7 @@ use App\Conta;
 use App\Movimento;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 use Illuminate\Http\Request;
@@ -42,11 +43,83 @@ class StatisticsController
     }
 
 
-    public function search(User $user,Request $request)
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return mixed
+     */
+    public function search(User $user, Request $request)
     {
+        //dd($request->all());
+
+        $request->validate( [
+            'dataInicio'=>['date','nullable'],
+            'dataFim'=>['date','nullable'],
+        ]);
+
+        $movimentos = Movimento::whereHas('conta', function ($query) use($user){
+            return $query->where('user_id', $user->id );
+        })
+
+            ->when($request->input('dataInicio'), function ($query,$value){
+                return $query->whereDate('data', '>=', $value);
+            })
+            ->when($request->input('dataFim'), function ($query,$value){
+                return $query->whereDate('data', '<=', $value);
+            })
+            ->get(['categoria_id', 'valor', 'data']);
+
+        if($request->input('categoria') == "1")
+        {
+            $resposta = $movimentos->groupBy('categoria_id')->map(function ($item){
+                return $item->sum('valor');
+            });
+            $nomesCategoria = Categoria::whereIn('id', $resposta->keys()->toArray())->pluck('nome');
+            $nomesCategoria = $nomesCategoria->prepend('N/A');
+            //dd($nomesCategoria->prepend('N/A'));
+            $contas = Conta::where('user_id',$user->id);
+            $saldoTotal=$contas->sum('saldo_atual');
+            $movementsChart = $this->fillChart($nomesCategoria, $resposta->values(), 'total value', 'line');
+
+//dd($user, $contas, $movementsChart, $saldoTotal,$nomesCategoria,$resposta );
+            return view('statistics.index')
+                ->withUser($user)
+                ->withSaldoTotal($saldoTotal)
+                ->withContas($contas->get())
+                ->withMovementsChart($movementsChart);
+        }
+
+        if($request->input('ano') == "1")
+        {
+
+            $resposta = $movimentos->mapToGroups(function ($item, $key) {
+               $data = Carbon::parse($item->data)->format('Y');
+                return [$data => $item];
+            })->map(function ($item){
+
+                return $item->sum('valor');
+            });
+//dd($resposta->keys());
+            //$anos = $resposta;
+//            $nomesCategoria = Categoria::whereIn('id', $resposta->keys()->toArray())->pluck('nome');
+//            $nomesCategoria = $nomesCategoria->prepend('N/A');
+            //dd($nomesCategoria->prepend('N/A'));
+            $contas = Conta::where('user_id',$user->id);
+            $saldoTotal=$contas->sum('saldo_atual');
+            $movementsChart = $this->fillChart($resposta->keys(), $resposta->values(), 'total value', 'bar');
+
+//dd($user, $contas, $movementsChart, $saldoTotal,$nomesCategoria,$resposta );
+            return view('statistics.index')
+                ->withUser($user)
+                ->withSaldoTotal($saldoTotal)
+                ->withContas($contas->get())
+                ->withMovementsChart($movementsChart);
+        }
+
 
         $contas = Conta::where('user_id',$user->id);
         $saldoTotal=$contas->sum('saldo_atual');
+
 
         $request->validate( [
             'dataInicio'=>['date','nullable'],
@@ -108,7 +181,7 @@ class StatisticsController
             }*/
 
             $values =$movimentos->groupBy('categoria_id')->selectRaw('categoria_id, sum(valor) as sum')->pluck('sum');
-            //moves chart
+            dd($values);            //moves chart
             $movementsChart = $this->fillChart($nomesCategoria, $values, 'total value', 'line');
 
         }else{
@@ -129,6 +202,7 @@ class StatisticsController
 
 
 
+//dd($user, $contas, $movementsChart, $saldoTotal,$nomesCategoria,$values );
 
 
         return view('statistics.index')

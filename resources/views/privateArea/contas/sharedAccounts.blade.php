@@ -37,7 +37,7 @@
                     </td>
 
                     <td>
-                        <a  class="btn btn-dark" href="{{route('viewUpdateAccount',['user'=>$infoConta->pivot->user_id,'conta'=>$infoConta])}}" >
+                        <a  class="btn btn-dark" href="{{route('viewSharedUpdateAccount',['user'=>$infoConta->pivot->user_id,'conta'=>$infoConta])}}" >
                             Update
                         </a>
                     </td>

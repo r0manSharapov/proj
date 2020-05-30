@@ -14,16 +14,16 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        @if(Route::currentRouteName()=='viewAddAccount')
+                        @if(Route::currentRouteName()=='viewAddAccount' )
                         <h2>Add Account</h2>
-                        @elseif(Route::currentRouteName()=='viewUpdateAccount')
+                        @elseif(Route::currentRouteName()=='viewUpdateAccount' ||Route::currentRouteName()=='viewSharedUpdateAccount' )
                             <h2>Update Account</h2>
 
                         @endif
                     </div>
                     <div class="card-body">
 
-                        @if(Route::currentRouteName()=='viewAddAccount')
+                        @if(Route::currentRouteName()=='viewAddAccount' )
                         <form action="{{route('addAccount',['user' => $user])}}" method="post">
                             @csrf
                             <div class="form-group">
@@ -70,7 +70,7 @@
 
                         </form>
 
-                        @elseif(Route::currentRouteName()=='viewUpdateAccount')
+                        @elseif(Route::currentRouteName()=='viewUpdateAccount' || Route::currentRouteName()=='viewSharedUpdateAccount')
                                 <form action="{{route('updateAccount',['user' => $user,'conta'=>$conta])}}" method="post">
 
                                     @csrf

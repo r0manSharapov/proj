@@ -84,26 +84,26 @@ Route::post('{user}/contas/{conta}/updateMovement/{movimento}', 'AccountDetailsC
 
 //contas partilhadas buttons
 Route::get('{user}/contasPartilhadas/{conta}/details', 'AccountDetailsController@index')->name('sharedAccountDetails')
-    ->middleware("auth")->middleware("verified")->middleware('can:view,user')->middleware('can:view,conta');//falta proteger a conta
+    ->middleware("auth")->middleware("verified")->middleware('can:view,user')->middleware('can:view,conta');
 
 Route::get('{user}/contasPartilhadas/{conta}/detailsRead', 'AccountDetailsController@index')->name('sharedAccountDetailsRead')
-    ->middleware("auth")->middleware("verified")->middleware('can:view,user');//falta proteger a conta
+    ->middleware("auth")->middleware("verified")->middleware('can:view,user')->middleware('can:details,conta');
 
-Route::get('/contas/{user}/{conta}/updateSharedAccount', 'privateAreaController@showForm')->name('viewUpdateAccount')->middleware('can:view,user');
+Route::get('/contas/{user}/{conta}/updateSharedAccount', 'privateAreaController@showForm')->name('viewSharedUpdateAccount')->middleware('can:view,user')->middleware('can:view,conta');
 
 //partilhar conta no perfil de x user
 Route::post('profile/{id}/share', 'UsersListController@shareAccount')->name('shareAccount')->middleware("auth")->middleware("verified");
 
 //estatisticas
-Route::get('{user}/financialSatistics','StatisticsController@index')->name('viewStats')->middleware('can:view,user');
-Route::post('{user}/financialSatistics','StatisticsController@search')->name('searchStats')->middleware('can:view,user');
+Route::get('{user}/financialStatistics','StatisticsController@index')->name('viewStats')->middleware('can:view,user');
+Route::post('{user}/financialStatistics','StatisticsController@search')->name('searchStats')->middleware('can:view,user');
 
 //gerir utilizadores das contas partilhadas
 Route::get('contasPartilhadas/{conta}/manageUsers', 'ContaController@showManageUsers')->name('viewManageUsers')->middleware("auth")->middleware('can:view,conta');
 Route::post('/contasPartilhadas/{conta_id}/updateUser', 'ContaController@updateUser')->name('updateUser');
 
 //add user a conta partilhada
-Route::get('/contasPartilhadas/{conta}/addUser', 'ContaController@showForm')->name('viewAddUser')->middleware("auth");//->middleware('can:view,conta');
+Route::get('/contasPartilhadas/{conta}/addUser', 'ContaController@showForm')->name('viewAddUser')->middleware("auth")->middleware('can:view,conta');//->middleware('can:view,conta');
 Route::post('/contasPartilhadas/{conta_id}/addUser', 'ContaController@store')->name('addUser')->middleware("auth")->middleware("verified");
 
 //remover user da conta partilhada

@@ -31,9 +31,23 @@ class PrivateAreaPolicy
      */
     public function view(User $user,Conta $conta)
     {
+        if ($user->id == $conta->user_id){
+            return true;
+        }
 
-        //dd($user->autorizacoesContas->first()->pivot->user_id   );
-        return $user->id == $conta->user_id || $user->autorizacoesContas->first()->pivot->user_id == $$conta->user_id ;
+
+        foreach ($user->autorizacoesContas as $autorizacao){
+
+            if ($autorizacao->pivot->so_leitura == 1){
+
+            }
+
+            if($autorizacao->id == $conta->id && $autorizacao->pivot->so_leitura == 0){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -54,9 +68,20 @@ class PrivateAreaPolicy
      * @param  \App\Conta  $conta
      * @return mixed
      */
-    public function update(User $user, Conta $conta)
+    public function details(User $user, Conta $conta)
     {
-        //
+        if ($user->id == $conta->user_id){
+            return true;
+        }
+        foreach ($user->autorizacoesContas as $autorizacao){
+
+
+            if($autorizacao->id == $conta->id){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
