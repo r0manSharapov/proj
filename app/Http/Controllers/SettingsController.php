@@ -66,10 +66,10 @@ class SettingsController
 
         Auth::logout();
 
-        $userID = $user->id;
+        $userID=$user->id;
 
-        $contas = Conta::select('id')
-            ->where('user_id',$userID);
+        $contas = Conta::
+            withTrashed()->where('user_id',$userID)->select('id');
 
         Movimento::whereIn('conta_id',$contas)->forcedelete();
         Autorizacoes_conta::where('user_id',$userID)->orWhereIn('conta_id',$contas)->forcedelete();
