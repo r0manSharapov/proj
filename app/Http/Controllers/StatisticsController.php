@@ -35,7 +35,7 @@ class StatisticsController
             ->withUser($user)
             ->withSaldoTotal($saldoTotal)
             ->withContas($contas->get())
-            ->withMovementsChart($movementsChart);    
+            ->withMovementsChart($movementsChart);
     }
 
 
