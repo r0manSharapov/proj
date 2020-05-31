@@ -4,14 +4,17 @@
 namespace App\Http\Controllers;
 
 use App\Categoria;
-use Charts;
-use App\Charts\Chart;
+//use App\Charts\Chart;
+//use App\Charts\ChartStatistics;
 use App\Charts\ChartStatistics;
 use App\Conta;
 use App\Movimento;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
 class StatisticsController
 {
@@ -99,9 +102,33 @@ class StatisticsController
             $chartType= 'line';
 
 
+            $movementsChart = $this->fillChart($labels, $values->values(), 'total value', $chartType);
 
 
+            if ($ano){
+
+                $values2= $movimentos->mapToGroups(function ($item) {
+
+                        $data = Carbon::parse($item->data)->format('Y');
+
+                        return [$data => $item];
+                    })->map(function ($item){
+
+                        return $item->groupBy('categoria_id')
+                            ->map(function ($item){
+
+                            return $item->sum('valor');
+                    });
+                    });
+
+
+                $movementsChart = $this->fillChartMultiple($labels, $values2->keys(),$values2);
+
+
+
+            }
         }else{
+
             $labels= ['Revenues','Despenses'];
             $values= $movimentos->groupBy('tipo')->map(function ($item){
 
@@ -111,55 +138,33 @@ class StatisticsController
 
 
             $chartType='bar';
-        }
+            $movementsChart = $this->fillChart($labels, $values->values(), 'total value', $chartType);
 
-        if($ano && $categoria==null){
+            if($ano){
+                $values2=
+                    $movimentos->mapToGroups(function ($item) {
 
-            $values= $movimentos->groupBy('tipo')->map(function ($item){
+                            $data = Carbon::parse($item->data)->format('Y');
 
-                return $item->mapToGroups(function ($item) {
+                            return [$data => $item];
+                        })->map(function ($item){
 
-                    $data = Carbon::parse($item->data)->format('Y');
+                            return $item->groupBy('tipo')->map(function ($item){
 
-                    return [$data => $item];
-                })->map(function ($item){
-
-                    return $item->sum('valor');
-                });
-            });
-
-            dd($values);
-
-            $labels=$values->keys();
+                                return $item->sum('valor');
+                            });
+                        });
 
 
-            $chartType='bar';
-        }elseif ($ano && $categoria){
+                $movementsChart = $this->fillChartMultiple($labels,$values2->keys(),$values2);
 
+            }
 
-            $values= $movimentos->groupBy('categoria_id')->map(function ($item){
-
-                return $item->mapToGroups(function ($item) {
-
-                    $data = Carbon::parse($item->data)->format('Y');
-
-                    return [$data => $item];
-                })->map(function ($item){
-
-                    return $item->sum('valor');
-                });
-            });
-
-            dd($values);
-
-            $labels=$values->keys();
-
-
-            $chartType='bar';
 
         }
 
-        $movementsChart = $this->fillChart($labels, $values->values(), 'total value', $chartType);
+
+
 
         return view('statistics.index')
             ->withUser($user)
@@ -209,5 +214,54 @@ class StatisticsController
         return $chart;
     }
 
+
+    public function fillChartMultiple($labels, $anos, $valuesAnos){
+
+        $chart = new ChartStatistics();
+
+        //CHARTS ->
+        $borderColors = [
+            "rgba(255, 99, 132, 1.0)",
+            "rgba(22,160,133, 1.0)",
+            "rgba(255, 205, 86, 1.0)",
+            "rgba(51,105,232, 1.0)",
+            "rgba(244,67,54, 1.0)",
+            "rgba(34,198,246, 1.0)",
+            "rgba(153, 102, 255, 1.0)",
+            "rgba(255, 159, 64, 1.0)",
+            "rgba(233,30,99, 1.0)",
+            "rgba(205,220,57, 1.0)"
+        ];
+        $fillColors = [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(22,160,133, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(51,105,232, 0.2)",
+            "rgba(244,67,54, 0.2)",
+            "rgba(34,198,246, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+            "rgba(233,30,99, 0.2)",
+            "rgba(205,220,57, 0.2)"
+
+        ];
+
+        $chart->labels($labels);
+
+
+
+        foreach ($anos as $ano){
+
+
+            $chart->dataset($ano, 'bar',  $valuesAnos[$ano]->values())
+                ->color($borderColors)
+                ->backgroundcolor($fillColors)
+            ;
+
+
+        }
+
+        return $chart;
+    }
 
 }
