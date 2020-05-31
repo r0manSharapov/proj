@@ -4,15 +4,13 @@
 namespace App\Http\Controllers;
 
 use App\Categoria;
+use Charts;
 use App\Charts\Chart;
 use App\Charts\ChartStatistics;
 use App\Conta;
 use App\Movimento;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
-
 use Illuminate\Http\Request;
 
 class StatisticsController
@@ -21,6 +19,7 @@ class StatisticsController
 
         $contas = Conta::where('user_id',$user->id);
         $saldoTotal=$contas->sum('saldo_atual');
+
 
 
         $movimentos= Movimento::whereIn('conta_id',$contas->get('id'));
@@ -36,6 +35,8 @@ class StatisticsController
             ->withMovementsChart($movementsChart);
     }
 
+
+
     private  function getCreatedAtAttribute($value)
     {
         $date = Carbon::parse($value);
@@ -50,71 +51,7 @@ class StatisticsController
      */
     public function search(User $user, Request $request)
     {
-        //dd($request->all());
 
-        $request->validate( [
-            'dataInicio'=>['date','nullable'],
-            'dataFim'=>['date','nullable'],
-        ]);
-
-        $movimentos = Movimento::whereHas('conta', function ($query) use($user){
-            return $query->where('user_id', $user->id );
-        })
-
-            ->when($request->input('dataInicio'), function ($query,$value){
-                return $query->whereDate('data', '>=', $value);
-            })
-            ->when($request->input('dataFim'), function ($query,$value){
-                return $query->whereDate('data', '<=', $value);
-            })
-            ->get(['categoria_id', 'valor', 'data']);
-
-        if($request->input('categoria') == "1")
-        {
-            $resposta = $movimentos->groupBy('categoria_id')->map(function ($item){
-                return $item->sum('valor');
-            });
-            $nomesCategoria = Categoria::whereIn('id', $resposta->keys()->toArray())->pluck('nome');
-            $nomesCategoria = $nomesCategoria->prepend('N/A');
-            //dd($nomesCategoria->prepend('N/A'));
-            $contas = Conta::where('user_id',$user->id);
-            $saldoTotal=$contas->sum('saldo_atual');
-            $movementsChart = $this->fillChart($nomesCategoria, $resposta->values(), 'total value', 'line');
-
-//dd($user, $contas, $movementsChart, $saldoTotal,$nomesCategoria,$resposta );
-            return view('statistics.index')
-                ->withUser($user)
-                ->withSaldoTotal($saldoTotal)
-                ->withContas($contas->get())
-                ->withMovementsChart($movementsChart);
-        }
-
-        if($request->input('ano') == "1")
-        {
-
-            $resposta = $movimentos->mapToGroups(function ($item, $key) {
-               $data = Carbon::parse($item->data)->format('Y');
-                return [$data => $item];
-            })->map(function ($item){
-
-                return $item->sum('valor');
-            });
-//dd($resposta->keys());
-            //$anos = $resposta;
-//            $nomesCategoria = Categoria::whereIn('id', $resposta->keys()->toArray())->pluck('nome');
-//            $nomesCategoria = $nomesCategoria->prepend('N/A');
-            //dd($nomesCategoria->prepend('N/A'));
-            $contas = Conta::where('user_id',$user->id);
-            $saldoTotal=$contas->sum('saldo_atual');
-            $movementsChart = $this->fillChart($resposta->keys(), $resposta->values(), 'total value', 'bar');
-
-//dd($user, $contas, $movementsChart, $saldoTotal,$nomesCategoria,$resposta );
-            return view('statistics.index')
-                ->withUser($user)
-                ->withSaldoTotal($saldoTotal)
-                ->withContas($contas->get())
-                ->withMovementsChart($movementsChart);
-        }
 
 
         $contas = Conta::where('user_id',$user->id);
@@ -128,8 +65,6 @@ class StatisticsController
 
         $dataFim = $request->get('dataFim');
         $dataInicio = $request->get('dataInicio');
-
-
 
         $movimentos= Movimento::
         whereIn('conta_id',$contas->get('id'));
@@ -147,63 +82,84 @@ class StatisticsController
 
         }
 
-        $categoria = $request->get('categoria');
-        $movimentos=$movimentos
-            ->whereBetween('data',[$dataInicio,$dataFim])
-            ;
+        $movimentos=$movimentos->whereBetween('data',[$dataInicio,$dataFim]) ->get(['categoria_id','valor','data','tipo']);
 
+        $categoria = $request->get('categoria');
         $ano= $request->get('ano');
 
         if($categoria) {
 
 
-            $nomesCategoria = Categoria::pluck('nome');
+
+            $values =$movimentos->groupBy('categoria_id')->map(function ($item){
+                return $item->sum('valor');
+            });
+
+            $labels = Categoria::whereIn('id', $values->keys()->toArray())->pluck('nome')->prepend('Sem Categoria');
+            $chartType= 'line';
 
 
-            $nomeAMudar = 'Not Classified';
-            $i=0;
-            for($i;$i<sizeof($nomesCategoria);$i++){
-                $nomeAntigo = $nomesCategoria[$i];
-                $nomesCategoria[$i]=$nomeAMudar;
-                $nomeAMudar=$nomeAntigo;
-            }
-            $nomesCategoria[$i++]= $nomeAMudar;
 
-
-           /* if($ano){
-
-                $values =$movimentos->groupBy('categoria_id','data')->selectRaw('sum(valor) as sum,categoria_id, YEAR(data) as data')->pluck('categoria_id','data','sum');
-
-                dd($values);
-            }else {
-
-
-            }*/
-
-            $values =$movimentos->groupBy('categoria_id')->selectRaw('categoria_id, sum(valor) as sum')->pluck('sum');
-            dd($values);            //moves chart
-            $movementsChart = $this->fillChart($nomesCategoria, $values, 'total value', 'line');
 
         }else{
-            /*if($ano){
+            $labels= ['Revenues','Despenses'];
+            $values= $movimentos->groupBy('tipo')->map(function ($item){
 
-                $totalBalance= $movimentos->groupBy('tipo')->selectRaw('tipo, sum(valor) as sum,YEAR(data) as data')->pluck('sum','data');
-            }else {
-
-            }*/
+                return $item->sum('valor');
+            });
 
 
-            $totalBalance= $movimentos->groupBy('tipo')->selectRaw('tipo, sum(valor) as sum')->pluck('sum');
-            //moves chart
-            $movementsChart = $this->fillChart(['Revenues','Expenses'],$totalBalance,'total value','bar');
+
+            $chartType='bar';
+        }
+
+        if($ano && $categoria==null){
+
+            $values= $movimentos->groupBy('tipo')->map(function ($item){
+
+                return $item->mapToGroups(function ($item) {
+
+                    $data = Carbon::parse($item->data)->format('Y');
+
+                    return [$data => $item];
+                })->map(function ($item){
+
+                    return $item->sum('valor');
+                });
+            });
+
+            dd($values);
+
+            $labels=$values->keys();
+
+
+            $chartType='bar';
+        }elseif ($ano && $categoria){
+
+
+            $values= $movimentos->groupBy('categoria_id')->map(function ($item){
+
+                return $item->mapToGroups(function ($item) {
+
+                    $data = Carbon::parse($item->data)->format('Y');
+
+                    return [$data => $item];
+                })->map(function ($item){
+
+                    return $item->sum('valor');
+                });
+            });
+
+            dd($values);
+
+            $labels=$values->keys();
+
+
+            $chartType='bar';
 
         }
 
-
-
-
-//dd($user, $contas, $movementsChart, $saldoTotal,$nomesCategoria,$values );
-
+        $movementsChart = $this->fillChart($labels, $values->values(), 'total value', $chartType);
 
         return view('statistics.index')
             ->withUser($user)
@@ -252,5 +208,6 @@ class StatisticsController
 
         return $chart;
     }
+
 
 }
