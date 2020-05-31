@@ -51,7 +51,7 @@
                             <a href="{{ url('profile',$user->id) }}" class="list-group-item list-group-item-action">
                                 <div class="d-inline " style="margin-right: 20px;">
                                     <img
-                                        src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/user_default.png')}}"
+                                        src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/default_image.jpg')}}"
                                         class="rounded-circle" width="55" height="60">
                                 </div>
                                 <div class="d-inline-block">
