@@ -195,14 +195,18 @@ class AccountDetailsController extends Controller
 
 
         $old_doc_image = $movimento->imagem_doc;
-        Storage::delete(('docs/') . $old_doc_image);
+        if(\request()->hasFile('imagem_doc')) {
+            Storage::delete(('docs/') . $old_doc_image);
 
 
             $path = $request->imagem_doc->store('docs');
-        $imagem_doc = basename($path);
 
 
-        $imagem_doc = basename($path);
+            $imagem_doc = basename($path);
+
+        }else{
+            $imagem_doc = $old_doc_image;
+        }
 
             $movimento_id = $movimento->id;
             Movimento::where('id',$movimento_id)

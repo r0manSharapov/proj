@@ -18,7 +18,7 @@
                     <p style="text-align:center"><img src="{{$user->foto != null ? asset('storage/fotos/' . $user->foto) : asset('storage/fotos/default_image.jpg')}}" class="rounded-circle" width="250" height="250" alt="Profile picture"></p>
 
                     @if ($user->id == Auth::id())
-                        <form method="POST" action="{{ url('profile',$user->id) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('store') }}" enctype="multipart/form-data">
                         @csrf
                             <div class="row">
                                 <div style="text-align:center;"class="col">

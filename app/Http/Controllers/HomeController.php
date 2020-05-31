@@ -26,14 +26,13 @@ class HomeController extends Controller
      */
 
     public function store(Request $request){
-
         $request->validate([
-            'foto'=>['required'],
+            'foto'=>['required', 'image'],
         ]);
 
         $old_foto = Auth::user()->foto;
 
-//            unlink(storage_path('public/fotos'.$old_foto));
+//        unlink(storage_path('public/fotos'.$old_foto));
           Storage::delete('public/fotos/'. $old_foto);
 
         $path = $request->foto->store(('public/fotos'));
